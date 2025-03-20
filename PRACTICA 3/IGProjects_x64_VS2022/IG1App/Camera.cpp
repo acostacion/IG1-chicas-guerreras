@@ -136,7 +136,7 @@ Camera::setPM()
 	if (bOrto) { //  if orthogonal projection
 		mProjMat = ortho(xLeft * mScaleFact,
 		                 xRight * mScaleFact,
-		                 yBot * mScaleFact,
+			       yBot * mScaleFact,
 		                 yTop * mScaleFact,
 		                 mNearVal,
 		                 mFarVal);
