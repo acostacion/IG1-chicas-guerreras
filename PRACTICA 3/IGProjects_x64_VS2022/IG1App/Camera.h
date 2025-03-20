@@ -57,6 +57,10 @@ public:
 	void moveUD(GLfloat cs); // Arriba/Abajo
 	// ------
 
+	// --- Apartado 41.
+	void changePrj();
+	// ------
+
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
 

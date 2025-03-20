@@ -1,6 +1,7 @@
 #include "Shader.h"
 #include "Camera.h"
 
+#include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -23,7 +24,7 @@ void Camera::setAxes()
 	// para los ejes right=u, upward=v, front=-n
 	mRight = row(mViewMat, 0);
 	mUpward = row(mViewMat, 1);
-	mFront = row(mViewMat, 2);
+	mFront = -row(mViewMat, 2); //Con index 3 hace cosas raras
 }
 
 void Camera::moveLR(GLfloat cs) // LEFT / RIGHT.
@@ -45,6 +46,12 @@ void Camera::moveUD(GLfloat cs) // UP / DOWN.
 	mEye += mUpward * cs;
 	mLook += mUpward * cs;
 	setVM();
+}
+
+void Camera::changePrj()
+{
+	bOrto = !bOrto;
+	setPM();
 }
 
 void
@@ -134,6 +141,15 @@ Camera::setPM()
 		                 mNearVal,
 		                 mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
+	}
+	else
+	{
+		mProjMat = frustum(xLeft * mScaleFact,
+		                   xRight * mScaleFact,
+					 yBot * mScaleFact,
+					       yTop * mScaleFact,
+						   mNearVal,
+						   mFarVal);
 	}
 }
 

@@ -241,12 +241,17 @@ IG1App::key(unsigned int key)
 
 		// MOVEFB (forward)
 	case 'W':
-		mCamera->moveFB(-1);
+		mCamera->moveFB(1);
 		break;
 
 		// MOVEFB (backward)
 	case 'S':
 		mCamera->moveFB(1);
+		break;
+
+		// change projection
+	case 'p':
+		mCamera->changePrj();
 		break;
 
 	default:
