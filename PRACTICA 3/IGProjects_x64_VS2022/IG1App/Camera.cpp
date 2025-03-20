@@ -118,7 +118,7 @@ Camera::setSize(GLdouble xw, GLdouble yh)
 	xLeft = -xRight;
 	yTop = yh / 2.0;
 	yBot = -yTop;
-	setPM();
+	setPM();	
 }
 
 void
@@ -148,7 +148,7 @@ Camera::setPM()
 		                   xRight * mScaleFact,
 					 yBot * mScaleFact,
 					       yTop * mScaleFact,
-						   mNearVal,
+						   mNearVal * 500, // el problema que hay es que se ve de muy cerca.
 						   mFarVal);
 	}
 }
