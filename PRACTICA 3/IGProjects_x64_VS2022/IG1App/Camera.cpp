@@ -23,7 +23,7 @@ void Camera::setAxes()
 	// para los ejes right=u, upward=v, front=-n
 	mRight = row(mViewMat, 0);
 	mUpward = row(mViewMat, 1);
-	mFront = -row(mViewMat, 2);
+	mFront = row(mViewMat, 2);
 }
 
 void Camera::moveLR(GLfloat cs) // LEFT / RIGHT.
