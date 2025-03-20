@@ -208,19 +208,47 @@ IG1App::key(unsigned int key)
 	case 'o':
 		mCamera->set2D();
 		break;
+
 		// UPDATE.
 	case 'u':
 		mUpdateEnabled = !mUpdateEnabled;
 		break;
+
 		// SCREENSHOT.
 	case 'f':
 		captura();
 		break;
-		// MOVELR.
+
+		// MOVELR (left)
 	case 'a':
+		mCamera->moveLR(-1); // !tst luego cambiar.
 		break;
-		// MOVEUD.
-		// MOVEFB.
+
+		// MOVELR (right)
+	case 'd':
+		mCamera->moveLR(1);
+		break;
+
+		// MOVEUD (up)
+	case 'w':
+		mCamera->moveUD(1);
+		break;
+
+		// MOVEUD (down)
+	case 's':
+		mCamera->moveUD(-1);
+		break;
+
+		// MOVEFB (forward)
+	case 'W':
+		mCamera->moveFB(-1);
+		break;
+
+		// MOVEFB (backward)
+	case 'S':
+		mCamera->moveFB(1);
+		break;
+
 	default:
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))
 			cout << "[NOTE] There is no scene " << char(key) << ".\n";

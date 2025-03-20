@@ -21,9 +21,9 @@ Camera::Camera(Viewport* vp)
 void Camera::setAxes()
 {
 	// para los ejes right=u, upward=v, front=-n
-	/*mRight = glm::row(mViewMat, 0);
+	mRight = row(mViewMat, 0);
 	mUpward = row(mViewMat, 1);
-	mFront = -row(mViewMat, 2);*/
+	mFront = -row(mViewMat, 2);
 }
 
 void Camera::moveLR(GLfloat cs) // LEFT / RIGHT.
@@ -97,6 +97,11 @@ Camera::roll(GLdouble a)
 {
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
 	// glm::rotate returns mViewMat * rotationMatrix
+}
+
+glm::dvec3 Camera::row(glm::dmat4 matrix, int index)
+{
+	return matrix[index];
 }
 
 void

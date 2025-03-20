@@ -47,6 +47,16 @@ public:
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	void roll(GLdouble a);  // rotates a degrees on the Z axis
 
+	// --- Apartado 39.
+	glm::dvec3 row(glm::dmat4 matrix, int index);
+	// ------
+
+	// --- Apartado 40.
+	void moveLR(GLfloat cs); // A izquierda/A derecha
+	void moveFB(GLfloat cs); // Adelante/Atrás
+	void moveUD(GLfloat cs); // Arriba/Abajo
+	// ------
+
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
 
@@ -70,10 +80,6 @@ protected:
 	glm::vec3 mFront;
 
 	void setAxes();
-
-	void moveLR(GLfloat cs); // A izquierda/A derecha
-	void moveFB(GLfloat cs); // Adelante/Atrás
-	void moveUD(GLfloat cs); // Arriba/Abajo
 
 	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
 	void uploadVM() const; // transfers viewMat to the GPU
