@@ -61,6 +61,12 @@ public:
 	void changePrj();
 	// ------
 
+	// --- Apartado 45.
+	void pitchReal(GLfloat cs);
+	void yawReal(GLfloat cs);
+	void rollReal(GLfloat cs);
+	// ------
+
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
 

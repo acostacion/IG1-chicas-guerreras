@@ -24,7 +24,7 @@ void Camera::setAxes()
 	// para los ejes right=u, upward=v, front=-n
 	mRight = row(mViewMat, 0);
 	mUpward = row(mViewMat, 1);
-	mFront = -row(mViewMat, 2); //Con index 3 hace cosas raras
+	mFront = -row(mViewMat, 2);
 }
 
 void Camera::moveLR(GLfloat cs) // LEFT / RIGHT.
@@ -52,6 +52,24 @@ void Camera::changePrj()
 {
 	bOrto = !bOrto;
 	setPM();
+}
+
+void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
+{
+	//mEye += mRight * cs;
+	mLook += mRight * cs;
+	//mViewMat = lookAt(mEye, mLook, mUp);
+	mViewMat = rotate(mViewMat, double(glm::radians(cs)), glm::dvec3(mLook.x, mLook.y, mLook.z));
+}
+
+void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
+{
+	mViewMat = rotate(mViewMat, double(glm::radians(cs)), glm::dvec3(0, mUpward.y, 0));
+}
+void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
+{
+	mViewMat = rotate(mViewMat, double(glm::radians(cs)), glm::dvec3(0, 0,mFront.z));
+
 }
 
 void
@@ -144,6 +162,7 @@ Camera::setPM()
 	}
 	else
 	{
+		//Proyeccion perspectica
 		mProjMat = frustum(xLeft * mScaleFact,
 		                   xRight * mScaleFact,
 					 yBot * mScaleFact,
