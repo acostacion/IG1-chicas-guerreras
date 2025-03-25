@@ -221,22 +221,22 @@ IG1App::key(unsigned int key)
 
 		// MOVELR (left)
 	case 'a':
-		mCamera->moveLR(-1); // !tst luego cambiar.
+		mCamera->moveLR(1); // !tst luego cambiar.
 		break;
 
 		// MOVELR (right)
 	case 'd':
-		mCamera->moveLR(1);
+		mCamera->moveLR(-1);
 		break;
 
 		// MOVEUD (up)
 	case 'w':
-		mCamera->moveUD(1);
+		mCamera->moveUD(-1);
 		break;
 
 		// MOVEUD (down)
 	case 's':
-		mCamera->moveUD(-1);
+		mCamera->moveUD(1);
 		break;
 
 		// MOVEFB (forward)
@@ -246,7 +246,7 @@ IG1App::key(unsigned int key)
 
 		// MOVEFB (backward)
 	case 'S':
-		mCamera->moveFB(1);
+		mCamera->moveFB(-1);
 		break;
 
 		// change projection

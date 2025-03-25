@@ -148,7 +148,7 @@ Camera::setPM()
 		                   xRight * mScaleFact,
 					 yBot * mScaleFact,
 					       yTop * mScaleFact,
-						   mNearVal * 500, // el problema que hay es que se ve de muy cerca.
+						   mNearVal * 300, // el problema que hay es que se ve de muy cerca. (500)
 						   mFarVal);
 	}
 }
