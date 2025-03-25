@@ -123,6 +123,7 @@ void Camera::setCenital()
 	mEye = { 0, 500, 0 };
 	mLook = { 0, 0, 0 };
 	mUp = { 1, 0, 0 };
+
 	mAng = -100;
 	mRadio = 500;
 	setVM();
