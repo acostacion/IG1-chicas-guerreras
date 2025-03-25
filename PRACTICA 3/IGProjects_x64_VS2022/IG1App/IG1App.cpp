@@ -56,6 +56,8 @@ IG1App::run() // enters the main event processing loop
 			mNextUpdate = glfwGetTime() - mStartTime;
 		
 			update(); // llama al metodo update de cada objeto de la escena
+
+			mCamera->orbit(0.5, 0.5); // (?) no se si aqui
 			
 			// con el tiempo restante para llegar a mNextUpdate
 			glfwWaitEventsTimeout(FRAME_DURATION - mNextUpdate);
@@ -202,11 +204,20 @@ IG1App::key(unsigned int key)
 	case '-':
 		mCamera->setScale(-0.01); // zoom out (decreases the scale)
 		break;
+
+		// 3D.
 	case 'l':
 		mCamera->set3D();
 		break;
+
+		// 2D.
 	case 'o':
 		mCamera->set2D();
+		break;
+
+		// CENITAL.
+	case 'c':
+		mCamera->setCenital();
 		break;
 
 		// UPDATE.
@@ -254,6 +265,11 @@ IG1App::key(unsigned int key)
 		mCamera->changePrj();
 		break;
 
+	case 'q':
+		cout << "Orbit toggled" << endl;
+		mCamera->isOrbit = !mCamera->isOrbit;
+		break;
+
 	default:
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))
 			cout << "[NOTE] There is no scene " << char(key) << ".\n";
@@ -270,6 +286,7 @@ IG1App::key(unsigned int key)
 void
 IG1App::specialkey(int key, int scancode, int action, int mods)
 {
+	/*
 	// Only interested in press events
 	if (action == GLFW_RELEASE)
 		return;
@@ -299,6 +316,45 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 		break;
 	case GLFW_KEY_DOWN:
 		mCamera->pitchReal(-1); // rotates -1 on the X axis
+		break;
+	default:
+		need_redisplay = false;
+		break;
+	} // switch
+
+	if (need_redisplay)
+		mNeedsRedisplay = true;
+		*/
+
+		// Only interested in press events
+	if (action == GLFW_RELEASE)
+		return;
+
+	bool need_redisplay = true;
+
+	// Handle keyboard input
+	// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
+	switch (key) {
+	case GLFW_KEY_ESCAPE:                     // Escape key
+		glfwSetWindowShouldClose(mWindow, true); // stops main loop
+		break;
+	case GLFW_KEY_RIGHT:
+		if (mods == GLFW_MOD_CONTROL)
+			mCamera->pitch(-1); // rotates -1 on the X axis
+		else
+			mCamera->pitch(1); // rotates 1 on the X axis
+		break;
+	case GLFW_KEY_LEFT:
+		if (mods == GLFW_MOD_CONTROL)
+			mCamera->yaw(1); // rotates 1 on the Y axis
+		else
+			mCamera->yaw(-1); // rotate -1 on the Y axis
+		break;
+	case GLFW_KEY_UP:
+		mCamera->roll(1); // rotates 1 on the Z axis
+		break;
+	case GLFW_KEY_DOWN:
+		mCamera->roll(-1); // rotates -1 on the Z axis
 		break;
 	default:
 		need_redisplay = false;

@@ -43,6 +43,10 @@ public:
 	void set2D();
 	void set3D();
 
+	// --- Apartado 47.
+	void setCenital();
+	// ------
+
 	void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	void roll(GLdouble a);  // rotates a degrees on the Z axis
@@ -67,6 +71,11 @@ public:
 	void rollReal(GLfloat cs);
 	// ------
 
+	// --- Apartado 46.
+	void orbit(GLdouble incAng, GLdouble incY);
+	bool isOrbit = false;
+	// ------
+
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
 
@@ -84,10 +93,12 @@ protected:
 	glm::dvec3 mUp = {0.0, 1.0, 0.0};    // the up vector
 
 	// Atributo de la clase Camera
-	// Ejes de la cámara
+	// Ejes de la cámara ap 38.
 	glm::vec3 mRight;
 	glm::vec3 mUpward;
 	glm::vec3 mFront;
+
+	GLdouble mRadio, mAng; // ap 46.
 
 	void setAxes();
 
