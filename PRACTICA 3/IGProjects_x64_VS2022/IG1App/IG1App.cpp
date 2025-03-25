@@ -56,6 +56,8 @@ IG1App::run() // enters the main event processing loop
 			mNextUpdate = glfwGetTime() - mStartTime;
 		
 			update(); // llama al metodo update de cada objeto de la escena
+
+			mCamera->orbit(0.5, 0.5); // (?) no se si aqui
 			
 			// con el tiempo restante para llegar a mNextUpdate
 			glfwWaitEventsTimeout(FRAME_DURATION - mNextUpdate);
@@ -172,7 +174,8 @@ IG1App::display() const
 	// El back color buffer queda con el color de fondo en todos los pixeles, 
 	// y el Z-buffer con el valor 1 en todos los pixeles
 
-	mScenes[mCurrentScene]->render(*mCamera); // uploads the viewport and camera to the GPU
+	if (m2Vistas) { display2V(); }
+	else { mScenes[mCurrentScene]->render(*mCamera); } // uploads the viewport and camera to the GPU
 
 	glfwSwapBuffers(mWindow); // swaps the front and back buffer
 }
@@ -202,11 +205,25 @@ IG1App::key(unsigned int key)
 	case '-':
 		mCamera->setScale(-0.01); // zoom out (decreases the scale)
 		break;
+
+		// 3D.
 	case 'l':
 		mCamera->set3D();
 		break;
+
+		// 2D.
 	case 'o':
 		mCamera->set2D();
+		break;
+
+		// CENITAL.
+	case 'c':
+		mCamera->setCenital();
+		break;
+
+		// DOS VISTAS
+	case 'k':
+		m2Vistas = !m2Vistas;
 		break;
 
 		// UPDATE.
@@ -254,6 +271,11 @@ IG1App::key(unsigned int key)
 		mCamera->changePrj();
 		break;
 
+	case 'q':
+		cout << "Orbit toggled" << endl;
+		mCamera->isOrbit = !mCamera->isOrbit;
+		break;
+
 	default:
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))
 			cout << "[NOTE] There is no scene " << char(key) << ".\n";
@@ -270,6 +292,7 @@ IG1App::key(unsigned int key)
 void
 IG1App::specialkey(int key, int scancode, int action, int mods)
 {
+	/*
 	// Only interested in press events
 	if (action == GLFW_RELEASE)
 		return;
@@ -307,6 +330,45 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 	if (need_redisplay)
 		mNeedsRedisplay = true;
+		*/
+
+		// Only interested in press events
+	if (action == GLFW_RELEASE)
+		return;
+
+	bool need_redisplay = true;
+
+	// Handle keyboard input
+	// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
+	switch (key) {
+	case GLFW_KEY_ESCAPE:                     // Escape key
+		glfwSetWindowShouldClose(mWindow, true); // stops main loop
+		break;
+	case GLFW_KEY_RIGHT:
+		if (mods == GLFW_MOD_CONTROL)
+			mCamera->pitch(-1); // rotates -1 on the X axis
+		else
+			mCamera->pitch(1); // rotates 1 on the X axis
+		break;
+	case GLFW_KEY_LEFT:
+		if (mods == GLFW_MOD_CONTROL)
+			mCamera->yaw(1); // rotates 1 on the Y axis
+		else
+			mCamera->yaw(-1); // rotate -1 on the Y axis
+		break;
+	case GLFW_KEY_UP:
+		mCamera->roll(1); // rotates 1 on the Z axis
+		break;
+	case GLFW_KEY_DOWN:
+		mCamera->roll(-1); // rotates -1 on the Z axis
+		break;
+	default:
+		need_redisplay = false;
+		break;
+	} // switch
+
+	if (need_redisplay)
+		mNeedsRedisplay = true;
 }
 
 void IG1App::captura()
@@ -314,6 +376,39 @@ void IG1App::captura()
 	Texture tex;
 	tex.loadColorBuffer(800.0, 600.0);
 	tex.saveScreenshot("../capturas/cap.bmp");
+}
+
+void IG1App::display2V() const
+{
+	// para renderizar las vistas utilizamos una camara auxiliar:
+	Camera auxCam = *mCamera; // copiando mCamera
+	// el puerto de vista queda compartido (se copia el puntero)
+	//lo copiamos en una var.aux
+	Viewport auxVP = *mViewPort;
+	// el tamaño de los 2 puertos de vista es el mismo,
+	// lo configuramos
+	mViewPort->setSize(mWinW / 2, mWinH);
+	// igual que en resize, para que no cambie la escala,
+	// tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	// vista 3D ->
+	// configurar la posición
+	mViewPort->setPos(0, 0);
+	// cambiar la posición y orientacion de la cámara
+	auxCam.set3D();
+	// renderizamos con la cámara y el puerto de vista configurados
+	mScenes[mCurrentScene]->render(auxCam);
+
+	// vista Cenital ->
+	// configurar la posición
+	mViewPort->setPos(mWinW / 2, 0);
+	// cambiar la posición y orientacion de la cámara
+	auxCam.setCenital();
+	// renderizamos con la cámara y el puerto de vista configurados
+	mScenes[mCurrentScene]->render(auxCam);
+
+	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }
 
 bool

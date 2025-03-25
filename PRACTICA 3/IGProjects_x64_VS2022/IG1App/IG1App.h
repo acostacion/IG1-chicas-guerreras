@@ -102,6 +102,11 @@ public:
 	void run();   // the main event processing loop
 	void close(); // the application
 
+	// 2 vistas
+	bool m2Vistas = false;
+	void display2V() const;
+
+
 protected:
 	IG1App() = default;
 	~IG1App() { close(); };

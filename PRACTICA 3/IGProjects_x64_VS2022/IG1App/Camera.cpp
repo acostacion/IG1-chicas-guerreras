@@ -69,7 +69,18 @@ void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 {
 	mViewMat = rotate(mViewMat, double(glm::radians(cs)), glm::dvec3(0, 0,mFront.z));
+}
 
+void Camera::orbit(GLdouble incAng, GLdouble incY)
+{
+	if (isOrbit)
+	{
+		mAng += incAng;
+		mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
+		mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+		mEye.y += incY;
+		setVM();
+	}
 }
 
 void
@@ -91,6 +102,8 @@ Camera::set2D()
 	mEye = {0, 0, 500};
 	mLook = {0, 0, 0};
 	mUp = {0, 1, 0};
+	mAng = 0;
+	mRadio = 500;
 	setVM();
 }
 
@@ -100,6 +113,18 @@ Camera::set3D()
 	mEye = {500, 500, 500};
 	mLook = {0, 10, 0};
 	mUp = {0, 1, 0};
+	mAng = 0;
+	mRadio = 500;
+	setVM();
+}
+
+void Camera::setCenital()
+{
+	mEye = { 0, 500, 0 };
+	mLook = { 0, 0, 0 };
+	mUp = { 1, 0, 0 };
+	mAng = -100;
+	mRadio = 500;
 	setVM();
 }
 
