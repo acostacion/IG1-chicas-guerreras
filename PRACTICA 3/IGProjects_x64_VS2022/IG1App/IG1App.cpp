@@ -174,7 +174,8 @@ IG1App::display() const
 	// El back color buffer queda con el color de fondo en todos los pixeles, 
 	// y el Z-buffer con el valor 1 en todos los pixeles
 
-	if (m2Vistas) { display2V(); }
+	if (m2Vistas) { display2V(); } // 2 VISTAS.
+	else if (m2Scenes) { display2S(); } // 2 ESCENAS
 	else { mScenes[mCurrentScene]->render(*mCamera); } // uploads the viewport and camera to the GPU
 
 	glfwSwapBuffers(mWindow); // swaps the front and back buffer
@@ -224,6 +225,12 @@ IG1App::key(unsigned int key)
 		// DOS VISTAS
 	case 'k':
 		m2Vistas = !m2Vistas;
+		m2Scenes = false; // si se activa m2Vistas, se quita m2Scenes.
+		break;
+
+	case 'm':
+		m2Scenes = !m2Scenes;
+		m2Vistas = false; // si se activa m2Scenes, se quita m2Vistas.
 		break;
 
 		// UPDATE.
@@ -371,6 +378,19 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 		mNeedsRedisplay = true;
 }
 
+void IG1App::mouse(int button, int state, int x, int y)
+{
+
+}
+void IG1App::motion(int x, int y)
+{
+
+}
+void IG1App::mouseWheel(int n, int d, int x, int y)
+{
+
+}
+
 void IG1App::captura()
 {
 	Texture tex;
@@ -407,6 +427,40 @@ void IG1App::display2V() const
 	auxCam.setCenital();
 	// renderizamos con la cámara y el puerto de vista configurados
 	mScenes[mCurrentScene]->render(auxCam);
+
+	*mViewPort = auxVP; // * restaurar el puerto de vista 
+}
+
+void IG1App::display2S() const
+{
+	// para renderizar las vistas utilizamos una camara auxiliar:
+	Camera auxCam = *mCamera;
+
+	// el puerto de vista queda compartido (se copia el puntero)
+	Viewport auxVP = *mViewPort;
+
+	Scene* scene1 = mScenes[1];
+	Scene* scene3 = mScenes[3];
+
+	// el tamaño de los 2 puertos de vista es el mismo, lo configuramos
+	mViewPort->setSize(mWinW / 2, mWinH);
+
+	// igual que en resize, para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	// Escena 4 ->
+	// configurar la posición
+	mViewPort->setPos(0, 0);
+	
+	// renderizamos con la cámara y el puerto de vista configurados
+	scene1->render(auxCam);
+
+	// Escena 2 ->
+	// configurar la posición
+	mViewPort->setPos(mWinW / 2, 0);
+	
+	// renderizamos con la cámara y el puerto de vista configurados
+	scene3->render(auxCam);
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }

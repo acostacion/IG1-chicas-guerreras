@@ -90,11 +90,11 @@ public:
 	void operator=(IG1App const& J) = delete; // no copy assignment
 
 	// Viewport position and size
-	Viewport const& viewPort() { return *mViewPort; };
+	Viewport const& viewPort() { return *mViewPort; }
 	// Camera position, view volume and projection
-	Camera const& camera() { return *mCamera; };
+	Camera const& camera() { return *mCamera; }
 	// Graphics objects of the scene
-	Scene const& scene() { return *mScenes[mCurrentScene]; };
+	Scene const& scene() { return *mScenes[mCurrentScene]; }
 
 	// Change to the given scene
 	bool changeScene(size_t sceneNr);
@@ -104,7 +104,11 @@ public:
 
 	// 2 vistas
 	bool m2Vistas = false;
-	void display2V() const;
+	void display2V() const; // ap 49
+
+	// 2 escenas.
+	bool m2Scenes = false;
+	void display2S() const; // ap 52
 
 
 protected:
@@ -128,6 +132,12 @@ protected:
 	static void s_key(GLFWwindow* win, unsigned int codepoint) { s_ig1app.key(codepoint); };
 	static void s_specialkey(GLFWwindow* win, int key, int scancode, int action, int mods) { s_ig1app.specialkey(key, scancode, action, mods); };
 
+	// --- Apartado 50 (callbacks).
+	void mouse(int button, int state, int x, int y);
+	void motion(int x, int y);
+	void mouseWheel(int n, int d, int x, int y);
+	// ------
+
 	// sacar capturas
 	void captura();
 
@@ -149,6 +159,11 @@ protected:
 	bool mUpdateEnabled = true;
 	double mNextUpdate = 0.0;
 	double mStartTime = 0.0;
+
+	// --- Apartado 50.
+	glm::dvec2 mMouseCoord; // para guardar las coordenadas del raton.
+	int mMouseButt; // para guardar el boton pulsado.
+	// ------
 };
 
 #endif //_H_IG1App_H_
