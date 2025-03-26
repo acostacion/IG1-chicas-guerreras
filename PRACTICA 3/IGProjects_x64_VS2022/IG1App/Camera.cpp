@@ -100,6 +100,7 @@ Camera::set2D()
 	mUp = {0, 1, 0};
 	mAng = 0;
 	mRadio = 500;
+
 	setVM();
 }
 
@@ -109,8 +110,10 @@ Camera::set3D()
 	mEye = {500, 500, 500};
 	mLook = {0, 10, 0};
 	mUp = {0, 1, 0};
+
 	mAng = 0;
 	mRadio = 500;
+
 	setVM();
 }
 
@@ -120,8 +123,9 @@ void Camera::setCenital()
 	mLook = { 0, 0, 0 };
 	mUp = { 1, 0, 0 };
 
-	mAng = -100;
+	mAng = 0;
 	mRadio = 500;
+
 	setVM();
 }
 

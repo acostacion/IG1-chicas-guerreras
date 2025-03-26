@@ -138,6 +138,8 @@ IG1App::iniWinOpenGL()
 	glfwSetKeyCallback(mWindow, s_specialkey);
 	glfwSetWindowRefreshCallback(mWindow, s_display);
 
+	glfwSetMouseButtonCallback(mWindow, s_mouse);
+
 	// Error message callback (all messages)
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0u, 0, GL_TRUE);
@@ -384,6 +386,22 @@ void IG1App::mouse(int button, int action, int mods)
 	////glfwGetWindowSize(mWindow, nullptr, (int)(height));
 	//(mViewPort->height) = height - y;
 	//glfwGetCursorPos(mWindow, &mMouseCoord.x, &height);
+
+	// Guarda en mBot el valor de button
+	mMouseButt = button;
+
+	int height;
+	glfwGetWindowSize(mWindow, nullptr, &height);
+	mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
+	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
+
+
+
+	//double height;
+	//glfwGetWindowSize(mWindow, nullptr, &height);
+	//y(viewport) = height - y;
+
+
 }
 
 void IG1App::motion(double x, double y)
