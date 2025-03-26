@@ -57,7 +57,6 @@ void Camera::changePrj()
 void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
 	//mEye += mRight * cs;
-	mLook += mRight * cs;
 	//mViewMat = lookAt(mEye, mLook, mUp);
 	mViewMat = rotate(mViewMat, double(glm::radians(cs)), glm::dvec3(mLook.x, mLook.y, mLook.z));
 }
@@ -73,14 +72,11 @@ void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)
 {
-	if (isOrbit)
-	{
-		mAng += incAng;
-		mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
-		mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
-		mEye.y += incY;
-		setVM();
-	}
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	//mEye.y += incY;
+	setVM();
 }
 
 void
@@ -193,7 +189,7 @@ Camera::setPM()
 		                   xRight * mScaleFact,
 					 yBot * mScaleFact,
 					       yTop * mScaleFact,
-						   mNearVal * 300, // el problema que hay es que se ve de muy cerca. (500)
+						   mNearVal *200, // el problema que hay es que se ve de muy cerca. (500)
 						   mFarVal);
 	}
 }

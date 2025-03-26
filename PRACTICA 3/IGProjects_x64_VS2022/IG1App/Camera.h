@@ -73,7 +73,6 @@ public:
 
 	// --- Apartado 46.
 	void orbit(GLdouble incAng, GLdouble incY);
-	bool isOrbit = false;
 	// ------
 
 	// projection matrix

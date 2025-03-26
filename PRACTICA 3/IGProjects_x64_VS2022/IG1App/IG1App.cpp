@@ -56,8 +56,6 @@ IG1App::run() // enters the main event processing loop
 			mNextUpdate = glfwGetTime() - mStartTime;
 		
 			update(); // llama al metodo update de cada objeto de la escena
-
-			mCamera->orbit(0.5, 0.5); // (?) no se si aqui
 			
 			// con el tiempo restante para llegar a mNextUpdate
 			glfwWaitEventsTimeout(FRAME_DURATION - mNextUpdate);
@@ -279,8 +277,7 @@ IG1App::key(unsigned int key)
 		break;
 
 	case 'q':
-		cout << "Orbit toggled" << endl;
-		mCamera->isOrbit = !mCamera->isOrbit;
+		mCamera->orbit(0.5, 0.5);
 		break;
 
 	default:
@@ -378,17 +375,23 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 		mNeedsRedisplay = true;
 }
 
-void IG1App::mouse(int button, int state, int x, int y)
+void IG1App::mouse(int button, int action, int mods)
 {
-
+	////Guardamos el boton pulsado
+	//mMouseButt = button;
+	////Y su posicion
+	//double height = mMouseCoord.y;
+	////glfwGetWindowSize(mWindow, nullptr, (int)(height));
+	//(mViewPort->height) = height - y;
+	//glfwGetCursorPos(mWindow, &mMouseCoord.x, &height);
 }
-void IG1App::motion(int x, int y)
-{
 
+void IG1App::motion(double x, double y)
+{
 }
-void IG1App::mouseWheel(int n, int d, int x, int y)
-{
 
+void IG1App::mouseWheel(double dx, double dy)
+{
 }
 
 void IG1App::captura()
