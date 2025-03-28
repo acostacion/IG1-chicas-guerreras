@@ -97,7 +97,9 @@ protected:
 	glm::vec3 mUpward;
 	glm::vec3 mFront;
 
-	GLdouble mRadio, mAng; // ap 46.
+	GLdouble mRadio = 1000.0, // Esfera virtual de radio 1000 
+			 mAng = -45; // Longitud 45 grados oeste.
+	// ap 46.
 
 	void setAxes();
 

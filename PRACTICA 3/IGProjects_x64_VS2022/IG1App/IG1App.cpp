@@ -138,7 +138,10 @@ IG1App::iniWinOpenGL()
 	glfwSetKeyCallback(mWindow, s_specialkey);
 	glfwSetWindowRefreshCallback(mWindow, s_display);
 
-	glfwSetMouseButtonCallback(mWindow, s_mouse);
+	
+	glfwSetMouseButtonCallback(mWindow, s_mouse); // cuando se presiona o se suelta un botón del ratón.
+	glfwSetCursorPosCallback(mWindow, s_motion); // cuando se mueve el ratón.
+	glfwSetScrollCallback(mWindow, s_mouseWheel); // cuando se gira la rueda del ratón o se hace el gesto equivalente con el touchpad.
 
 	// Error message callback (all messages)
 	glEnable(GL_DEBUG_OUTPUT);
@@ -379,37 +382,46 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 void IG1App::mouse(int button, int action, int mods)
 {
-	////Guardamos el boton pulsado
-	//mMouseButt = button;
-	////Y su posicion
-	//double height = mMouseCoord.y;
-	////glfwGetWindowSize(mWindow, nullptr, (int)(height));
-	//(mViewPort->height) = height - y;
-	//glfwGetCursorPos(mWindow, &mMouseCoord.x, &height);
-
+	
 	// Guarda en mBot el valor de button
 	mMouseButt = button;
 
+	// Guarda en mCoord la posición (x, y) del ratón dandole la vuelta a la y.
 	int height;
 	glfwGetWindowSize(mWindow, nullptr, &height);
 	mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
 	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
-
-
-
-	//double height;
-	//glfwGetWindowSize(mWindow, nullptr, &height);
-	//y(viewport) = height - y;
-
-
+	
 }
 
 void IG1App::motion(double x, double y)
 {
+	// Guarda en unavariable auxiliar mp la diferencia entre mCoord y(x, y)
+	glm::dvec2 mp = { mMouseCoord.x - x, mMouseCoord.y - y };
+
+	// Guarda en mCoord la posición (x, y) del ratón
+	mMouseCoord.x = x; 
+	mMouseCoord.y = y;
+
+	// Si mBot es el botón izquierdo, la cámara orbita (mp.x * 0.05, mp.y)
+	if (mMouseButt == 0) {
+		mCamera->orbit(mp.x * 0.05, mp.y);
+	}
+	else if (mMouseButt == 1) {
+		mCamera->moveUD(mp.y);
+		mCamera->moveLR(mp.x);
+	}
+	mNeedsRedisplay = true;
 }
 
 void IG1App::mouseWheel(double dx, double dy)
 {
+
+	if (glfwGetKey(mWindow, GLFW_MOD_CONTROL)) {
+		mCamera->setScale(dy);
+	}
+	
+	mNeedsRedisplay = true;
 }
 
 void IG1App::captura()
