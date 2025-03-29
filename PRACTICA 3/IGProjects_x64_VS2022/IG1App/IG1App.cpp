@@ -1,4 +1,4 @@
-#include "IG1App.h"
+ï»¿#include "IG1App.h"
 
 #include <iostream>
 #include "Image.h"
@@ -137,11 +137,10 @@ IG1App::iniWinOpenGL()
 	glfwSetCharCallback(mWindow, s_key);
 	glfwSetKeyCallback(mWindow, s_specialkey);
 	glfwSetWindowRefreshCallback(mWindow, s_display);
-
 	
-	glfwSetMouseButtonCallback(mWindow, s_mouse); // cuando se presiona o se suelta un botón del ratón.
-	glfwSetCursorPosCallback(mWindow, s_motion); // cuando se mueve el ratón.
-	glfwSetScrollCallback(mWindow, s_mouseWheel); // cuando se gira la rueda del ratón o se hace el gesto equivalente con el touchpad.
+	glfwSetMouseButtonCallback(mWindow, s_mouse); // cuando se presiona o se suelta un botÃ³n del ratÃ³n.
+	glfwSetCursorPosCallback(mWindow, s_motion); // cuando se mueve el ratÃ³n.
+	glfwSetScrollCallback(mWindow, s_mouseWheel); // cuando se gira la rueda del ratÃ³n o se hace el gesto equivalente con el touchpad.
 
 	// Error message callback (all messages)
 	glEnable(GL_DEBUG_OUTPUT);
@@ -301,7 +300,7 @@ IG1App::key(unsigned int key)
 void
 IG1App::specialkey(int key, int scancode, int action, int mods)
 {
-	/*
+	
 	// Only interested in press events
 	if (action == GLFW_RELEASE)
 		return;
@@ -339,57 +338,71 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 	if (need_redisplay)
 		mNeedsRedisplay = true;
-		*/
+		
 
-		// Only interested in press events
-	if (action == GLFW_RELEASE)
-		return;
+	//	// Only interested in press events
+	//if (action == GLFW_RELEASE)
+	//	return;
 
-	bool need_redisplay = true;
+	//bool need_redisplay = true;
 
-	// Handle keyboard input
-	// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
-	switch (key) {
-	case GLFW_KEY_ESCAPE:                     // Escape key
-		glfwSetWindowShouldClose(mWindow, true); // stops main loop
-		break;
-	case GLFW_KEY_RIGHT:
-		if (mods == GLFW_MOD_CONTROL)
-			mCamera->pitch(-1); // rotates -1 on the X axis
-		else
-			mCamera->pitch(1); // rotates 1 on the X axis
-		break;
-	case GLFW_KEY_LEFT:
-		if (mods == GLFW_MOD_CONTROL)
-			mCamera->yaw(1); // rotates 1 on the Y axis
-		else
-			mCamera->yaw(-1); // rotate -1 on the Y axis
-		break;
-	case GLFW_KEY_UP:
-		mCamera->roll(1); // rotates 1 on the Z axis
-		break;
-	case GLFW_KEY_DOWN:
-		mCamera->roll(-1); // rotates -1 on the Z axis
-		break;
-	default:
-		need_redisplay = false;
-		break;
-	} // switch
+	//// Handle keyboard input
+	//// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
+	//switch (key) {
+	//case GLFW_KEY_ESCAPE:                     // Escape key
+	//	glfwSetWindowShouldClose(mWindow, true); // stops main loop
+	//	break;
+	//case GLFW_KEY_RIGHT:
+	//	if (mods == GLFW_MOD_CONTROL)
+	//		mCamera->pitch(-1); // rotates -1 on the X axis
+	//	else
+	//		mCamera->pitch(1); // rotates 1 on the X axis
+	//	break;
+	//case GLFW_KEY_LEFT:
+	//	if (mods == GLFW_MOD_CONTROL)
+	//		mCamera->yaw(1); // rotates 1 on the Y axis
+	//	else
+	//		mCamera->yaw(-1); // rotate -1 on the Y axis
+	//	break;
+	//case GLFW_KEY_UP:
+	//	mCamera->roll(1); // rotates 1 on the Z axis
+	//	break;
+	//case GLFW_KEY_DOWN:
+	//	mCamera->roll(-1); // rotates -1 on the Z axis
+	//	break;
+	//default:
+	//	need_redisplay = false;
+	//	break;
+	//} // switch
 
-	if (need_redisplay)
-		mNeedsRedisplay = true;
+	//if (need_redisplay)
+	//	mNeedsRedisplay = true;
 }
 
 void IG1App::mouse(int button, int action, int mods)
 {
-	// Guarda en mCoord la posición (x, y) del ratón dandole la vuelta a la y.
-	int height;
-	glfwGetWindowSize(mWindow, nullptr, &height);
-	mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
-	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
+	//Mira si la tecla estÃ¡ pulsada
+	if (action != GLFW_RELEASE) //action != GLFW_PRESS && action != GLFW_RELEASE &&
+	{
+		// Guarda en mBot el valor de button
+		mMouseButt = button;
 
-	// Guarda en mBot el valor de button
-	mMouseButt = button;
+		// Guarda en mCoord la posicion (x, y) del raton dandole la vuelta a la y.
+		int height;
+		glfwGetWindowSize(mWindow, nullptr, &height);
+		mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
+		glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
+
+	}
+
+	// Guarda el modificador de Control
+	if (mods == GLFW_MOD_CONTROL)
+	{
+		ctrlOn = true;
+	}
+	else ctrlOn = false;
+
+	std::cout << ctrlOn;
 
 }
 
@@ -398,11 +411,11 @@ void IG1App::motion(double x, double y)
 	// Guarda en unavariable auxiliar mp la diferencia entre mCoord y(x, y)
 	glm::dvec2 mp = { mMouseCoord.x - x, mMouseCoord.y - y };
 
-	// Guarda en mCoord la posición (x, y) del ratón
+	// Guarda en mCoord la posiciÃ³n (x, y) del ratÃ³n
 	mMouseCoord.x = x; 
 	mMouseCoord.y = y;
 
-	// Si mBot es el botón izquierdo, la cámara orbita (mp.x * 0.05, mp.y)
+	// Si mBot es el botÃ³n izquierdo, la cÃ¡mara orbita (mp.x * 0.05, mp.y)
 	if (mMouseButt == 0) {
 		mCamera->orbit(mp.x * 0.05, mp.y);
 	}
@@ -416,13 +429,13 @@ void IG1App::motion(double x, double y)
 void IG1App::mouseWheel(double dx, double dy)
 {
 	// si se pulsa ctrl
-	if (glfwGetKey(mWindow, GLFW_MOD_CONTROL)) {
-		// escala la escena, de nuevo según el valor de d
+	if (ctrlOn) {
+		// escala la escena, de nuevo segÃºn el valor de d
 		mCamera->setScale(dy);
 	}
-	// si no está pulsada ninguna tecla modificadora.
+	// si no estÃ¡ pulsada ninguna tecla modificadora.
 	else {
-		// desplaza la cámara en su dirección de vista.
+		// desplaza la cÃ¡mara en su direcciÃ³n de vista.
 		mCamera->moveFB(dy);
 	}
 	
@@ -443,27 +456,27 @@ void IG1App::display2V() const
 	// el puerto de vista queda compartido (se copia el puntero)
 	//lo copiamos en una var.aux
 	Viewport auxVP = *mViewPort;
-	// el tamaño de los 2 puertos de vista es el mismo,
+	// el tamaÃ±o de los 2 puertos de vista es el mismo,
 	// lo configuramos
 	mViewPort->setSize(mWinW / 2, mWinH);
 	// igual que en resize, para que no cambie la escala,
-	// tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	// tenemos que cambiar el tamaÃ±o de la ventana de vista de la cÃ¡mara
 	auxCam.setSize(mViewPort->width(), mViewPort->height());
 
 	// vista 3D ->
-	// configurar la posición
+	// configurar la posiciÃ³n
 	mViewPort->setPos(0, 0);
-	// cambiar la posición y orientacion de la cámara
+	// cambiar la posiciÃ³n y orientacion de la cÃ¡mara
 	auxCam.set3D();
-	// renderizamos con la cámara y el puerto de vista configurados
+	// renderizamos con la cÃ¡mara y el puerto de vista configurados
 	mScenes[mCurrentScene]->render(auxCam);
 
 	// vista Cenital ->
-	// configurar la posición
+	// configurar la posiciÃ³n
 	mViewPort->setPos(mWinW / 2, 0);
-	// cambiar la posición y orientacion de la cámara
+	// cambiar la posiciÃ³n y orientacion de la cÃ¡mara
 	auxCam.setCenital();
-	// renderizamos con la cámara y el puerto de vista configurados
+	// renderizamos con la cÃ¡mara y el puerto de vista configurados
 	mScenes[mCurrentScene]->render(auxCam);
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
@@ -480,24 +493,24 @@ void IG1App::display2S() const
 	Scene* scene1 = mScenes[1];
 	Scene* scene3 = mScenes[3];
 
-	// el tamaño de los 2 puertos de vista es el mismo, lo configuramos
+	// el tamaÃ±o de los 2 puertos de vista es el mismo, lo configuramos
 	mViewPort->setSize(mWinW / 2, mWinH);
 
-	// igual que en resize, para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	// igual que en resize, para que no cambie la escala, tenemos que cambiar el tamaÃ±o de la ventana de vista de la cÃ¡mara
 	auxCam.setSize(mViewPort->width(), mViewPort->height());
 
 	// Escena 4 ->
-	// configurar la posición
+	// configurar la posiciÃ³n
 	mViewPort->setPos(0, 0);
 	
-	// renderizamos con la cámara y el puerto de vista configurados
+	// renderizamos con la cÃ¡mara y el puerto de vista configurados
 	scene1->render(auxCam);
 
 	// Escena 2 ->
-	// configurar la posición
+	// configurar la posiciÃ³n
 	mViewPort->setPos(mWinW / 2, 0);
 	
-	// renderizamos con la cámara y el puerto de vista configurados
+	// renderizamos con la cÃ¡mara y el puerto de vista configurados
 	scene3->render(auxCam);
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
