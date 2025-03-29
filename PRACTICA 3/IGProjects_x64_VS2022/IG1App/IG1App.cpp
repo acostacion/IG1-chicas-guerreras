@@ -43,7 +43,7 @@ IG1App::run() // enters the main event processing loop
 		// Redisplay the window if needed
 		if (mNeedsRedisplay) {
 			display();
-			mNeedsRedisplay = false;
+			mNeedsRedisplay = false; // PARA MOVELR, MOVEFB, MOVEUD CAMBIAR
 		}
 
 		// si se permite la actualizacion
@@ -382,16 +382,15 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 void IG1App::mouse(int button, int action, int mods)
 {
-	
-	// Guarda en mBot el valor de button
-	mMouseButt = button;
-
 	// Guarda en mCoord la posición (x, y) del ratón dandole la vuelta a la y.
 	int height;
 	glfwGetWindowSize(mWindow, nullptr, &height);
 	mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
 	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
-	
+
+	// Guarda en mBot el valor de button
+	mMouseButt = button;
+
 }
 
 void IG1App::motion(double x, double y)
@@ -416,9 +415,15 @@ void IG1App::motion(double x, double y)
 
 void IG1App::mouseWheel(double dx, double dy)
 {
-
+	// si se pulsa ctrl
 	if (glfwGetKey(mWindow, GLFW_MOD_CONTROL)) {
+		// escala la escena, de nuevo según el valor de d
 		mCamera->setScale(dy);
+	}
+	// si no está pulsada ninguna tecla modificadora.
+	else {
+		// desplaza la cámara en su dirección de vista.
+		mCamera->moveFB(dy);
 	}
 	
 	mNeedsRedisplay = true;

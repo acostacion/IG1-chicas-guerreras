@@ -5,6 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "IG1App.h"
+
 using namespace glm;
 
 Camera::Camera(Viewport* vp)

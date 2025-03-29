@@ -167,7 +167,8 @@ protected:
 
 	// --- Apartado 50.
 	glm::dvec2 mMouseCoord; // para guardar las coordenadas del raton.
-	int mMouseButt; // para guardar el boton pulsado.
+	int mMouseButt = 2; // para guardar el boton pulsado
+	// Nota: inicialmente 2 para que no sea otro de los botones asignados a acciones de ratón. El 2 es el boton de la rueda.
 	// ------
 };
 
