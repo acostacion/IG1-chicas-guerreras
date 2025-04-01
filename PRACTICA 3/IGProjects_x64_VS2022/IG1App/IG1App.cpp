@@ -381,28 +381,21 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 void IG1App::mouse(int button, int action, int mods)
 {
-	//Mira si la tecla está pulsada
-	if (action != GLFW_RELEASE) //action != GLFW_PRESS && action != GLFW_RELEASE &&
-	{
-		// Guarda en mBot el valor de button
-		mMouseButt = button;
+	//Mira hay teclas pulsadas
+	//Si no, el boton default es uno que no tiene accion
+	if (action == 0) { mMouseButt = 2; }
+	//Y si hay tecla pulsada, pues la que sea
+	else { mMouseButt = button; }
 
-		// Guarda en mCoord la posicion (x, y) del raton dandole la vuelta a la y.
-		int height;
-		glfwGetWindowSize(mWindow, nullptr, &height);
-		mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
-		glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
+	// Guarda en mCoord la posicion (x, y) del raton
+	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
 
-	}
-
-	// Guarda el modificador de Control
+	//// Guarda el modificador de Control
 	if (mods == GLFW_MOD_CONTROL)
 	{
 		ctrlOn = true;
 	}
 	else ctrlOn = false;
-
-	std::cout << ctrlOn;
 
 }
 
