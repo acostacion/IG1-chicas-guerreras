@@ -72,7 +72,8 @@ public:
 	// ------
 
 	// --- Apartado 46.
-	void orbit(GLdouble incAng, GLdouble incY);
+	void orbit(GLdouble incAng); // con la tecla q.
+	void orbit(GLdouble incAng, GLdouble incY); // para eventos de raton.
 	// ------
 
 	// projection matrix

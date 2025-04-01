@@ -283,7 +283,7 @@ IG1App::key(unsigned int key)
 		break;
 
 	case 'q':
-		mCamera->orbit(0.5, 0.5);
+		mCamera->orbit(0.5);
 		break;
 
 	default:
