@@ -1,1 +1,3 @@
 1. Al hacer orbit comienza desde una posición, ya sea que se haga con el mouse o con el q, ¿estaría bien?
+2. moveLR, moveFB, moveUD se mueve bien? Se pude mover con wasd o raton.
+3. Hace falta un clic para detectar el ctrl.
