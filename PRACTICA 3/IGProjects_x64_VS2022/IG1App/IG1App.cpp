@@ -43,7 +43,9 @@ IG1App::run() // enters the main event processing loop
 		// Redisplay the window if needed
 		if (mNeedsRedisplay) {
 			display();
-			mNeedsRedisplay = false; // PARA MOVELR, MOVEFB, MOVEUD CAMBIAR
+
+				mNeedsRedisplay = false; // PARA MOVELR, MOVEFB, MOVEUD CAMBIAR
+			
 		}
 
 		// si se permite la actualizacion
@@ -390,13 +392,13 @@ void IG1App::mouse(int button, int action, int mods)
 	// Guarda en mCoord la posicion (x, y) del raton
 	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
 
-	//// Guarda el modificador de Control
+	// Guarda el modificador de Control
+
 	if (mods == GLFW_MOD_CONTROL)
 	{
 		ctrlOn = true;
 	}
 	else ctrlOn = false;
-
 }
 
 void IG1App::motion(double x, double y)
