@@ -43,7 +43,9 @@ IG1App::run() // enters the main event processing loop
 		// Redisplay the window if needed
 		if (mNeedsRedisplay) {
 			display();
-			mNeedsRedisplay = false; // PARA MOVELR, MOVEFB, MOVEUD CAMBIAR
+
+				mNeedsRedisplay = false; // PARA MOVELR, MOVEFB, MOVEUD CAMBIAR
+			
 		}
 
 		// si se permite la actualizacion
@@ -382,7 +384,7 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 void IG1App::mouse(int button, int action, int mods)
 {
 	//Mira si la tecla está pulsada
-	if (action != GLFW_RELEASE) //action != GLFW_PRESS && action != GLFW_RELEASE &&
+	//if (action) //action != GLFW_PRESS && action != GLFW_RELEASE &&
 	{
 		// Guarda en mBot el valor de button
 		mMouseButt = button;
@@ -392,8 +394,9 @@ void IG1App::mouse(int button, int action, int mods)
 		glfwGetWindowSize(mWindow, nullptr, &height);
 		mViewPort->setPos(mViewPort->left(), height - mViewPort->bot());
 		glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
-
 	}
+
+	std::cout << action << std::endl;
 
 	// Guarda el modificador de Control
 	if (mods == GLFW_MOD_CONTROL)
@@ -401,9 +404,6 @@ void IG1App::mouse(int button, int action, int mods)
 		ctrlOn = true;
 	}
 	else ctrlOn = false;
-
-	std::cout << ctrlOn;
-
 }
 
 void IG1App::motion(double x, double y)
