@@ -340,45 +340,6 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 	if (need_redisplay)
 		mNeedsRedisplay = true;
-		
-
-	//	// Only interested in press events
-	//if (action == GLFW_RELEASE)
-	//	return;
-
-	//bool need_redisplay = true;
-
-	//// Handle keyboard input
-	//// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
-	//switch (key) {
-	//case GLFW_KEY_ESCAPE:                     // Escape key
-	//	glfwSetWindowShouldClose(mWindow, true); // stops main loop
-	//	break;
-	//case GLFW_KEY_RIGHT:
-	//	if (mods == GLFW_MOD_CONTROL)
-	//		mCamera->pitch(-1); // rotates -1 on the X axis
-	//	else
-	//		mCamera->pitch(1); // rotates 1 on the X axis
-	//	break;
-	//case GLFW_KEY_LEFT:
-	//	if (mods == GLFW_MOD_CONTROL)
-	//		mCamera->yaw(1); // rotates 1 on the Y axis
-	//	else
-	//		mCamera->yaw(-1); // rotate -1 on the Y axis
-	//	break;
-	//case GLFW_KEY_UP:
-	//	mCamera->roll(1); // rotates 1 on the Z axis
-	//	break;
-	//case GLFW_KEY_DOWN:
-	//	mCamera->roll(-1); // rotates -1 on the Z axis
-	//	break;
-	//default:
-	//	need_redisplay = false;
-	//	break;
-	//} // switch
-
-	//if (need_redisplay)
-	//	mNeedsRedisplay = true;
 }
 
 void IG1App::mouse(int button, int action, int mods)
@@ -387,17 +348,13 @@ void IG1App::mouse(int button, int action, int mods)
 	//Si no, el boton default es uno que no tiene accion
 	if (action == 0) { mMouseButt = 2; }
 	//Y si hay tecla pulsada, pues la que sea
-	else { mMouseButt = button; }
+	else { mMouseButt = button;}
 
 	// Guarda en mCoord la posicion (x, y) del raton
 	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
 
 	// Guarda el modificador de Control
-
-	if (mods == GLFW_MOD_CONTROL)
-	{
-		ctrlOn = true;
-	}
+	if (mods == GLFW_MOD_CONTROL) { ctrlOn = true; }
 	else ctrlOn = false;
 }
 
