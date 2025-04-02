@@ -58,7 +58,7 @@ void Camera::changePrj()
 
 void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
-	////mLook += mUpward * cs;
+	/*////mLook += mUpward * cs;
 	//mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
 	//setVM();
 
@@ -72,6 +72,11 @@ void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 
 	mLook += mUpward * cs;
 	mViewMat = lookAt(mEye, mLook, mUp);
+	setVM();*/
+
+	//mEye += mUpward * cs;
+	//mUp += mFront * cs;
+	//mViewMat = lookAt(mEye, mLook, mUp);
 	setVM();
 }
 
@@ -82,11 +87,8 @@ void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 	//setVM();
 
 	//Dice no
-	mLook += (mRight * cs);
-	//Rota el eje de la camera
-	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mRight.x, mRight.y, mRight.z));
-	//Mira en esa direccion
-	mViewMat = lookAt(mEye, mLook, mUp);
+	//mEye += mRight * cs * 10.0f;
+	mUp += mFront * cs*10.0f;
 	setVM();
 }
 void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
@@ -106,10 +108,13 @@ void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 
 void Camera::orbit(GLdouble incAng)
 {
+	//dvec3 eye = mEye;
 	mAng += incAng;
 	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
 	setVM();
+
+	//mEye = eye;
 }
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)

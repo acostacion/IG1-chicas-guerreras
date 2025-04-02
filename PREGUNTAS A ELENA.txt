@@ -1,5 +1,4 @@
 1. Al hacer orbit comienza desde una posición, ya sea que se haga con el mouse o con el q, ¿estaría bien? Guardar el eye
-2. Hace falta un clic para detectar el ctrl. Bien
 3. Rotaciones Reales
 
 Mover el Eye y el Up, pero no Look
