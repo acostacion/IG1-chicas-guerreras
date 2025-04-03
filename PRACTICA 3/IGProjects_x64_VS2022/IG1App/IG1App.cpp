@@ -266,7 +266,7 @@ IG1App::key(unsigned int key)
 	case 's':
 		mCamera->moveUD(1);
 		break;
-
+		
 		// MOVEFB (forward)
 	case 'W':
 		mCamera->moveFB(1);

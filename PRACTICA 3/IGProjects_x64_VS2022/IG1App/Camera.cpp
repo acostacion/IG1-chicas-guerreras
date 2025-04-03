@@ -127,13 +127,10 @@ void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 
 void Camera::orbit(GLdouble incAng)
 {
-	//dvec3 eye = mEye;
 	mAng += incAng;
 	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
 	setVM();
-
-	//mEye = eye;
 }
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)
