@@ -58,11 +58,12 @@ void Camera::changePrj()
 
 void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
-	/*////mLook += mUpward * cs;
-	//mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
-	//setVM();
+	//Intentos anteriores
+	/*mLook += mUpward * cs;
+	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
+	setVM();
 
-	//Dice si
+
 	mLook += (mUpward * cs);
 	//Rota el eje de la camera
 	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mUpward.x, mUpward.y, mUpward.z));
@@ -70,32 +71,45 @@ void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 	mViewMat = lookAt(mEye, mLook, mUp);
 	setVM();
 
-	mLook += mUpward * cs;
+	mLook += mFront* cs;
+	mViewMat = lookAt(mEye, mLook, mUp);
+	setVM();
+
+	mEye += mUpward * cs;
+	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mUpward.x, mUpward.y, mUpward.z));
+	mUp += mFront * cs;
 	mViewMat = lookAt(mEye, mLook, mUp);
 	setVM();*/
 
-	//mEye += mUpward * cs;
-	//mUp += mFront * cs;
-	//mViewMat = lookAt(mEye, mLook, mUp);
+	//Dice si
+	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
 	setVM();
 }
 
 void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 {
-	////mLook += mUpward * cs;
-	//mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
-	//setVM();
+	//Intentos anteriores
+	/*mLook += mUpward * cs;
+	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
+	setVM();
+
+	mEye += mRight * cs * 10.0f;
+	mLook += mUpward * cs;
+	setVM();
+
+	mUp += mFront * cs;
+	setVM();*/
 
 	//Dice no
-	//mEye += mRight * cs * 10.0f;
-	mUp += mFront * cs*10.0f;
+	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 1.0, 0));
 	setVM();
 }
 void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 {
-	////mLook += mUpward * cs;
-	//mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
-	//setVM();
+	//Intentos anteriores
+	/*//mLook += mUpward * cs;
+	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
+	setVM();
 
 	//Dice confuso
 	mLook += (mFront * cs);
@@ -103,6 +117,11 @@ void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 	mViewMat = rotate(mViewMat, (double)(glm::radians(cs)), glm::dvec3(mFront.x, mFront.y, mFront.z));
 	//Mira en esa direccion
 	mViewMat = lookAt(mEye, mLook, mUp);
+
+	mUp += mFront * cs;
+	setVM();*/
+
+	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 0, 1.0));
 	setVM();
 }
 
