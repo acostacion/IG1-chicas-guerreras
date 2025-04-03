@@ -26,6 +26,7 @@ public:
 	// load or unload scene data into the GPU
 	void load();
 	void unload();
+	void destroyScene();
 
 protected:
 	void destroy();

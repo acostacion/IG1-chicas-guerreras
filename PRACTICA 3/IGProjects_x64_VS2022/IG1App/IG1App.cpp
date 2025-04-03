@@ -106,7 +106,21 @@ IG1App::init()
 
 void IG1App::update()
 {
-	mScenes[mCurrentScene]->update();
+	//Si estan las 2 escenas activadas, depende de la posicion en x del raton
+	if (m2Scenes && mMouseCoord.x > mWinW / 2)
+	{
+		mScenes[3]->update();
+	}
+	else if (m2Scenes && mMouseCoord.x <= mWinW / 2)
+	{
+		mScenes[1]->update();
+	}
+	//Si no, se actualiza la que este
+	else if (!m2Scenes)
+	{
+		mScenes[mCurrentScene]->update();
+	}
+
 	mNeedsRedisplay = true;
 }
 
@@ -209,29 +223,35 @@ IG1App::resize(int newWidth, int newHeight)
 void
 IG1App::key(unsigned int key)
 {
+	Camera* actualCam = mCamera;
+	//Si esta el modo en 2 escenas, y el raton esta en la segunda mitad
+	if (m2Scenes && mMouseCoord.x > mWinW / 2) { actualCam = mCamera2; }
+
+	Scene* actualScene = mScenes[mCurrentScene];
+
 	bool need_redisplay = true;
 
 	switch (key) {
 	case '+':
-		mCamera->setScale(+0.01); // zoom in  (increases the scale)
+		actualCam->setScale(+0.01); // zoom in  (increases the scale)
 		break;
 	case '-':
-		mCamera->setScale(-0.01); // zoom out (decreases the scale)
+		actualCam->setScale(-0.01); // zoom out (decreases the scale)
 		break;
 
 		// 3D.
 	case 'l':
-		mCamera->set3D();
+		actualCam->set3D();
 		break;
 
 		// 2D.
 	case 'o':
-		mCamera->set2D();
+		actualCam->set2D();
 		break;
 
 		// CENITAL.
 	case 'c':
-		mCamera->setCenital();
+		actualCam->setCenital();
 		break;
 
 		// DOS VISTAS
@@ -240,11 +260,20 @@ IG1App::key(unsigned int key)
 		m2Scenes = false; // si se activa m2Vistas, se quita m2Scenes.
 		break;
 
+		// DOS ESCENAS
 	case 'm':
-		mScenes[1]->load();
-		mScenes[3]->load();
-		m2Scenes = !m2Scenes;
 		m2Vistas = false; // si se activa m2Scenes, se quita m2Vistas.
+		m2Scenes = !m2Scenes;
+
+		if (m2Scenes)
+		{
+			mScenes[1]->load();
+			mScenes[3]->load();
+		}
+		else
+		{
+			mScenes[mCurrentScene] = actualScene;
+		}
 		break;
 
 		// UPDATE.
@@ -259,41 +288,42 @@ IG1App::key(unsigned int key)
 
 		// MOVELR (left)
 	case 'a':
-		mCamera->moveLR(1); // !tst luego cambiar.
+		actualCam->moveLR(1); // !tst luego cambiar.
 		break;
 
 		// MOVELR (right)
 	case 'd':
-		mCamera->moveLR(-1);
+		actualCam->moveLR(-1);
 		break;
 
 		// MOVEUD (up)
 	case 'w':
-		mCamera->moveUD(-1);
+		actualCam->moveUD(-1);
 		break;
 
 		// MOVEUD (down)
 	case 's':
-		mCamera->moveUD(1);
+		actualCam->moveUD(1);
 		break;
 		
 		// MOVEFB (forward)
 	case 'W':
-		mCamera->moveFB(1);
+		actualCam->moveFB(1);
 		break;
 
 		// MOVEFB (backward)
 	case 'S':
-		mCamera->moveFB(-1);
+		actualCam->moveFB(-1);
 		break;
 
 		// change projection
 	case 'p':
-		mCamera->changePrj();
+		actualCam->changePrj();
 		break;
 
+		// orbita alrededor del eje y
 	case 'q':
-		mCamera->orbit(0.5);
+		actualCam->orbit(0.5);
 		break;
 
 	default:
@@ -370,6 +400,10 @@ void IG1App::mouse(int button, int action, int mods)
 
 void IG1App::motion(double x, double y)
 {
+	Camera* actualCam = mCamera;
+	//Si esta el modo en 2 escenas, y el raton esta en la segunda mitad
+	if (m2Scenes && mMouseCoord.x > mWinW / 2) { actualCam = mCamera2; }
+
 	// Guarda en unavariable auxiliar mp la diferencia entre mCoord y(x, y)
 	glm::dvec2 mp = { mMouseCoord.x - x, mMouseCoord.y - y };
 
@@ -379,26 +413,30 @@ void IG1App::motion(double x, double y)
 
 	// Si mBot es el botón izquierdo, la cámara orbita (mp.x * 0.05, mp.y)
 	if (mMouseButt == 0) {
-		mCamera->orbit(mp.x * 0.05, mp.y);
+		actualCam->orbit(mp.x * 0.05, mp.y);
 	}
 	else if (mMouseButt == 1) {
-		mCamera->moveUD(mp.y);
-		mCamera->moveLR(mp.x);
+		actualCam->moveUD(mp.y);
+		actualCam->moveLR(mp.x);
 	}
 	mNeedsRedisplay = true;
 }
 
 void IG1App::mouseWheel(double dx, double dy)
 {
+	Camera* actualCam = mCamera;
+	//Si esta el modo en 2 escenas, y el raton esta en la segunda mitad
+	if (m2Scenes && mMouseCoord.x > mWinW / 2) { actualCam = mCamera2; }
+
 	// si se pulsa ctrl
 	if (ctrlOn) {
 		// escala la escena, de nuevo según el valor de d
-		mCamera->setScale(dy);
+		actualCam->setScale(dy);
 	}
 	// si no está pulsada ninguna tecla modificadora.
 	else {
 		// desplaza la cámara en su dirección de vista.
-		mCamera->moveFB(dy);
+		actualCam->moveFB(dy);
 	}
 	
 	mNeedsRedisplay = true;
@@ -471,16 +509,6 @@ void IG1App::display2S(Scene* s1, Scene* s2) const
 	mViewPort->setPos(mWinW / 2, 0);
 	// renderizamos con la cámara y el puerto de vista configurados
 	s2->render(auxCam2);
-
-	if (mMouseCoord.x > mWinW/2)
-	{
-		s2->update();
-	}
-	else
-	{
-
-		s1->update();
-	}
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }

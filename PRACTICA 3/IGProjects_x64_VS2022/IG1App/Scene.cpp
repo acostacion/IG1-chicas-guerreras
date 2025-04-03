@@ -73,6 +73,11 @@ Scene::unload()
 		obj->unload();
 }
 
+void Scene::destroyScene()
+{
+	destroy();
+}
+
 void
 Scene::setGL()
 {
