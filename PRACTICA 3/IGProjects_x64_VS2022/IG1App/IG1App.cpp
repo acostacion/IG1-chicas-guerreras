@@ -143,6 +143,7 @@ IG1App::iniWinOpenGL()
 	glfwSetCharCallback(mWindow, s_key);
 	glfwSetKeyCallback(mWindow, s_specialkey);
 	glfwSetWindowRefreshCallback(mWindow, s_display);
+
 	
 	glfwSetMouseButtonCallback(mWindow, s_mouse); // cuando se presiona o se suelta un botón del ratón.
 	glfwSetCursorPosCallback(mWindow, s_motion); // cuando se mueve el ratón.
@@ -187,7 +188,7 @@ IG1App::display() const
 
 	if (m2Vistas) { display2V(); } // 2 VISTAS.
 	else if (m2Scenes) { display2S(mScenes[1], mScenes[3]); } // 2 ESCENAS
-	else { mScenes[mCurrentScene]->render(*mCamera); } // uploads the viewport and camera to the GPU
+	else { mScenes[mCurrentScene]->render(*mCamera); } // uploads the viewport and camera to the GP
 
 	glfwSwapBuffers(mWindow); // swaps the front and back buffer
 }
@@ -470,6 +471,16 @@ void IG1App::display2S(Scene* s1, Scene* s2) const
 	mViewPort->setPos(mWinW / 2, 0);
 	// renderizamos con la cámara y el puerto de vista configurados
 	s2->render(auxCam2);
+
+	if (mMouseCoord.x > mWinW/2)
+	{
+		s2->update();
+	}
+	else
+	{
+
+		s1->update();
+	}
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }
