@@ -82,7 +82,7 @@ IG1App::init()
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH);
 	mCamera = new Camera(mViewPort);
-	
+	mCamera2 = new Camera(mViewPort);
 	// Crea las escenas
 	// Mete las escenas en el vector de escenas
 	mScenes.push_back(new Scene0());
@@ -91,7 +91,8 @@ IG1App::init()
 	mScenes.push_back(new Scene3());
 
 	mCamera->set2D();
-	
+	mCamera2->set2D();
+
 	for (int i = 0; i < mScenes.size(); i++) 
 	{
 		mScenes[i]->init();
@@ -162,6 +163,9 @@ IG1App::destroy()
 
 	delete mCamera;
 	mCamera = nullptr;
+
+	delete mCamera2;
+	mCamera2 = nullptr;
 
 	delete mViewPort;
 	mViewPort = nullptr;
@@ -436,9 +440,9 @@ void IG1App::display2V() const
 
 void IG1App::display2S() const
 {
-	// para renderizar las vistas utilizamos una camara auxiliar:
+	// para renderizar las vistas utilizamos dos camaras
 	Camera auxCam = *mCamera;
-
+	Camera auxCam2 = *mCamera2;
 	// el puerto de vista queda compartido (se copia el puntero)
 	Viewport auxVP = *mViewPort;
 
@@ -448,22 +452,21 @@ void IG1App::display2S() const
 	// el tamaño de los 2 puertos de vista es el mismo, lo configuramos
 	mViewPort->setSize(mWinW / 2, mWinH);
 
+	// Escena 4 ->
 	// igual que en resize, para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
 	auxCam.setSize(mViewPort->width(), mViewPort->height());
-
-	// Escena 4 ->
 	// configurar la posición
 	mViewPort->setPos(0, 0);
-	
 	// renderizamos con la cámara y el puerto de vista configurados
 	scene1->render(auxCam);
 
 	// Escena 2 ->
+	// igual que en resize, para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
+	auxCam2.setSize(mViewPort->width(), mViewPort->height());
 	// configurar la posición
 	mViewPort->setPos(mWinW / 2, 0);
-	
 	// renderizamos con la cámara y el puerto de vista configurados
-	scene3->render(auxCam);
+	scene3->render(auxCam2);
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }

@@ -150,6 +150,7 @@ protected:
 	Viewport* mViewPort = nullptr;
 	// Camera position, view volume and projection
 	Camera* mCamera = nullptr;
+	Camera* mCamera2 = nullptr; //Para el apartado 52
 	// Graphics objects are in the scenes
 	std::vector<Scene*> mScenes;
 	size_t mCurrentScene = 0;
