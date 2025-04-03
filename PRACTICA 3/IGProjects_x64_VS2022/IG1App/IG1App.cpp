@@ -44,7 +44,7 @@ IG1App::run() // enters the main event processing loop
 		if (mNeedsRedisplay) {
 			display();
 
-				mNeedsRedisplay = false; // PARA MOVELR, MOVEFB, MOVEUD CAMBIAR
+				mNeedsRedisplay = false;
 			
 		}
 
@@ -81,8 +81,11 @@ IG1App::init()
 	// create the scene after creating the context
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH);
+
+	// Creamos dos camaras (para lo de la division de escenas del apartado 52).
 	mCamera = new Camera(mViewPort);
 	mCamera2 = new Camera(mViewPort);
+
 	// Crea las escenas
 	// Mete las escenas en el vector de escenas
 	mScenes.push_back(new Scene0());
@@ -183,7 +186,7 @@ IG1App::display() const
 	// y el Z-buffer con el valor 1 en todos los pixeles
 
 	if (m2Vistas) { display2V(); } // 2 VISTAS.
-	else if (m2Scenes) { display2S(); } // 2 ESCENAS
+	else if (m2Scenes) { display2S(mScenes[1], mScenes[3]); } // 2 ESCENAS
 	else { mScenes[mCurrentScene]->render(*mCamera); } // uploads the viewport and camera to the GPU
 
 	glfwSwapBuffers(mWindow); // swaps the front and back buffer
@@ -237,6 +240,8 @@ IG1App::key(unsigned int key)
 		break;
 
 	case 'm':
+		mScenes[1]->load();
+		mScenes[3]->load();
 		m2Scenes = !m2Scenes;
 		m2Vistas = false; // si se activa m2Scenes, se quita m2Vistas.
 		break;
@@ -438,16 +443,14 @@ void IG1App::display2V() const
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }
 
-void IG1App::display2S() const
+void IG1App::display2S(Scene* s1, Scene* s2) const
 {
 	// para renderizar las vistas utilizamos dos camaras
 	Camera auxCam = *mCamera;
 	Camera auxCam2 = *mCamera2;
+
 	// el puerto de vista queda compartido (se copia el puntero)
 	Viewport auxVP = *mViewPort;
-
-	Scene* scene1 = mScenes[1];
-	Scene* scene3 = mScenes[3];
 
 	// el tamaño de los 2 puertos de vista es el mismo, lo configuramos
 	mViewPort->setSize(mWinW / 2, mWinH);
@@ -458,7 +461,7 @@ void IG1App::display2S() const
 	// configurar la posición
 	mViewPort->setPos(0, 0);
 	// renderizamos con la cámara y el puerto de vista configurados
-	scene1->render(auxCam);
+	s1->render(auxCam);
 
 	// Escena 2 ->
 	// igual que en resize, para que no cambie la escala, tenemos que cambiar el tamaño de la ventana de vista de la cámara
@@ -466,7 +469,7 @@ void IG1App::display2S() const
 	// configurar la posición
 	mViewPort->setPos(mWinW / 2, 0);
 	// renderizamos con la cámara y el puerto de vista configurados
-	scene3->render(auxCam2);
+	s2->render(auxCam2);
 
 	*mViewPort = auxVP; // * restaurar el puerto de vista 
 }

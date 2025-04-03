@@ -108,7 +108,7 @@ public:
 
 	// 2 escenas.
 	bool m2Scenes = false;
-	void display2S() const; // ap 52
+	void display2S(Scene* s1, Scene* s2) const; // ap 52
 
 
 protected:
