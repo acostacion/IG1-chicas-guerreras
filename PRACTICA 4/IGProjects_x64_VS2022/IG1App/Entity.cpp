@@ -110,6 +110,13 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 		}
 	}
 }
+
+// ---- COLOR MATERIAL ENTITY ----
+ColorMaterialEntity::ColorMaterialEntity()
+{
+	mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
+}
+
 #pragma endregion
 
 #pragma region PRACTICA 1
@@ -669,4 +676,17 @@ void Photo::update()
 	// actualiza la textura 
 	mTexture->loadColorBuffer(800.0, 600.0);
 }
+
+
 #pragma endregion
+
+#pragma region PRACTICA 4
+Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40) {
+	mShader = Shader::get("simple");
+	mMesh = IndexMesh().generateByRevolution(, nSamples, 360.0f);
+}
+
+
+#pragma endregion
+
+

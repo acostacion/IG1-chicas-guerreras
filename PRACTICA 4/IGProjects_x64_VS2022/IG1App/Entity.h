@@ -34,6 +34,7 @@
 #include <glm/glm.hpp>
 
 #include "Mesh.h"
+#include "IndexMesh.h"
 #include "Shader.h"
 #include "Texture.h"
 
@@ -106,6 +107,13 @@ public:
 protected:
 	bool mModulate;
 	GLboolean mAlfaActive;
+};
+
+class ColorMaterialEntity : public SingleColorEntity
+{
+public:
+	explicit ColorMaterialEntity();
+
 };
 
 // -----------------
@@ -253,4 +261,17 @@ public:
 	void render(const glm::dmat4& modelViewMat) const override;
 	void update() override;
 };
+
+//Apartado 56
+class Torus : public SingleColorEntity
+{
+	/*
+	R - radio desde origen de coordenadas
+	r - radio del perfil
+	nPoints - vertices de la circunferencia del perfil
+	nSamples - numero de repeticiones del perfil en la figura final
+	*/
+	explicit Torus(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
+};
+
 #endif //_H_Entities_H_

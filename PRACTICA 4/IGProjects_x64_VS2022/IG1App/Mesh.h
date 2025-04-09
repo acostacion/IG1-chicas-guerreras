@@ -66,14 +66,14 @@ public:
 	Mesh(const Mesh& m) = delete;            // no copy constructor
 	Mesh& operator=(const Mesh& m) = delete; // no copy assignment
 
-	virtual void render() const;
+	virtual void render() const; //para normales sin const?
 
 	GLuint size() const { return mNumVertices; }; // number of elements
 	std::vector<glm::vec3> const& vertices() const { return vVertices; };
 	std::vector<glm::vec4> const& colors() const { return vColors; };
 
-	void load();
-	void unload();
+	virtual void load();
+	virtual void unload();
 
 
 protected:
@@ -83,10 +83,11 @@ protected:
 	std::vector<glm::vec3> vVertices; // vertex array
 	std::vector<glm::vec4> vColors;   // color array
 	std::vector<glm::vec2> vTexCoords; // texture vertex array
+	std::vector<glm::vec3> vNormals; //vector normales
 	virtual void draw() const;
 
 	GLuint mVAO;  // vertex array object
-
+	GLuint mNBO;  // vertex array object con normales
 private:
 	GLuint mVBO;  // vertex buffer object
 	GLuint mCBO;  // color buffer object

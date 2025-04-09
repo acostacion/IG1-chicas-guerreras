@@ -283,3 +283,13 @@ void Scene3::init()
 	hier->setTexture(texH);										// establece la textura de esta entidad
 	gObjects.push_back(hier);									// mete la entidad en la escena
 }
+
+// ---- SCENE 4 ----
+void Scene4::init() {
+	// -- llama a init del padre
+	Scene::init();
+
+	// ----- TORUS -----
+	//Torus* torus = new Torus(200, 50, 40, 40);
+	//gObjects.push_back(torus);
+}
