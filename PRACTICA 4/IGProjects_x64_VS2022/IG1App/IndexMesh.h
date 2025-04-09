@@ -13,6 +13,9 @@ public:
 	//Apartado 55
 	static IndexMesh* generateByRevolution(const std::vector<glm::vec2>& profile, GLuint nSamples,
 		GLfloat angleMax = 2 * std::numbers::pi);
+
+	// Apartado 59
+	static IndexMesh* generateIndexedBox(GLdouble l);
 protected:
 
 	void draw() const override;

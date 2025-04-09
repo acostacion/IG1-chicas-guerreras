@@ -71,6 +71,11 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	return mesh;
 }
 
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
+{
+	return nullptr;
+}
+
 void IndexMesh::draw() const
 {
 	glDrawElements(
