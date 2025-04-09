@@ -290,6 +290,6 @@ void Scene4::init() {
 	Scene::init();
 
 	// ----- TORUS -----
-	//Torus* torus = new Torus(200, 50, 40, 40);
-	//gObjects.push_back(torus);
+	Torus* torus = new Torus(200, 50, 40, 40);
+	gObjects.push_back(torus);
 }

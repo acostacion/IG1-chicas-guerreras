@@ -113,7 +113,6 @@ class ColorMaterialEntity : public SingleColorEntity
 {
 public:
 	explicit ColorMaterialEntity();
-
 };
 
 // -----------------
@@ -265,6 +264,7 @@ public:
 //Apartado 56
 class Torus : public SingleColorEntity
 {
+public:
 	/*
 	R - radio desde origen de coordenadas
 	r - radio del perfil

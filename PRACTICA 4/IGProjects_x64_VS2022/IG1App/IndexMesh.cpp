@@ -2,6 +2,7 @@
 #include <numbers>
 
 
+
 void IndexMesh::load()
 {
 	Mesh::load(); glBindVertexArray(mVAO);
@@ -47,7 +48,7 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	//Y reserva los vertices correspondientes a partir de las samples
 	mesh->vVertices.reserve(nSamples * tamPerfil);
 	// Genera los vertices de las muestras
-	GLdouble theta1 = angleMax / nSamples; //??? antes era 2 * std::numbers::pi (360º)
+	GLdouble theta1 = angleMax / nSamples; //antes era 2 * std::numbers::pi (360º)
 	//Crea los vertices
 	for (int i = 0; i <= nSamples; ++i) { // muestra i-ésima
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
@@ -55,16 +56,17 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
 	}
 	//Despues une los vertices para formar caras
-	for (int i = 0; i < nSamples; ++i) { // caras i a i + 1
+
+	for (int i = 0; i < nSamples; ++i) // caras i a i + 1
 		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara
 			if (profile[j].x != 0.0) // triángulo inferior
-				for (auto [s, t] : { std::pair{i, j}, {i, j + 1}, {i + 1, j} })
+				for (auto [s, t] : { std::pair{i, j}, std::pair{i, j + 1}, std::pair{i + 1, j} })
 					mesh->vIndexes.push_back(s * tamPerfil + t);
 			if (profile[j + 1].x != 0.0) // triángulo superior
-				for (auto [s, t] : { std::pair{i, j + 1}, {i + 1, j + 1}, {i + 1, j} })
+				for (auto [s, t] : { std::pair{i, j + 1}, std::pair{i + 1, j + 1}, std::pair{i + 1, j} })
 					mesh->vIndexes.push_back(s * tamPerfil + t);
 		}
-	}
+
 	//Reserva vertices
 	mesh->mNumVertices = mesh->vVertices.size();
 	//Devuelve la malla correspondiente

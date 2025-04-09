@@ -681,9 +681,26 @@ void Photo::update()
 #pragma endregion
 
 #pragma region PRACTICA 4
-Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40) {
+Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints y mSamples = 40
+{ 
 	mShader = Shader::get("simple");
-	mMesh = IndexMesh().generateByRevolution(, nSamples, 360.0f);
+	std::vector<glm::vec2> profile;
+
+	// Se van guardando en sentido antihorario desde x = 0
+	GLdouble alpha = 90.0;
+	GLdouble incremento = 360.0 / nPoints;
+	//Conseguimos los puntos del perfil
+	for (GLuint i = 0; i < nPoints + 2; i++)
+	{
+		GLdouble x = r * glm::cos(glm::radians(alpha)) + R;
+		GLdouble y = r * glm::sin(glm::radians(alpha)); // el radio en la y no porq si no se sube.
+		alpha += incremento;
+
+		profile.emplace_back(x, y);
+	}
+
+	//Hacemos la malla por revolucion
+	mMesh = IndexMesh().generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }
 
 

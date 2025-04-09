@@ -84,6 +84,7 @@ protected:
 	std::vector<glm::vec4> vColors;   // color array
 	std::vector<glm::vec2> vTexCoords; // texture vertex array
 	std::vector<glm::vec3> vNormals; //vector normales
+
 	virtual void draw() const;
 
 	GLuint mVAO;  // vertex array object
