@@ -95,10 +95,11 @@ Image::load(const string& filename)
 	// Loads pixel data with stb_image into the attributes
 
 	int width, height, channels;
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 4);
 
 	if (data == nullptr)
-		throw std::logic_error("Image::load(string&): ERROR: cannot load image: "s + stbi_failure_reason());
+		throw std::logic_error("Image::load(string&): ERROR: cannot load image: " + filename + ": " + stbi_failure_reason());
 
 	width_ = width;
 	height_ = height;
@@ -106,16 +107,23 @@ Image::load(const string& filename)
 	data_ = reinterpret_cast<rgba_color*>(data);
 }
 
+
 void
 Image::load(const rgba_color* data, GLsizei width, GLsizei height)
+{
+	reserve(width, height);
+	memcpy(data_, data, width * height * sizeof(rgba_color));
+}
+
+void
+Image::reserve(GLsizei width, GLsizei height)
 {
 	destroy(); // clean previous image
 
 	width_ = width;
 	height_ = height;
 	fromSTB = false;
-
-	memcpy(data_, data, width * height * sizeof(rgba_color));
+	data_ = new rgba_color[width * height];
 }
 
 void
@@ -148,7 +156,7 @@ Image::save(const std::string& name)
 	if (extension == "png")
 		result = stbi_write_png(name.c_str(), width_, height_, 4, data_, width_ * sizeof(rgba_color));
 	else if (extension == "bmp")
-		result = stbi_write_bmp(name.c_str(), width_, height_, 4, data_); // *
+		result = stbi_write_bmp(name.c_str(), width_, height_, 4, data_);
 	else if (extension == "tga")
 		result = stbi_write_tga(name.c_str(), width_, height_, 4, data_);
 	else if (extension == "jpg")
@@ -159,28 +167,4 @@ Image::save(const std::string& name)
 	if (result == 0)
 		throw std::logic_error("Image::load(string&): ERROR: cannot save image.");
 
-}
-
-void Image::reserve(GLsizei width, GLsizei height)
-{
-	if (width > width_ || height > height_)
-	{
-		try
-		{
-			auto aux = new rgba_color[width * height];
-			if (aux == nullptr) throw std::bad_alloc();
-
-			for (GLsizei i = 0; i < width_ * height_; i++)
-				aux[i] = data_[i];
-
-			delete[] data_;
-			data_ = aux;
-			width_ = width;
-			height_ = height;
-		}
-		catch (std::bad_alloc&)
-		{
-			throw std::exception("Image::reserve() ERROR: Could not allocate memory (bad_alloc)");
-		}
-	}
 }

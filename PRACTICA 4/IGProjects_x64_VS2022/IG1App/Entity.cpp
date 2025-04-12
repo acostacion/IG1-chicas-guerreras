@@ -114,7 +114,7 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 // ---- COLOR MATERIAL ENTITY ----
 ColorMaterialEntity::ColorMaterialEntity()
 {
-	mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
+	mShader = Shader::get("simple_light_vertex"); //simple_light_vertex o _fragment
 }
 
 #pragma endregion

@@ -1,6 +1,7 @@
 #include <fstream>
 #include <map>
 #include <memory>
+#include <filesystem>
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -36,6 +37,14 @@ Shader::Shader(const string& name)
 
 	glAttachShader(mProgram, vertex);
 	glAttachShader(mProgram, fragment);
+
+	// Compile geometry shader (if it exists)
+	if (std::filesystem::exists(SHADERS_ROOT + name + "_geometry.glsl")) {
+		GLuint geometry;
+		buildShader(geometry, GL_GEOMETRY_SHADER, SHADERS_ROOT + name + "_geometry.glsl");
+		glAttachShader(mProgram, geometry);
+	}
+
 	glLinkProgram(mProgram);
 
 	glDeleteShader(vertex);
