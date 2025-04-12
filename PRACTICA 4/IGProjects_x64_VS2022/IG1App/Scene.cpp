@@ -317,6 +317,10 @@ void Scene6::init()
 	//gObjects.push_back(sphere);
 
 	// ----- DISK -----
-	Disk* disk = new Disk(200, 0, 10, 40);
-	gObjects.push_back(disk);
+	/*Disk* disk = new Disk(200, 0, 10, 40);
+	gObjects.push_back(disk);*/
+
+	// ----- CONE -----
+	Cone* cone = new Cone(200, 175, 200, 2, 50);
+	gObjects.push_back(cone);
 }

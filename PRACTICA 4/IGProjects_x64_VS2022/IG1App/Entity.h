@@ -282,16 +282,27 @@ public:
 };
 
 //Apartado 64
-class Sphere : public SingleColorEntity
+class Sphere : public SingleColorEntity // TODO cambiar herencia
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians);
 };
 
-class Disk : public SingleColorEntity
+class Disk : public SingleColorEntity // TODO cambiar herencia
 {
 public:
 	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples);
+};
+
+class Cone : public SingleColorEntity // TODO cambiar herencia
+{
+	/*
+		· cono(r = 0 o R = 0)
+		· cilindro(R = r)
+		· tronco de cono de altura h, radio inferior r, radio superior R, rRings vértices en el perfil y nSamples muestras de revolución.
+	*/
+public:
+	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples);
 };
 
 #endif //_H_Entities_H_

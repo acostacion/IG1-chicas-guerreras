@@ -756,3 +756,33 @@ Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 	//Hacemos la malla por revolucion
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }
+
+Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
+{
+
+	mShader = Shader::get("simple");
+	std::vector<glm::vec2> profile;
+
+	// zona de abajo
+	GLdouble incremento = r / nRings;
+	for (GLuint i = 0; i < nRings; i++)
+	{
+		GLdouble x = incremento * i;
+		GLdouble y = -h/2;
+
+		profile.emplace_back(x, y);
+	}
+
+	// zona de arriba.
+	incremento = R / nRings;
+	for (GLuint i = nRings +1; i > 0; i--)
+	{
+		GLdouble x = incremento * i;
+		GLdouble y = h / 2;
+
+		profile.emplace_back(x, y);
+	}
+
+	//Hacemos la malla por revolucion
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
+}
