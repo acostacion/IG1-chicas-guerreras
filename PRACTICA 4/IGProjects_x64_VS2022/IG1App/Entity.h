@@ -274,10 +274,24 @@ public:
 	explicit Torus(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
 };
 
-class IndexedBox : public ColorMaterialEntity
+//Apartado 60
+class IndexedBox : public SingleColorEntity
 {
 public:
 	explicit IndexedBox(GLdouble l);
+};
+
+//Apartado 64
+class Sphere : public SingleColorEntity
+{
+public:
+	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians);
+};
+
+class Disk : public SingleColorEntity
+{
+public:
+	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples);
 };
 
 #endif //_H_Entities_H_

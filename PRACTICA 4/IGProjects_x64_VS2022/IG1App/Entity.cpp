@@ -114,7 +114,7 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 // ---- COLOR MATERIAL ENTITY ----
 ColorMaterialEntity::ColorMaterialEntity()
 {
-	mShader = Shader::get("simple_light_vertex"); //simple_light_vertex o _fragment
+	//mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
 }
 
 #pragma endregion
@@ -703,9 +703,6 @@ Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints 
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }
 
-
-#pragma endregion
-
 IndexedBox::IndexedBox(GLdouble l)
 {	
 	// verde.
@@ -713,4 +710,49 @@ IndexedBox::IndexedBox(GLdouble l)
 
 	// mesh.
 	mMesh = IndexMesh::generateIndexedBox(l);
+}
+
+Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)
+{
+	mShader = Shader::get("simple");
+	std::vector<glm::vec2> profile;
+
+	// Se van guardando en sentido antihorario desde x = 0
+	GLdouble alpha = 90.0;
+	GLdouble incremento = 180.0 / (nParallels + 2); //Solo media esfera, por eso 180
+	//Conseguimos los puntos del perfil
+	for (GLuint i = 0; i < nParallels + 4; i++)
+	{
+		GLdouble x = radius * glm::cos(glm::radians(alpha));
+		GLdouble y = radius * glm::sin(glm::radians(alpha)); 
+		alpha += incremento;
+
+		profile.emplace_back(x, y);
+	}
+
+	//Hacemos la malla por revolucion
+	mMesh = IndexMesh::generateByRevolution(profile, nMeridians, 2 * std::numbers::pi);
+
+}
+
+#pragma endregion
+
+Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
+{
+	mShader = Shader::get("simple");
+	std::vector<glm::vec2> profile;
+
+	//El perfil es una linea recta
+	GLdouble incremento = (R - r) / nRings;
+	//Conseguimos los puntos del perfil
+	for (GLuint i = 0; i < nRings + 2; i++)
+	{
+		GLdouble x = r + (incremento * i);
+		GLdouble y = 0;
+
+		profile.emplace_back(x, y);
+	}
+
+	//Hacemos la malla por revolucion
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }

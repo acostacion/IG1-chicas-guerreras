@@ -85,4 +85,11 @@ public:
 	void init() override;
 };
 
+class Scene6 : public Scene
+{
+public:
+	Scene6() = default;
+	void init() override;
+};
+
 #endif //_H_Scene_H_

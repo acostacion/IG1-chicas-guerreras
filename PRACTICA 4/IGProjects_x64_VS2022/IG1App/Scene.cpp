@@ -299,9 +299,24 @@ void Scene5::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	// ----- INDEXEDBOX -----
-	IndexedBox* ibox = new IndexedBox(200);
-	gObjects.push_back(ibox);
-	//Torus* torus = new Torus(200, 50, 40, 40);
-	//gObjects.push_back(torus);
+	//// ----- INDEXEDBOX -----
+	//IndexedBox* ibox = new IndexedBox(200);
+	//gObjects.push_back(ibox);
+	////Cube* c = new Cube(200);
+	////gObjects.push_back(c);
+
+}
+
+void Scene6::init()
+{
+	// -- llama a init del padre
+	Scene::init();
+
+	//// ----- SPHERE -----
+	//Sphere* sphere = new Sphere(200, 20, 20);
+	//gObjects.push_back(sphere);
+
+	// ----- DISK -----
+	Disk* disk = new Disk(200, 0, 10, 40);
+	gObjects.push_back(disk);
 }
