@@ -85,14 +85,14 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 	mesh->mNumVertices = mesh->vVertices.size();
 
 	//Creamos los 8 vertices (y los 36 asociados)
-	/*  0 (1, 1, ?1)
-		1 (1, ?1, ?1)
+	/*  0 (1, 1, -1)
+		1 (1, -1, -1)
 		2 (1, 1, 1)
-		3 (1, ?1, 1)
-		4 (?1, 1, 1)
-		5 (?1, ?1, 1)
-		6 (?1, 1, ?1)
-		7 (?1, ?1, ?1)
+		3 (1, -1, 1)
+		4 (-1, 1, 1)
+		5 (-1, -1, 1)
+		6 (-1, 1, -1)
+		7 (-1, -1, -1)
 
 		0, 1, 2, 2, 1, 3,
 		2, 3, 4, 4, 3, 5,
@@ -144,21 +144,33 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 	mesh->vVertices.push_back(mesh->vVertices[18]); //7
 	mesh->vVertices.push_back(mesh->vVertices[12]); //5
 
+	// METODO NEWELL (REVISAR):
+	// TODO.
 	//Y reserva los vertices de normales
-	mesh->vNormals.reserve(36);
+	mesh->vNormals.reserve(mesh->vVertices.size());
+
 	//Inicializa el vector de normales a 0
-	for (int i = 0; i < 36; i++)
+	for (int i = 0; i < mesh->vNormals.size(); i++)
 	{
 		mesh->vNormals.emplace_back(0, 0, 0);
 	}
-	//
+	
+	int index = 3 * 12; // 3 vertices * 12 triangulos = 36.
+	for (int k = 0; k < index; k += 3) {
+		glm::vec3 normal = glm::normalize(glm::cross(
+			mesh->vVertices[k + 1] - mesh->vVertices[k],
+			mesh->vVertices[k + 2] - mesh->vVertices[k]));
 
+		// suma la normal del triangulo a todos sus vertices.
+		mesh->vNormals[k] += normal;
+		mesh->vNormals[k + 1] += normal;
+		mesh->vNormals[k + 2] += normal;
+	}
 
-	/*
-	* Para calcular la normal de un triangulo (cara)
-	normalize (cross(b - a, c – a))
-	*/
-
+	for (int i = 0; i < mesh->vNormals.size(); i++)
+	{
+		mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
+	}
 
 	//Devuelve la malla correspondiente
 	return mesh;

@@ -700,10 +700,17 @@ Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints 
 	}
 
 	//Hacemos la malla por revolucion
-	mMesh = IndexMesh().generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }
 
 
 #pragma endregion
 
+IndexedBox::IndexedBox(GLdouble l)
+{	
+	// verde.
+	setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
+	// mesh.
+	mMesh = IndexMesh::generateIndexedBox(l);
+}

@@ -293,3 +293,15 @@ void Scene4::init() {
 	Torus* torus = new Torus(200, 50, 40, 40);
 	gObjects.push_back(torus);
 }
+
+void Scene5::init()
+{
+	// -- llama a init del padre
+	Scene::init();
+
+	// ----- INDEXEDBOX -----
+	IndexedBox* ibox = new IndexedBox(200);
+	gObjects.push_back(ibox);
+	//Torus* torus = new Torus(200, 50, 40, 40);
+	//gObjects.push_back(torus);
+}

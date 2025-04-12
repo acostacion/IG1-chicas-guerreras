@@ -274,4 +274,10 @@ public:
 	explicit Torus(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
 };
 
+class IndexedBox : public ColorMaterialEntity
+{
+public:
+	explicit IndexedBox(GLdouble l);
+};
+
 #endif //_H_Entities_H_
