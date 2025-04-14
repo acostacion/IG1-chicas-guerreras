@@ -321,6 +321,18 @@ void Scene6::init()
 	gObjects.push_back(disk);*/
 
 	// ----- CONE -----
-	Cone* cone = new Cone(200, 50, 200, 2, 50);
-	gObjects.push_back(cone);
+	/*Cone* cone = new Cone(200, 50, 200, 2, 50);
+	gObjects.push_back(cone);*/
+
+
+	// ----- ALA TIE FIGTHER -----
+	Texture* texNoche = new Texture();										// crea nueva textura
+	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
+	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
+	gTextures.push_back(texNoche);											// lo metemos en el vector de texturas 
+	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
+	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
+	//WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 100, 0)));
+	gObjectsTrans.push_back(WATIE);										// mete la entidad en la escena
+	
 }

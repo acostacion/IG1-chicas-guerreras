@@ -644,10 +644,11 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble w, GLdouble h)
 
 	double x = (w / 2);
 	double y = (h / 2);
+	double z = glm::cos(glm::radians(45.0f)) * h;
 
 	// --- RECT 1.
-	mesh->vVertices.emplace_back(-x, 3 * y, glm::cos(glm::radians(45) * h)); // 0
-	mesh->vVertices.emplace_back(x, 3 * y, glm::cos(glm::radians(45) * h)); // 1
+	mesh->vVertices.emplace_back(-x, 3 * y, z); // 0
+	mesh->vVertices.emplace_back(x, 3 * y, z); // 1
 	mesh->vVertices.emplace_back(-x, y, 0.0); // 2
 	mesh->vVertices.emplace_back(x, y, 0.0); // 3
 
@@ -656,8 +657,22 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble w, GLdouble h)
 	mesh->vVertices.emplace_back(x, -y, 0.0); // 5
 
 	// --- RECT 3.
-	mesh->vVertices.emplace_back(-x, -3 * y, glm::cos(glm::radians(45) * h)); // 6
-	mesh->vVertices.emplace_back(x, -3 * y, glm::cos(glm::radians(45) * h)); // 7
+	mesh->vVertices.emplace_back(-x, -3 * y, z); // 6
+	mesh->vVertices.emplace_back(x, -3 * y, z); // 7
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(0, 1);
+
+	mesh->vTexCoords.emplace_back(1, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+
 
 	return mesh;
 }

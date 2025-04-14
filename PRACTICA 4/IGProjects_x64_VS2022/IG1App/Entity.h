@@ -329,7 +329,7 @@ class AdvancedTIE : public CompoundEntity
 class WingAdvancedTIE : public EntityWithTexture
 {
 public:
-	explicit WingAdvancedTIE(GLdouble w, GLdouble h);
+	explicit WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate);
 };
 
 #endif //_H_Entities_H_

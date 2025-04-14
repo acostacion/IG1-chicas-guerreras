@@ -829,7 +829,8 @@ void CompoundEntity::unload()
 		el->unload();
 }
 
-WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h)
+WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
+	: EntityWithTexture(modulate, false)
 {
-	
+	mMesh = Mesh::generateWingAdvancedTIE(w, h);
 }
