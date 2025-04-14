@@ -768,16 +768,16 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 	for (GLuint i = 0; i < nRings; i++)
 	{
 		GLdouble x = incremento * i;
-		GLdouble y = -h/2;
+		GLdouble y = -h / 2;
 
 		profile.emplace_back(x, y);
 	}
 
 	// zona de arriba.
 	incremento = R / nRings;
-	for (GLuint i = nRings +1; i > 0; i--)
+	for (GLuint i = nRings; i > 0; i--)
 	{
-		GLdouble x = incremento * i;
+		GLdouble x = incremento * (i-1); // i-1 para cerrar.
 		GLdouble y = h / 2;
 
 		profile.emplace_back(x, y);

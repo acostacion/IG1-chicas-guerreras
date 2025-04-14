@@ -321,6 +321,6 @@ void Scene6::init()
 	gObjects.push_back(disk);*/
 
 	// ----- CONE -----
-	Cone* cone = new Cone(200, 175, 200, 2, 50);
+	Cone* cone = new Cone(200, 50, 200, 2, 50);
 	gObjects.push_back(cone);
 }
