@@ -629,3 +629,35 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	return mesh;
 }
+
+Mesh* Mesh::generateWingAdvancedTIE(GLdouble w, GLdouble h)
+{
+	// Nota: Ver chuleta en el repo para entender.
+
+	Mesh* mesh = new Mesh();
+
+	// Establecemos primitiva GL_TRIANGLE_STRIP
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 8;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	double x = (w / 2);
+	double y = (h / 2);
+
+	// --- RECT 1.
+	mesh->vVertices.emplace_back(-x, 3 * y, glm::cos(glm::radians(45) * h)); // 0
+	mesh->vVertices.emplace_back(x, 3 * y, glm::cos(glm::radians(45) * h)); // 1
+	mesh->vVertices.emplace_back(-x, y, 0.0); // 2
+	mesh->vVertices.emplace_back(x, y, 0.0); // 3
+
+	// --- RECT 2.
+	mesh->vVertices.emplace_back(-x, -y, 0.0); // 4
+	mesh->vVertices.emplace_back(x, -y, 0.0); // 5
+
+	// --- RECT 3.
+	mesh->vVertices.emplace_back(-x, -3 * y, glm::cos(glm::radians(45) * h)); // 6
+	mesh->vVertices.emplace_back(x, -3 * y, glm::cos(glm::radians(45) * h)); // 7
+
+	return mesh;
+}

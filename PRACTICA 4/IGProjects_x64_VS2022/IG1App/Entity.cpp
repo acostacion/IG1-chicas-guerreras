@@ -786,3 +786,50 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 	//Hacemos la malla por revolucion
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }
+
+CompoundEntity::~CompoundEntity()
+{
+	for (Abs_Entity* el : gObjects)
+		delete el;
+
+	gObjects.clear();
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae)
+{
+	gObjects.emplace_back(ae);
+}
+
+void CompoundEntity::render(const glm::dmat4& modelViewMat) const
+{
+	// Se multiplica la matriz modelViewMat (matriz de vista) por la matriz de modelado que la entidad compuesta tiene por ser una entidad.
+	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+	// Se carga la matriz resultante aMat con upload(aMat).
+	upload(aMat);
+	for (Abs_Entity* el : gObjects)
+	{
+		// Se renderizan las entidades constituyentes de gObjects con respecto a aMat.
+		el->render(aMat);
+	}
+}
+
+void CompoundEntity::update()
+{
+}
+
+void CompoundEntity::load()
+{
+	for (Abs_Entity* el : gObjects)
+		el->load();
+}
+
+void CompoundEntity::unload()
+{
+	for (Abs_Entity* el : gObjects)
+		el->unload();
+}
+
+WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h)
+{
+	
+}

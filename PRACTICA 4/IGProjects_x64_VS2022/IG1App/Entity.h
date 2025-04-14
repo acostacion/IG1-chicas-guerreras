@@ -115,6 +115,22 @@ public:
 	explicit ColorMaterialEntity();
 };
 
+class CompoundEntity : public Abs_Entity
+{
+public:
+	explicit CompoundEntity();
+	virtual ~CompoundEntity();
+	void addEntity(Abs_Entity* ae);
+
+	void render(const glm::dmat4& modelViewMat) const override;
+	void update() override;
+	void load() override;
+	void unload() override;
+
+protected:
+	std::vector<Abs_Entity*> gObjects;
+};
+
 // -----------------
 
 class Cube: public SingleColorEntity
@@ -303,6 +319,17 @@ class Cone : public SingleColorEntity // TODO cambiar herencia
 	*/
 public:
 	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples);
+};
+
+class AdvancedTIE : public CompoundEntity
+{
+	
+};
+
+class WingAdvancedTIE : public EntityWithTexture
+{
+public:
+	explicit WingAdvancedTIE(GLdouble w, GLdouble h);
 };
 
 #endif //_H_Entities_H_
