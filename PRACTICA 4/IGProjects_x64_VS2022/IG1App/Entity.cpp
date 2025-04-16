@@ -117,6 +117,66 @@ ColorMaterialEntity::ColorMaterialEntity()
 	//mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
 }
 
+// ---- COMPOUND ENTITY ----
+CompoundEntity::CompoundEntity(GLboolean alfaActive) : mAlfaActive(alfaActive)
+{
+	if (mAlfaActive) {
+		mShader = Shader::get("texture:texture_alpha");
+	}
+	else {
+		mShader = Shader::get("texture");
+	}
+}
+
+CompoundEntity::~CompoundEntity()
+{
+	for (Abs_Entity* el : gObjects)
+		delete el;
+
+	gObjects.clear();
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae)
+{
+	gObjects.emplace_back(ae);
+}
+
+void CompoundEntity::addEntityTrans(Abs_Entity* ae)
+{
+	gObjectsTrans.emplace_back(ae);
+}
+
+void CompoundEntity::render(const glm::dmat4& modelViewMat) const
+{
+	// Se multiplica la matriz modelViewMat (matriz de vista) por la matriz de modelado que la entidad compuesta tiene por ser una entidad.
+	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+	// Se carga la matriz resultante aMat con upload(aMat).
+	upload(aMat);
+	for (Abs_Entity* el : gObjects)
+	{
+		// Se renderizan las entidades constituyentes de gObjects con respecto a aMat.
+		el->render(aMat);
+	}
+}
+
+void CompoundEntity::update()
+{
+}
+
+void CompoundEntity::load()
+{
+	for (Abs_Entity* el : gObjects)
+		el->load();
+}
+
+void CompoundEntity::unload()
+{
+	for (Abs_Entity* el : gObjects)
+		el->unload();
+}
+
+
+
 #pragma endregion
 
 #pragma region PRACTICA 1
@@ -735,8 +795,6 @@ Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)
 
 }
 
-#pragma endregion
-
 Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 {
 	mShader = Shader::get("simple");
@@ -759,7 +817,6 @@ Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 
 Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 {
-
 	mShader = Shader::get("simple");
 	std::vector<glm::vec2> profile;
 
@@ -787,50 +844,10 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
 }
 
-CompoundEntity::~CompoundEntity()
-{
-	for (Abs_Entity* el : gObjects)
-		delete el;
-
-	gObjects.clear();
-}
-
-void CompoundEntity::addEntity(Abs_Entity* ae)
-{
-	gObjects.emplace_back(ae);
-}
-
-void CompoundEntity::render(const glm::dmat4& modelViewMat) const
-{
-	// Se multiplica la matriz modelViewMat (matriz de vista) por la matriz de modelado que la entidad compuesta tiene por ser una entidad.
-	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-	// Se carga la matriz resultante aMat con upload(aMat).
-	upload(aMat);
-	for (Abs_Entity* el : gObjects)
-	{
-		// Se renderizan las entidades constituyentes de gObjects con respecto a aMat.
-		el->render(aMat);
-	}
-}
-
-void CompoundEntity::update()
-{
-}
-
-void CompoundEntity::load()
-{
-	for (Abs_Entity* el : gObjects)
-		el->load();
-}
-
-void CompoundEntity::unload()
-{
-	for (Abs_Entity* el : gObjects)
-		el->unload();
-}
-
 WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
 	: EntityWithTexture(modulate, false)
 {
 	mMesh = Mesh::generateWingAdvancedTIE(w, h);
 }
+
+#pragma endregion

@@ -326,6 +326,21 @@ void Scene6::init()
 
 
 	// ----- ALA TIE FIGTHER -----
+	//Texture* texNoche = new Texture();										// crea nueva textura
+	//const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
+	//texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
+	//gTextures.push_back(texNoche);											// lo metemos en el vector de texturas 
+	//WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
+	//WATIE->setTexture(texNoche);												// establece la textura de esta entidad
+	////WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 100, 0)));
+	//gObjectsTrans.push_back(WATIE);										// mete la entidad en la escena
+
+
+	// ----- TIE FIGHTER -----
+	CompoundEntity* AdvancedTIE = new CompoundEntity();
+	gObjects.push_back(AdvancedTIE);
+
+	// ----- ALA 1 -----
 	Texture* texNoche = new Texture();										// crea nueva textura
 	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
 	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
@@ -333,6 +348,26 @@ void Scene6::init()
 	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
 	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
 	//WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 100, 0)));
-	gObjectsTrans.push_back(WATIE);										// mete la entidad en la escena
+	//gObjectsTrans.push_back(WATIE);
+	AdvancedTIE->addEntityTrans(WATIE);
+
+	// ----- ALA 2 -----
+	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
+	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
+	WATIE2->setModelMat(rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0)));
+	AdvancedTIE->addEntityTrans(WATIE2);
+
 	
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -118,9 +118,10 @@ public:
 class CompoundEntity : public Abs_Entity
 {
 public:
-	explicit CompoundEntity();
+	explicit CompoundEntity(GLboolean alfaActive = false);
 	virtual ~CompoundEntity();
 	void addEntity(Abs_Entity* ae);
+	void addEntityTrans(Abs_Entity* ae);
 
 	void render(const glm::dmat4& modelViewMat) const override;
 	void update() override;
@@ -129,6 +130,9 @@ public:
 
 protected:
 	std::vector<Abs_Entity*> gObjects;
+	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
+	GLboolean mAlfaActive;
+
 };
 
 // -----------------
@@ -323,7 +327,7 @@ public:
 
 class AdvancedTIE : public CompoundEntity
 {
-	
+	explicit AdvancedTIE();
 };
 
 class WingAdvancedTIE : public EntityWithTexture
