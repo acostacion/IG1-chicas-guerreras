@@ -121,18 +121,21 @@ public:
 	explicit CompoundEntity(GLboolean alfaActive = false);
 	virtual ~CompoundEntity();
 	void addEntity(Abs_Entity* ae);
-	void addEntityTrans(Abs_Entity* ae);
 
 	void render(const glm::dmat4& modelViewMat) const override;
 	void update() override;
 	void load() override;
 	void unload() override;
 
+	// TODO: hola el advancedTIEANGLE este deberia ir en la clase AdvancedTIE pero no sabemos que pasa que no funciona.
+	double _advancedTieAngle = 0.0;
+
 protected:
 	std::vector<Abs_Entity*> gObjects;
-	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
 	bool mModulate;
 	GLboolean mAlfaActive;
+
+
 
 };
 
@@ -330,10 +333,11 @@ public:
 };
 
 //TODO: QUE HAY QUE HACER AQUI?
-//class AdvancedTIE : public CompoundEntity 
-//{
-//	explicit AdvancedTIE();
-//};
+/*class AdvancedTIE: public CompoundEntity
+{
+public:
+	explicit AdvancedTIE();
+};*/
 
 class WingAdvancedTIE : public EntityWithTexture
 {

@@ -78,6 +78,85 @@ void Scene::destroyScene()
 	destroy();
 }
 
+CompoundEntity* Scene::createAdvancedTie()
+{
+	
+	// ----- TIE FIGHTER -----
+	CompoundEntity* AdvancedTIE = new CompoundEntity();
+	gObjects.push_back(AdvancedTIE);
+
+	// ----- cosas para ambas alas:
+	Texture* texNoche = new Texture();										// crea nueva textura
+	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
+	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
+	gTextures.push_back(texNoche);
+
+	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
+	int wingsDistance = 400;
+
+	// ----- ALA 1 -----
+	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
+	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
+	WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance / 2))); // se mueve la wingdistance para colocarla
+	AdvancedTIE->addEntity(WATIE);
+
+	// ----- ALA 2 -----
+	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
+	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
+	WATIE2->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(0, 0, wingsDistance / 2)) // se mueve la wingdistance para colocarla
+		* glm::rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0))); 	// se rota 180 para girarla
+	AdvancedTIE->addEntity(WATIE2);
+
+	// ----- CILINDRO DE ALA1 A ALA2 -----
+	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
+	cilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	cilinder->setModelMat(glm::rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
+	AdvancedTIE->addEntity(cilinder);
+
+	// ----- NUCLEO CENTRAL -----
+	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 20, 20);
+	nucleus->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	AdvancedTIE->addEntity(nucleus);
+
+	// ----- MORRO -----
+	// Morro es una entidad compuesta por cilinder y disk
+	CompoundEntity* nose = new CompoundEntity();
+
+	// ----- CILINDER -----
+	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
+	noseCilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	noseCilinder->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(150.0, 0.0, 0.0))
+		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	nose->addEntity(noseCilinder);
+
+	// ----- DISK -----
+	Disk* noseDisk = new Disk(20, 0, 10, 40);
+	noseDisk->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	noseDisk->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
+		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	nose->addEntity(noseDisk);
+
+	//Aniadimos la entidad morro a la general del TIE
+	AdvancedTIE->addEntity(nose);
+
+	return AdvancedTIE;
+}
+
+void Scene::rotate()
+{
+	// se va rotando tol el rato.
+	_advancedTieInTatooine->setModelMat(glm::rotate(dmat4(1), radians(_advancedTieInTatooine->_advancedTieAngle), dvec3(0.0, 1.0, 0.0)));
+	std::cout << _advancedTieInTatooine->_advancedTieAngle << std::endl;
+}
+
+void Scene::orbit()
+{
+
+}
+
 void
 Scene::setGL()
 {
@@ -313,66 +392,7 @@ void Scene6::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	// ----- TIE FIGHTER -----
-	CompoundEntity* AdvancedTIE = new CompoundEntity();
-	gObjects.push_back(AdvancedTIE);
-
-	// ----- cosas para ambas alas:
-	Texture* texNoche = new Texture();										// crea nueva textura
-	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
-	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
-	gTextures.push_back(texNoche);
-
-	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
-	int wingsDistance = 400;
-	
-	// ----- ALA 1 -----
-	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
-	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
-	WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance/2))); // se mueve la wingdistance para colocarla
-	AdvancedTIE->addEntity(WATIE);
-
-	// ----- ALA 2 -----
-	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
-	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
-	WATIE2->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(0, 0, wingsDistance / 2)) // se mueve la wingdistance para colocarla
-		* rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0))); 	// se rota 180 para girarla
-	AdvancedTIE->addEntity(WATIE2);
-
-	// ----- CILINDRO DE ALA1 A ALA2 -----
-	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
-	cilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	cilinder->setModelMat(rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
-	AdvancedTIE->addEntity(cilinder);
-
-	// ----- NUCLEO CENTRAL -----
-	Sphere* nucleus = new Sphere(wingsDistance/2 - 75, 20, 20);
-	nucleus->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	AdvancedTIE->addEntity(nucleus);
-
-	// ----- MORRO -----
-	// Morro es una entidad compuesta por cilinder y disk
-	CompoundEntity* nose = new CompoundEntity();
-
-	// ----- CILINDER -----
-	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
-	noseCilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	noseCilinder->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(150.0, 0.0, 0.0))
-		* rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	nose->addEntity(noseCilinder);
-
-	// ----- DISK -----
-	Disk* noseDisk = new Disk(20, 0, 10, 40);
-	noseDisk->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	noseDisk->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
-		* rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	nose->addEntity(noseDisk);
-
-	//Aniadimos la entidad morro a la general del TIE
-	AdvancedTIE->addEntity(nose);
+	createAdvancedTie();
 }
 
 void Scene7::init()
@@ -389,73 +409,16 @@ void Scene7::init()
 	tatooine->setColor(glm::vec4(255.0f, 233.0f, 0.0f, 255.0f)); //amarillo
 	gObjects.push_back(tatooine);
 
+	// ----- ADVANCED TIE -----
 	//TODO: duda Que hacer para no copiarlo entero?
-#pragma region TIE
-	
-	// ----- TIE FIGHTER -----
-	CompoundEntity* AdvancedTIE = new CompoundEntity();
-	gObjects.push_back(AdvancedTIE);
-
-	// ----- cosas para ambas alas:
-	Texture* texNoche = new Texture();										// crea nueva textura
-	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
-	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
-	gTextures.push_back(texNoche);
-
-	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
-	int wingsDistance = 400;
-
-	// ----- ALA 1 -----
-	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
-	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
-	WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance / 2))); // se mueve la wingdistance para colocarla
-	AdvancedTIE->addEntity(WATIE);
-
-	// ----- ALA 2 -----
-	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
-	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
-	WATIE2->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(0, 0, wingsDistance / 2)) // se mueve la wingdistance para colocarla
-		* rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0))); 	// se rota 180 para girarla
-	AdvancedTIE->addEntity(WATIE2);
-
-	// ----- CILINDRO DE ALA1 A ALA2 -----
-	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
-	cilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	cilinder->setModelMat(rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
-	AdvancedTIE->addEntity(cilinder);
-
-	// ----- NUCLEO CENTRAL -----
-	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 20, 20);
-	nucleus->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	AdvancedTIE->addEntity(nucleus);
-
-	// ----- MORRO -----
-	// Morro es una entidad compuesta por cilinder y disk
-	CompoundEntity* nose = new CompoundEntity();
-
-	// ----- CILINDER -----
-	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
-	noseCilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	noseCilinder->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(150.0, 0.0, 0.0))
-		* rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	nose->addEntity(noseCilinder);
-
-	// ----- DISK -----
-	Disk* noseDisk = new Disk(20, 0, 10, 40);
-	noseDisk->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
-	noseDisk->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
-		* rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	nose->addEntity(noseDisk);
-
-	//Aniadimos la entidad morro a la general del TIE
-	AdvancedTIE->addEntity(nose);
-#pragma endregion
+	_advancedTie = createAdvancedTie();
 
 	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
-	AdvancedTIE->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
+	_advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
 	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
+
+	// nodo ficticio.
+	_advancedTieInTatooine = new CompoundEntity();
+	_advancedTieInTatooine->addEntity(_advancedTie);
 
 }

@@ -28,6 +28,14 @@ public:
 	void unload();
 	void destroyScene();
 
+	// metodos de tiefighter starwars
+	//TODO: duda Que hacer para no copiarlo entero?
+	CompoundEntity* _advancedTie;
+	CompoundEntity* _advancedTieInTatooine;
+	CompoundEntity* createAdvancedTie();
+	void rotate();
+	void orbit();
+
 protected:
 	void destroy();
 	void setGL();

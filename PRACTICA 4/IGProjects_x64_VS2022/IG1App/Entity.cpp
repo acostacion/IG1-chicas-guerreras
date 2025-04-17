@@ -158,6 +158,7 @@ void CompoundEntity::render(const glm::dmat4& modelViewMat) const
 
 void CompoundEntity::update()
 {
+	_advancedTieAngle += 4.0;
 }
 
 void CompoundEntity::load()
@@ -915,5 +916,5 @@ WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
 {
 	mMesh = Mesh::generateWingAdvancedTIE(w, h);
 }
-
 #pragma endregion
+

@@ -286,8 +286,23 @@ IG1App::key(unsigned int key)
 		break;
 
 		// SCREENSHOT.
-	case 'f':
+	case 'i': // es la i de instantanea jajaj
 		captura();
+		break;
+
+		// METODOS DEL ADVANCEDTIE
+	case 'f':
+		if (mScenes[mCurrentScene] == mScenes[7])
+		{
+			mScenes[mCurrentScene]->rotate();
+		}
+		break;
+
+	case 'g':
+		if (mScenes[mCurrentScene] == mScenes[7])
+		{
+
+		}
 		break;
 
 		// MOVELR (left)
