@@ -348,13 +348,37 @@ void Scene6::init()
 	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
 	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
 	WATIE2->setModelMat(
-		rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0)) // se rota 180 para girarla
-		* translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance / 2)) // se mueve la wingdistance para colocarla
-	);
+		translate(glm::dmat4(1), glm::dvec3(0, 0, wingsDistance / 2)) // se mueve la wingdistance para colocarla
+		* rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0))); 	// se rota 180 para girarla
 	AdvancedTIE->addEntity(WATIE2);
 
 	// ----- CILINDRO DE ALA1 A ALA2 -----
-	Cone* cilinder = new Cone(wingsDistance, 10, 10, 20, 20);
+	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
 	cilinder->setModelMat(rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
 	AdvancedTIE->addEntity(cilinder);
+
+	// ----- NUCLEO CENTRAL -----
+	Sphere* nucleus = new Sphere(wingsDistance/2 - 75, 20, 20);
+	AdvancedTIE->addEntity(nucleus);
+
+	// ----- MORRO -----
+	// Morro es una entidad compuesta por cilinder y disk
+	CompoundEntity* nose = new CompoundEntity();
+
+	// ----- CILINDER -----
+	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
+	noseCilinder->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(150, 0, 0))
+		* rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	nose->addEntity(noseCilinder);
+
+	// ----- DISK -----
+	Disk* noseDisk = new Disk(20, 0, 10, 40); 
+	noseDisk->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
+		* rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	nose->addEntity(noseDisk);
+
+	//Aniadimos la entidad morro a la general del TIE
+	AdvancedTIE->addEntity(nose);
 }
