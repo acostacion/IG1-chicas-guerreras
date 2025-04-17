@@ -94,7 +94,7 @@ public:
 	glm::vec4 getColor() const { return mColor; }
 	void setColor(glm::vec4 const &c) { mColor = c; } // & para q no se copie y const porque no se modifica dentro.
 
-private:
+protected:
 	glm::vec4 mColor; // predefinido.
 };
 
@@ -307,12 +307,14 @@ class Sphere : public SingleColorEntity // TODO cambiar herencia
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians);
+	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class Disk : public SingleColorEntity // TODO cambiar herencia
 {
 public:
 	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples);
+	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class Cone : public SingleColorEntity // TODO cambiar herencia
@@ -324,12 +326,14 @@ class Cone : public SingleColorEntity // TODO cambiar herencia
 	*/
 public:
 	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples);
+	void render(const glm::dmat4& modelViewMat) const override;
 };
 
-class AdvancedTIE : public CompoundEntity
-{
-	explicit AdvancedTIE();
-};
+//TODO: QUE HAY QUE HACER AQUI?
+//class AdvancedTIE : public CompoundEntity 
+//{
+//	explicit AdvancedTIE();
+//};
 
 class WingAdvancedTIE : public EntityWithTexture
 {
