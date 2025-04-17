@@ -118,12 +118,14 @@ ColorMaterialEntity::ColorMaterialEntity()
 }
 
 // ---- COMPOUND ENTITY ----
-CompoundEntity::CompoundEntity(GLboolean alfaActive) : mAlfaActive(alfaActive)
+CompoundEntity::CompoundEntity(GLboolean alfaActive): mAlfaActive(alfaActive)
 {
+	// TODO: duda: GLboolean modulate nos haria falta aqui para algo, ya que mAlfaActive si lo necesitamos...
 	if (mAlfaActive) {
 		mShader = Shader::get("texture:texture_alpha");
 	}
 	else {
+		// TODO: luego ver que hacer con respecto a las entidades de un solo color.
 		mShader = Shader::get("texture");
 	}
 }
@@ -139,11 +141,6 @@ CompoundEntity::~CompoundEntity()
 void CompoundEntity::addEntity(Abs_Entity* ae)
 {
 	gObjects.emplace_back(ae);
-}
-
-void CompoundEntity::addEntityTrans(Abs_Entity* ae)
-{
-	gObjectsTrans.emplace_back(ae);
 }
 
 void CompoundEntity::render(const glm::dmat4& modelViewMat) const

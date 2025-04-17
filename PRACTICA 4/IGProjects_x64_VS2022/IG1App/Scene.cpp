@@ -325,49 +325,36 @@ void Scene6::init()
 	gObjects.push_back(cone);*/
 
 
-	// ----- ALA TIE FIGTHER -----
-	//Texture* texNoche = new Texture();										// crea nueva textura
-	//const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
-	//texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
-	//gTextures.push_back(texNoche);											// lo metemos en el vector de texturas 
-	//WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
-	//WATIE->setTexture(texNoche);												// establece la textura de esta entidad
-	////WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 100, 0)));
-	//gObjectsTrans.push_back(WATIE);										// mete la entidad en la escena
-
-
 	// ----- TIE FIGHTER -----
 	CompoundEntity* AdvancedTIE = new CompoundEntity();
 	gObjects.push_back(AdvancedTIE);
 
-	// ----- ALA 1 -----
+	// ----- cosas para ambas alas:
 	Texture* texNoche = new Texture();										// crea nueva textura
 	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
 	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
-	gTextures.push_back(texNoche);											// lo metemos en el vector de texturas 
+	gTextures.push_back(texNoche);
+
+	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
+	int wingsDistance = 400;
+	
+	// ----- ALA 1 -----
 	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
 	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
-	//WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 100, 0)));
-	//gObjectsTrans.push_back(WATIE);
-	AdvancedTIE->addEntityTrans(WATIE);
+	WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance/2))); // se mueve la wingdistance para colocarla
+	AdvancedTIE->addEntity(WATIE);
 
 	// ----- ALA 2 -----
 	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
 	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
-	WATIE2->setModelMat(rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0)));
-	AdvancedTIE->addEntityTrans(WATIE2);
+	WATIE2->setModelMat(
+		rotate(dmat4(1), radians(180.0), dvec3(0.0, 1.0, 0.0)) // se rota 180 para girarla
+		* translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance / 2)) // se mueve la wingdistance para colocarla
+	);
+	AdvancedTIE->addEntity(WATIE2);
 
-	
-
-
-
-
-
-
-
-
-
-
-
-
+	// ----- CILINDRO DE ALA1 A ALA2 -----
+	Cone* cilinder = new Cone(wingsDistance, 10, 10, 20, 20);
+	cilinder->setModelMat(rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
+	AdvancedTIE->addEntity(cilinder);
 }

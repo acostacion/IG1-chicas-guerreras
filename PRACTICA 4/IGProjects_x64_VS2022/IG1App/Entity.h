@@ -131,6 +131,7 @@ public:
 protected:
 	std::vector<Abs_Entity*> gObjects;
 	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
+	bool mModulate;
 	GLboolean mAlfaActive;
 
 };
