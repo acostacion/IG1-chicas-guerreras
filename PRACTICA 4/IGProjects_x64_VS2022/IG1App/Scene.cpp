@@ -155,28 +155,44 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Cabeza -----
 	Sphere* cabeza = new Sphere(300, 20, 20);
-	cabeza->setColor(glm::vec4(255.0f, 0.0f, 0.0f, 255.0f)); //chocolate (de la tabla) glm::vec4(210.0f, 105.0f, 30.0f, 255.0f)
+	// TODO: POR FAVOR NO VA EL COLOR NARANJA.
+	cabeza->setColor(glm::vec4(255.0, 140.0, 0.0, 255.0)); //orange (de la tabla)
 	farmer->addEntity(cabeza);
 
-	//// ----- Boca -----
-	//PartialDisk* boca = new PartialDisk(250, 230, 5, 50, glm::radians(180.0));
-	//boca->setColor(glm::vec4(124.0f, 252.0f, 0.0f, 255.0f)); //lawn green (de la tabla)
-	//boca->setModelMat(
-	//	glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, -200.0))
-	//	*
-	//	glm::rotate(glm::dmat4(1), radians(90.0), dvec3(0.0, 1.0, 0.0))
-	//);
+	// ----- Boca -----
+	PartialDisk* boca = new PartialDisk(230, 30, 5, 50, glm::radians(180.0));
+	boca->setColor(glm::vec4(0.0f, 255.0, 0.0, 255.0)); //green
+	boca->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, 190.0))
+		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
+	);
+	farmer->addEntity(boca);
 
+	// ----- Sombrero -----
+	Disk* sombrero = new Disk(400, 0, 5, 50);
+	sombrero->setColor(glm::vec4(255.0, 0.0, 0.0, 255.0)); //red
+	sombrero->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(0.0, 200.0, 0.0))
+	);
+	farmer->addEntity(sombrero);
 
+	// ----- Ojo derecho -----
+	Cone* ojoDer = new Cone(70, 5, 40, 5, 50);
+	ojoDer->setColor(glm::vec4(0.0, 0.0, 255.0, 255.0)); // TODO: CAMBIAR COLOR.
+	ojoDer->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(-70.0, 100.0, 300.0))
+		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
+	);
+	farmer->addEntity(ojoDer);
 
-
-
-
-
-
-
-
-
+	// ----- Ojo izquierdo -----
+	Cone* ojoIzq = new Cone(70, 5, 30, 5, 50);
+	ojoIzq->setColor(glm::vec4(0.0, 0.0, 255.0, 255.0)); // TODO: CAMBIAR COLOR.
+	ojoIzq->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(70.0, 100.0, 300.0))
+		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
+	);
+	farmer->addEntity(ojoIzq);
 
 	return farmer;
 }
@@ -491,5 +507,9 @@ void Scene8::init()
 	Scene::init();
 
 	// Creamos la entidad compuesta farmer
-	createFarmer();
+	_farmer = createFarmer();
+	_farmer->setModelMat(
+		scale(glm::dmat4(1), glm::dvec3(0.5, 0.5, 0.5))
+		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
+	);
 }
