@@ -158,7 +158,7 @@ void CompoundEntity::render(const glm::dmat4& modelViewMat) const
 
 void CompoundEntity::update()
 {
-	_advancedTieAngle += 4.0;
+
 }
 
 void CompoundEntity::load()

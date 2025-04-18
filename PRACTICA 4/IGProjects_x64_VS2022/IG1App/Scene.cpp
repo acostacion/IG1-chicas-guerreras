@@ -148,8 +148,12 @@ CompoundEntity* Scene::createAdvancedTie()
 void Scene::rotate()
 {
 	// se va rotando tol el rato.
-	_advancedTieInTatooine->setModelMat(glm::rotate(dmat4(1), radians(_advancedTieInTatooine->_advancedTieAngle), dvec3(0.0, 1.0, 0.0)));
-	std::cout << _advancedTieInTatooine->_advancedTieAngle << std::endl;
+	// Rotamos en cuestion de la matriz de modelado del nodo ficticio
+	_advancedTie->setModelMat(glm::rotate(_advancedTieInTatooine->modelMat(), radians(_advancedTie->_advancedTieAngle), dvec3(0.0, 1.0, 0.0))); //rotacion en y
+	// Avanzamos el angulo
+	_advancedTie->_advancedTieAngle += 4.0;
+	//std::cout << _advancedTie->_advancedTieAngle << std::endl;
+	
 }
 
 void Scene::orbit()
@@ -419,6 +423,11 @@ void Scene7::init()
 
 	// nodo ficticio.
 	_advancedTieInTatooine = new CompoundEntity();
+
+	// colocacion del nodo ficticio en el polo norte y con escala
+	_advancedTieInTatooine->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
+		* translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
+
 	_advancedTieInTatooine->addEntity(_advancedTie);
 
 }
