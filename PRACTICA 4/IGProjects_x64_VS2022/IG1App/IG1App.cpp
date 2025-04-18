@@ -301,7 +301,7 @@ IG1App::key(unsigned int key)
 	case 'g':
 		if (mScenes[mCurrentScene] == mScenes[7])
 		{
-
+			mScenes[mCurrentScene]->orbit();
 		}
 		break;
 
