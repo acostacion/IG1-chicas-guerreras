@@ -129,7 +129,7 @@ public:
 
 	// TODO: hola el advancedTIEANGLE este deberia ir en la clase AdvancedTIE pero no sabemos que pasa que no funciona.
 	double _advancedTieAngle = 1.0;
-	float _advancedTieMovement = 0.0;
+	float _advancedTieMovement = 1.0;
 
 protected:
 	std::vector<Abs_Entity*> gObjects;

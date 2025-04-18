@@ -33,6 +33,8 @@ Scene::~Scene()
 	resetGL();
 }
 
+
+
 void
 Scene::destroy()
 { // release memory and resources
@@ -145,28 +147,38 @@ CompoundEntity* Scene::createAdvancedTie()
 	return AdvancedTIE;
 }
 
-void Scene::rotate()
+void Scene::initialAdvandedTieConfig()
 {
 	//Colocamos el tie en la posicion del nodo con la escala
-	_advancedTie->setModelMat(scale(_advancedTieInTatooine->modelMat(), glm::dvec3(0.15, 0.15, 0.15))
-		* translate(_advancedTieInTatooine->modelMat(), glm::dvec3(0.0, 1200.0, 0.0)));
+	_advancedTie->setModelMat(
+		scale(_advancedTieInTatooine->modelMat(), glm::dvec3(0.15, 0.15, 0.15)) // su escala, porque si no al rotar se hace grande.
+		* translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)) // se coloca en el polo norte, porque si no avanza dentro del planeta.
+		// nota: el translate lo hacemos desde el origen (0,0,0) para que se desplace esos 1200 desde el origen en si, no desde la pos del origen del nodo!!
+	);
+}
+
+void Scene::rotate()
+{
+	// colocacion del advancedtie en la escena.
+	initialAdvandedTieConfig();
 
 	//Rotamos el nodo ficticio
-	_advancedTieInTatooine->setModelMat(glm::rotate(_advancedTieInTatooine->modelMat(), radians(_advancedTie->_advancedTieAngle), dvec3(0.0, 1.0, 0.0)));
-	//No hace falta actualizar el angulo.
-	//Avanzamos el angulo
-	//_advancedTie->_advancedTieAngle = 1.0f;
+	_advancedTieInTatooine->setModelMat(
+		glm::rotate(_advancedTieInTatooine->modelMat(), radians(_advancedTie->_advancedTieAngle), dvec3(0.0, 1.0, 0.0))
+	);
+	//No hace falta actualizar el angulo porque en nodo ficticio no es igual que antes.
 }
 
 void Scene::orbit()
 {
-	float distance = 10;
-	// se va avanzando
-	// Rotamos en cuestion de la matriz de modelado del nodo ficticio
-	_advancedTie->setModelMat(glm::translate(_advancedTieInTatooine->modelMat(), dvec3(_advancedTie->_advancedTieMovement, 0.0, 0.0))); //avanza 
-	// Avanzamos el angulo
-	_advancedTie->_advancedTieMovement += 10.0;
-	//std::cout << _advancedTie->_advancedTieAngle << std::endl;
+	// colocacion del advancedtie en la escena.
+	initialAdvandedTieConfig();
+
+	// movemos hacia adelante el nodo ficticio con la rotacion alrededor del planeta.
+	_advancedTieInTatooine->setModelMat(
+		glm::translate(_advancedTieInTatooine->modelMat(), dvec3(_advancedTie->_advancedTieMovement, 0.0, 0.0)) // avanza tantos pasos
+		* glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, 0.0, -1.0)) // rota alrededor del planeta en la direccion del morro
+	);
 }
 
 void

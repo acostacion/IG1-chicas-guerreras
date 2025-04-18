@@ -13,6 +13,7 @@ Mesh::Mesh()
  , mVBO(NONE)
  , mCBO(NONE)
  , mTCO(NONE)
+ , mNBO(NONE)
 {
 }
 
