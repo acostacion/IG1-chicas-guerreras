@@ -918,3 +918,23 @@ WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
 }
 #pragma endregion
 
+PartialDisk::PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle)
+	: Disk(R, r, nRings, nSamples)
+{
+	mShader = Shader::get("simple");
+	std::vector<glm::vec2> profile;
+
+	//El perfil es una linea recta
+	GLdouble incremento = (R - r) / nRings;
+	//Conseguimos los puntos del perfil
+	for (GLuint i = 0; i < nRings + 2; i++)
+	{
+		GLdouble x = r + (incremento * i);
+		GLdouble y = 0;
+
+		profile.emplace_back(x, y);
+	}
+
+	//Hacemos la malla por revolucion
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, maxAngle);
+}

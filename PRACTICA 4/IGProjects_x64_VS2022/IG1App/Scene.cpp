@@ -34,7 +34,6 @@ Scene::~Scene()
 }
 
 
-
 void
 Scene::destroy()
 { // release memory and resources
@@ -145,6 +144,41 @@ CompoundEntity* Scene::createAdvancedTie()
 	AdvancedTIE->addEntity(nose);
 
 	return AdvancedTIE;
+}
+
+
+CompoundEntity* Scene::createFarmer()
+{
+	// ----- FARMER -----
+	CompoundEntity* farmer = new CompoundEntity();
+	gObjects.push_back(farmer);
+
+	// ----- Cabeza -----
+	Sphere* cabeza = new Sphere(300, 20, 20);
+	cabeza->setColor(glm::vec4(255.0f, 0.0f, 0.0f, 255.0f)); //chocolate (de la tabla) glm::vec4(210.0f, 105.0f, 30.0f, 255.0f)
+	farmer->addEntity(cabeza);
+
+	//// ----- Boca -----
+	//PartialDisk* boca = new PartialDisk(250, 230, 5, 50, glm::radians(180.0));
+	//boca->setColor(glm::vec4(124.0f, 252.0f, 0.0f, 255.0f)); //lawn green (de la tabla)
+	//boca->setModelMat(
+	//	glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, -200.0))
+	//	*
+	//	glm::rotate(glm::dmat4(1), radians(90.0), dvec3(0.0, 1.0, 0.0))
+	//);
+
+
+
+
+
+
+
+
+
+
+
+
+	return farmer;
 }
 
 void Scene::initialAdvandedTieConfig()
@@ -449,4 +483,13 @@ void Scene7::init()
 
 	_advancedTieInTatooine->addEntity(_advancedTie);
 
+}
+
+void Scene8::init()
+{
+	// -- llama a init del padre
+	Scene::init();
+
+	// Creamos la entidad compuesta farmer
+	createFarmer();
 }

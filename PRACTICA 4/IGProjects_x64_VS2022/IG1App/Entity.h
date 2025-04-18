@@ -346,4 +346,11 @@ public:
 	explicit WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate);
 };
 
+//Apartado 69
+class PartialDisk : public Disk //Usa el rende de Disk
+{
+public:
+	explicit PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle);
+};
+
 #endif //_H_Entities_H_

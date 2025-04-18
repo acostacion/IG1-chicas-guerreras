@@ -41,6 +41,10 @@ protected:
 	CompoundEntity* createAdvancedTie();
 	void initialAdvandedTieConfig();
 
+	// metodos de farmer (opcional)
+	CompoundEntity* _farmer;
+	CompoundEntity* createFarmer();
+
 	void destroy();
 	void setGL();
 	void resetGL();
@@ -108,6 +112,13 @@ class Scene7 : public Scene
 {
 public:
 	Scene7() = default;
+	void init() override;
+};
+
+class Scene8 : public Scene
+{
+public:
+	Scene8() = default;
 	void init() override;
 };
 

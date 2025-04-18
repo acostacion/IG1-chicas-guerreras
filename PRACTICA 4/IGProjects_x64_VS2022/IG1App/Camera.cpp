@@ -95,10 +95,10 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 void
 Camera::uploadVM() const
 {
-	/*dmat4 ae = (-1.0f, -1.0f, -1.0f);
-	mViewMat = mViewMat * ae;*/
+	dmat4 ae = (-1.0f, -1.0f, -1.0f);
+	//mViewMat = mViewMat * ae;
 
-	Shader::setUniform4All("lightDir", mViewMat);
+	Shader::setUniform4All("lightDir", mViewMat*ae);
 }
 
 void
