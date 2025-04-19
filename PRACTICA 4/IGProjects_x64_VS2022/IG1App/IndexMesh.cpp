@@ -1,6 +1,5 @@
 #include "IndexMesh.h"
 
-#include <iostream>
 #include <numbers>
 
 
@@ -66,8 +65,6 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 				for (auto [s, t] : { std::pair{i, j}, std::pair{i, j + 1}, std::pair{i + 1, j} })
 				{
 					mesh->vIndexes.push_back(s * tamPerfil + t);
-					//TODO: Quita iostream
-					//std::cout << "s: " << s << " t: " << t << " indice: " << (s * tamPerfil + t) << std::endl;
 				}
 
 			
@@ -75,8 +72,6 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 				for (auto [s, t] : { std::pair{i, j + 1}, std::pair{i + 1, j + 1}, std::pair{i + 1, j} })
 				{
 					mesh->vIndexes.push_back(s * tamPerfil + t);
-					//TODO: Quita iostream
-					//std::cout << "s: " << s << " t: " << t << " indice: " << (s * tamPerfil + t) << std::endl;
 				}
 		}
 
@@ -93,12 +88,13 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 	//Pone la primitiva
 	mesh->mPrimitive = GL_TRIANGLES;
 	//Numero de vertices
-	mesh->mNumVertices = mesh->vVertices.size();
+	mesh->mNumVertices = 8;
 	//Y reserva los vertices
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	//Creamos los 8 vertices (y los 36 asociados)
-	/*  0 (1, 1, -1)
+	/* Explicación:
+	   Creamos los 8 vertices (y los 36 indices asociados)
+		0 (1, 1, -1)
 		1 (1, -1, -1)
 		2 (1, 1, 1)
 		3 (1, -1, 1)
@@ -114,59 +110,39 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 		4, 6, 2, 2, 6, 0,
 		1, 7, 3, 3, 7, 5
 	*/
-	//Cara 1
-	mesh->vVertices.emplace_back(l/2, l/2, -l/2); //0 - 0
-	mesh->vVertices.emplace_back(l/2, -l/2, -l/2); //1 - 1
-	mesh->vVertices.emplace_back(l/2, l/2, l/2); //2 - 2
-	mesh->vVertices.push_back(mesh->vVertices[2]); //2 - 3
-	mesh->vVertices.push_back(mesh->vVertices[1]); //1 - 4
-	mesh->vVertices.emplace_back(l/2, -l/2, l/2); //3 - 5
-	//Cara 2
-	mesh->vVertices.push_back(mesh->vVertices[2]); //2 - 6
-	mesh->vVertices.push_back(mesh->vVertices[5]); //3 - 7
-	mesh->vVertices.emplace_back(-l/2, l/2, l/2); //4 - 8
-	mesh->vVertices.push_back(mesh->vVertices[8]); //4 - 9
-	mesh->vVertices.push_back(mesh->vVertices[5]); //3 - 10
-	mesh->vVertices.emplace_back(-l/2, -l/2, l/2); //5 - 11
-	//Cara 3
-	mesh->vVertices.push_back(mesh->vVertices[8]); //4 - 12
-	mesh->vVertices.push_back(mesh->vVertices[12]); //5 - 13
-	mesh->vVertices.emplace_back(-l/2, l/2, -l/2); //6 - 14
-	mesh->vVertices.push_back(mesh->vVertices[14]); //6 - 15
-	mesh->vVertices.push_back(mesh->vVertices[12]); //5 - 16
-	mesh->vVertices.emplace_back(-l/2, -l/2, -l/2); //7 - 17
-	//Cara 4
-	mesh->vVertices.push_back(mesh->vVertices[14]); //6 - 18
-	mesh->vVertices.push_back(mesh->vVertices[17]); //7 - 19
-	mesh->vVertices.push_back(mesh->vVertices[0]); //0 - 20
-	mesh->vVertices.push_back(mesh->vVertices[0]); //0 - 21
-	mesh->vVertices.push_back(mesh->vVertices[17]); //7 - 22
-	mesh->vVertices.push_back(mesh->vVertices[1]); //1 - 23
-	//Cara 5
-	mesh->vVertices.push_back(mesh->vVertices[8]); //4 - 24
-	mesh->vVertices.push_back(mesh->vVertices[14]); //6 - 25
-	mesh->vVertices.push_back(mesh->vVertices[2]); //2 - 26
-	mesh->vVertices.push_back(mesh->vVertices[2]); //2 - 27
-	mesh->vVertices.push_back(mesh->vVertices[14]); //6 - 28
-	mesh->vVertices.push_back(mesh->vVertices[0]); //0 - 29
-	//Cara 6
-	mesh->vVertices.push_back(mesh->vVertices[1]); //1 - 30
-	mesh->vVertices.push_back(mesh->vVertices[17]); //7 - 31
-	mesh->vVertices.push_back(mesh->vVertices[5]); //3 - 32
-	mesh->vVertices.push_back(mesh->vVertices[5]); //3 - 33
-	mesh->vVertices.push_back(mesh->vVertices[17]); //7 - 34
-	mesh->vVertices.push_back(mesh->vVertices[12]); //5 - 35
 
-	//Y reserva los indices
-	mesh->vIndexes.reserve(mesh->mNumVertices);
+	// Crea 8 vertices (indices de 0 a 7).
+	mesh->vVertices.emplace_back(l / 2, l / 2, -l / 2); // 0
+	mesh->vVertices.emplace_back(l / 2, -l / 2, -l / 2); // 1
+	mesh->vVertices.emplace_back(l / 2, l / 2, l / 2); // 2
+	mesh->vVertices.emplace_back(l / 2, -l / 2, l / 2); // 3
+	mesh->vVertices.emplace_back(-l / 2, l / 2, l / 2); // 4
+	mesh->vVertices.emplace_back(-l / 2, -l / 2, l / 2); // 5
+	mesh->vVertices.emplace_back(-l / 2, l / 2, -l / 2); // 6
+	mesh->vVertices.emplace_back(-l / 2, -l / 2, -l / 2); // 7
 
-	//Rellenamos los indices a partir de los vertices
-	for (int i = 0; i < mesh->mNumVertices; i++)
+	// Orden de los indices.
+	std::vector<int> index = {
+		0, 1, 2, 2, 1, 3,
+		2, 3, 4, 4, 3, 5,
+		4, 5, 6, 6, 5, 7,
+		6, 7, 0, 0, 7, 1,
+		4, 6, 2, 2, 6, 0,
+		1, 7, 3, 3, 7, 5
+	};
+
+	// Numero de indices.
+	mesh->mNumIndexes = 36;
+	// Reserva en vIndexes
+	mesh->vIndexes.reserve(mesh->mNumIndexes);
+
+	// Lo va rellenando con el contenido de los indices.
+	for (int i = 0; i < index.size(); i++)
 	{
-		mesh->vIndexes.push_back(i);
-		//std::cout << ""
+		mesh->vIndexes[i] = index[i];
 	}
 
+	/*
 	////// METODO NEWELL (REVISAR):
 	////// TODO.
 	////Y reserva los vertices de normales
@@ -197,6 +173,7 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 	//{
 	//	mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
 	//}
+	*/
 
 	//Devuelve la malla correspondiente
 	return mesh;

@@ -443,21 +443,23 @@ void Scene4::init() {
 	Scene::init();
 
 	// ----- TORUS -----
-	Torus* torus = new Torus(200, 50, 3, 5);
-	gObjects.push_back(torus);
+	//Torus* torus = new Torus(200, 50, 3, 5);
+	//gObjects.push_back(torus);
 }
 
+// ---- SCENE 5 ----
 void Scene5::init()
 {
 	// -- llama a init del padre
 	Scene::init();
 
-	////// ----- INDEXEDBOX -----
-	//IndexedBox* ibox = new IndexedBox(200);
-	//gObjects.push_back(ibox);
+	// ----- INDEXEDBOX -----
+	IndexedBox* ibox = new IndexedBox(200);
+	gObjects.push_back(ibox);
 
 }
 
+// ---- SCENE 6 ----
 void Scene6::init()
 {
 	// -- llama a init del padre
@@ -466,47 +468,49 @@ void Scene6::init()
 	//createAdvancedTie();
 }
 
+// ---- SCENE 7 ----
 void Scene7::init()
 {
 	// -- llama a init del padre
 	Scene::init();
 
-	//TODO: duda, como poner fondo negro aqui, y que no afecte a las demas escenas
+	/*//TODO: duda, como poner fondo negro aqui, y que no afecte a las demas escenas
 	//Fondo negro
 	//glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
 
-	//// ----- TATOOINE -----
-	//Sphere* tatooine = new Sphere(150, 30, 30);
-	//tatooine->setColor(glm::vec4(255.0f, 233.0f, 0.0f, 255.0f)); //amarillo
-	//gObjects.push_back(tatooine);
+	// ----- TATOOINE -----
+	Sphere* tatooine = new Sphere(150, 30, 30);
+	tatooine->setColor(glm::vec4(255.0f, 233.0f, 0.0f, 255.0f)); //amarillo
+	gObjects.push_back(tatooine);
 
-	//// ----- ADVANCED TIE -----
-	////TODO: duda Que hacer para no copiarlo entero?
-	//_advancedTie = createAdvancedTie();
+	// ----- ADVANCED TIE -----
+	//TODO: duda Que hacer para no copiarlo entero?
+	_advancedTie = createAdvancedTie();
 
-	////AdvancedTIE esta en el polo norte del planeta y con menos tamano
-	//_advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
-	//*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
+	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
+	_advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
+	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
 
-	//// nodo ficticio.
-	//_advancedTieInTatooine = new CompoundEntity();
+	// nodo ficticio.
+	_advancedTieInTatooine = new CompoundEntity();
 
-	//// colocacion del nodo ficticio en el polo norte y con escala
-	////_advancedTieInTatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
+	// colocacion del nodo ficticio en el polo norte y con escala
+	//_advancedTieInTatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
 
-	//_advancedTieInTatooine->addEntity(_advancedTie);
+	_advancedTieInTatooine->addEntity(_advancedTie);*/
 
 }
 
+// ---- SCENE 8 ----
 void Scene8::init()
 {
 	// -- llama a init del padre
 	Scene::init();
 
-	//// Creamos la entidad compuesta farmer
-	//_farmer = createFarmer();
-	//_farmer->setModelMat(
-	//	scale(glm::dmat4(1), glm::dvec3(0.5, 0.5, 0.5))
-	//	* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
-	//);
+	/*// Creamos la entidad compuesta farmer
+	_farmer = createFarmer();
+	_farmer->setModelMat(
+		scale(glm::dmat4(1), glm::dvec3(0.5, 0.5, 0.5))
+		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
+	);*/
 }
