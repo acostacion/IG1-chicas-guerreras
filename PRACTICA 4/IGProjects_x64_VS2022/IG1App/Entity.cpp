@@ -114,7 +114,11 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 // ---- COLOR MATERIAL ENTITY ----
 ColorMaterialEntity::ColorMaterialEntity()
 {
-	//mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
+	mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
+}
+
+void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
+{
 }
 
 // ---- COMPOUND ENTITY ----
@@ -762,12 +766,13 @@ Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints 
 }
 
 IndexedBox::IndexedBox(GLdouble l)
-{	
-	// verde.
-	setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-
+{
+	mShader = Shader::get("simple");
 	// mesh.
 	mMesh = IndexMesh::generateIndexedBox(l);
+	// verde.
+	//setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+
 }
 
 Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)

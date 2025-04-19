@@ -113,6 +113,7 @@ class ColorMaterialEntity : public SingleColorEntity
 {
 public:
 	explicit ColorMaterialEntity();
+	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class CompoundEntity : public Abs_Entity
@@ -332,13 +333,6 @@ public:
 	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples);
 	void render(const glm::dmat4& modelViewMat) const override;
 };
-
-//TODO: QUE HAY QUE HACER AQUI?
-/*class AdvancedTIE: public CompoundEntity
-{
-public:
-	explicit AdvancedTIE();
-};*/
 
 class WingAdvancedTIE : public EntityWithTexture
 {

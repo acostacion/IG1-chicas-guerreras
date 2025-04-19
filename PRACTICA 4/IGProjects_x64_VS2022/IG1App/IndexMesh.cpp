@@ -1,4 +1,6 @@
 #include "IndexMesh.h"
+
+#include <iostream>
 #include <numbers>
 
 
@@ -40,14 +42,15 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	GLuint nSamples, GLfloat angleMax)
 {
 	//Crea la malla
-	IndexMesh* mesh = new IndexMesh;
+	IndexMesh* mesh = new IndexMesh();
 	//Pone la primitiva
 	mesh->mPrimitive = GL_TRIANGLES;
 	//Toma el tamano del perfil
 	int tamPerfil = profile.size();
+	//std::cout << tamPerfil;
 	//Y reserva los vertices correspondientes a partir de las samples
 	mesh->vVertices.reserve(nSamples * tamPerfil);
-	// Genera los vertices de las muestras
+	// Genera los vertices de las muestras (como si fuera un poligono regular)
 	GLdouble theta1 = angleMax / nSamples; //antes era 2 * std::numbers::pi (360º)
 	//Crea los vertices
 	for (int i = 0; i <= nSamples; ++i) { // muestra i-esima
@@ -55,16 +58,26 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 		for (auto p : profile) // rota el perfil
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
 	}
-	//Despues une los vertices para formar caras
 
-	for (int i = 0; i < nSamples; ++i) // caras i a i + 1
-		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara
+	//Despues une los vertices para formar caras
+	for (int i = 0; i < nSamples; ++i) // caras i a i + 1 (todas las repeticiones del perfil)
+		for (int j = 0; j < tamPerfil - 1; ++j) { // una cara (puntos dentro del perfil)
 			if (profile[j].x != 0.0) // triangulo inferior
 				for (auto [s, t] : { std::pair{i, j}, std::pair{i, j + 1}, std::pair{i + 1, j} })
+				{
 					mesh->vIndexes.push_back(s * tamPerfil + t);
+					//TODO: Quita iostream
+					//std::cout << "s: " << s << " t: " << t << " indice: " << (s * tamPerfil + t) << std::endl;
+				}
+
+			
 			if (profile[j + 1].x != 0.0) // triangulo superior
 				for (auto [s, t] : { std::pair{i, j + 1}, std::pair{i + 1, j + 1}, std::pair{i + 1, j} })
+				{
 					mesh->vIndexes.push_back(s * tamPerfil + t);
+					//TODO: Quita iostream
+					//std::cout << "s: " << s << " t: " << t << " indice: " << (s * tamPerfil + t) << std::endl;
+				}
 		}
 
 	//Reserva vertices
@@ -76,11 +89,11 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 {
 	//Crea la malla
-	IndexMesh* mesh = new IndexMesh;
+	IndexMesh* mesh = new IndexMesh();
 	//Pone la primitiva
 	mesh->mPrimitive = GL_TRIANGLES;
 	//Numero de vertices
-	mesh->mNumVertices = 36;
+	mesh->mNumVertices = mesh->vVertices.size();
 	//Y reserva los vertices
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
@@ -144,80 +157,18 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 	mesh->vVertices.push_back(mesh->vVertices[17]); //7 - 34
 	mesh->vVertices.push_back(mesh->vVertices[12]); //5 - 35
 
+	//Y reserva los indices
+	mesh->vIndexes.reserve(mesh->mNumVertices);
 
+	//Rellenamos los indices a partir de los vertices
+	for (int i = 0; i < mesh->mNumVertices; i++)
+	{
+		mesh->vIndexes.push_back(i);
+		//std::cout << ""
+	}
 
-
-	//// ---- CARA 1.
-	//mesh->vVertices.emplace_back(-l, -l, -l); // 0.
-	//mesh->vVertices.emplace_back(-l, -l, l); // 1.
-	//mesh->vVertices.emplace_back(l, -l, -l); // 2.
-
-	//mesh->vVertices.emplace_back(l, -l, l); // 3.
-	//mesh->vVertices.push_back(mesh->vVertices[1]); // 4 (misma pos que el 1).
-	//mesh->vVertices.push_back(mesh->vVertices[2]); // 5 (misma pos que el 2).
-
-	//// ---- CARA 2.
-	//mesh->vVertices.push_back(mesh->vVertices[2]); // 6 (misma pos que el 2).
-	//mesh->vVertices.emplace_back(l, l, -l); // 7.
-	//mesh->vVertices.push_back(mesh->vVertices[0]); // 8 (misma pos que el 0).
-
-	//mesh->vVertices.emplace_back(-l, l, -l); // 9.
-	//mesh->vVertices.push_back(mesh->vVertices[7]); // 10 (misma pos que el 7).
-	//mesh->vVertices.push_back(mesh->vVertices[0]); // 11 (misma pos que el 0).
-
-	//// ---- CARA 3.
-	//mesh->vVertices.push_back(mesh->vVertices[0]); // 12 (misma pos que el 0).
-	//mesh->vVertices.push_back(mesh->vVertices[9]); // 13 (misma pos que el 9).
-	//mesh->vVertices.push_back(mesh->vVertices[1]); // 14 (misma pos que el 1).
-
-	//mesh->vVertices.emplace_back(-l, l, l); // 15.
-	//mesh->vVertices.push_back(mesh->vVertices[9]); // 16 (misma pos que el 9).
-	//mesh->vVertices.push_back(mesh->vVertices[1]); // 17 (misma pos que el 1).
-
-	//// ---- CARA 4 (PARALELA A CARA 1).
-	//mesh->vVertices.push_back(mesh->vVertices[9]); // 18 (misma pos que el 9).
-	//mesh->vVertices.push_back(mesh->vVertices[15]); // 19 (misma pos que el 15).
-	//mesh->vVertices.push_back(mesh->vVertices[7]); // 20 (misma pos que el 7).
-
-	//mesh->vVertices.emplace_back(l, l, l); // 21.
-	//mesh->vVertices.push_back(mesh->vVertices[15]); // 22 (misma pos que el 15).
-	//mesh->vVertices.push_back(mesh->vVertices[7]); // 23 (misma pos que el 7).
-
-	//// ---- CARA 5 (PARALELA A CARA 2).
-	//mesh->vVertices.push_back(mesh->vVertices[3]); // 24 (misma pos que el 3).
-	//mesh->vVertices.push_back(mesh->vVertices[21]); // 25 (misma pos que el 21).
-	//mesh->vVertices.push_back(mesh->vVertices[1]); // 26 (misma pos que el 1).
-
-	//mesh->vVertices.push_back(mesh->vVertices[15]); // 27 (misma pos que el 15).
-	//mesh->vVertices.push_back(mesh->vVertices[21]); // 28 (misma pos que el 21).
-	//mesh->vVertices.push_back(mesh->vVertices[1]); // 29 (misma pos que el 1).
-
-	//// ---- CARA 6 (PARALELA A CARA 3).
-	//mesh->vVertices.push_back(mesh->vVertices[2]); // 30 (misma pos que el 2).
-	//mesh->vVertices.push_back(mesh->vVertices[7]); // 31 (misma pos que el 7).
-	//mesh->vVertices.push_back(mesh->vVertices[3]); // 32 (misma pos que el 3).
-
-	//mesh->vVertices.push_back(mesh->vVertices[21]); // 33 (misma pos que el 21).
-	//mesh->vVertices.push_back(mesh->vVertices[7]); // 34 (misma pos que el 7).
-	//mesh->vVertices.push_back(mesh->vVertices[3]); // 35 (misma pos que el 3).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//// METODO NEWELL (REVISAR):
-	//// TODO.
+	////// METODO NEWELL (REVISAR):
+	////// TODO.
 	////Y reserva los vertices de normales
 	//mesh->vNormals.reserve(mesh->vVertices.size());
 
