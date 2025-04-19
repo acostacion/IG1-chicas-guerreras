@@ -20,8 +20,7 @@ protected:
 
 	void draw() const override;
 	std::vector<GLuint> vIndexes;
-	GLuint mNumIndexes = 0;
-	
+
 
 private:
 	GLuint mIBO;  // vertex object buffer

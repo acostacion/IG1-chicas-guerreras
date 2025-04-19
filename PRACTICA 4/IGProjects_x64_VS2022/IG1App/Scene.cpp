@@ -288,6 +288,7 @@ void Scene0::init()
 {
 	Scene::init();
 
+	/*
 	// Triangulo cian.
 	RegularPolygon *triang = new RegularPolygon(3, 200);
 	triang->setColor({ 0,1,1,1 });
@@ -297,6 +298,7 @@ void Scene0::init()
 	RegularPolygon *circ = new RegularPolygon(40, 200);
 	circ->setColor({1,0,1,1});
 	gObjects.push_back(circ);
+	*/
 }
 
 // ---- SCENE 1 ----
@@ -305,6 +307,7 @@ void Scene1::init()
 	// -- llama a init del padre
 	Scene::init();
 
+	/*
 	// -- crea y mete los objetos en la escena
 	RGBTriangle* triangulo = new RGBTriangle(1);
 
@@ -320,7 +323,7 @@ void Scene1::init()
 
 	// -- traslaciones, escalas y rotaciones
 	triangulo->setModelMat(translate(glm::dmat4(1), glm::dvec3(r, 0, 0)));
-
+	*/
 }
 
 // ---- SCENE 2 ----
@@ -328,11 +331,12 @@ void Scene2::init()
 {
 	// -- llama a init del padre
 	Scene::init();
-
+	/*
 	double length = 200;
 	RGBCube* cube = new RGBCube(length, 2);
 
 	gObjects.push_back(cube);
+	*/
 }
 
 // ---- SCENE 3 ----
@@ -341,6 +345,7 @@ void Scene3::init()
 	// -- llama a init del padre
 	Scene::init();
 
+	/*
 	// ----- SUELO -----
 	// --- texturas
 	// creamos y cargamos (con load()) las texturas de los objetos de la escena
@@ -435,6 +440,9 @@ void Scene3::init()
 	Grass* hier = new Grass(40.0, false);				// entidad
 	hier->setTexture(texH);										// establece la textura de esta entidad
 	gObjects.push_back(hier);									// mete la entidad en la escena
+
+
+*/
 }
 
 // ---- SCENE 4 ----

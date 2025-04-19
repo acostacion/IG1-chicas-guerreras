@@ -305,6 +305,7 @@ class IndexedBox : public SingleColorEntity
 {
 public:
 	explicit IndexedBox(GLdouble l);
+	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 //Apartado 64

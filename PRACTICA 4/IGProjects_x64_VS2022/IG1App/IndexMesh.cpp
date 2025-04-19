@@ -131,15 +131,11 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 		1, 7, 3, 3, 7, 5
 	};
 
-	// Numero de indices.
-	mesh->mNumIndexes = 36;
-	// Reserva en vIndexes
-	mesh->vIndexes.reserve(mesh->mNumIndexes);
-
+	//No hace falta reservar espacio en los indices
 	// Lo va rellenando con el contenido de los indices.
 	for (int i = 0; i < index.size(); i++)
 	{
-		mesh->vIndexes[i] = index[i];
+		mesh->vIndexes.push_back(index[i]); 
 	}
 
 	/*
