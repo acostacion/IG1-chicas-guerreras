@@ -114,12 +114,26 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 // ---- COLOR MATERIAL ENTITY ----
 ColorMaterialEntity::ColorMaterialEntity()
 {
+	//mShowNormals = false;
 	mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
 }
 
 void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 {
+	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+	Shader* normalShaders = Shader::get("normals");
+	normalShaders->use();
+	upload(aMat);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	mMesh->render();
 }
+
+//void ColorMaterialEntity::toggleShowNormals()
+//{
+//	mShowNormals = !mShowNormals;
+//	std::cout << mShowNormals << std::endl;
+//}
 
 // ---- COMPOUND ENTITY ----
 CompoundEntity::CompoundEntity(GLboolean alfaActive): mAlfaActive(alfaActive)

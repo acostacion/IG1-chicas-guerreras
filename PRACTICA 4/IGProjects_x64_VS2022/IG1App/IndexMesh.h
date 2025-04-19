@@ -16,6 +16,8 @@ public:
 
 	// Apartado 59
 	static IndexMesh* generateIndexedBox(GLdouble l);
+
+	void buildNormalVectors();
 protected:
 
 	void draw() const override;

@@ -77,6 +77,8 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 
 	//Reserva vertices
 	mesh->mNumVertices = mesh->vVertices.size();
+
+	//buildNormalVectors();
 	//Devuelve la malla correspondiente
 	return mesh;
 }
@@ -183,4 +185,36 @@ void IndexMesh::draw() const
 		GL_UNSIGNED_INT, // tipo de los índices
 		nullptr // offset en el VBO de índices
 	);
+}
+
+void IndexMesh::buildNormalVectors()
+{
+	// METODO NEWELL (REVISAR):
+	// TODO.
+	//Rellena inicialmente con (0.0, 0.0, 0.0)
+	for (int i = 0; i < vNormals.size(); i++)
+	{
+		vNormals.emplace_back(0.0, 0.0, 0.0);
+	}
+
+	//Define las normales con el producto vectorial
+	for (int i = 0; i < vIndexes.size(); i += 3) //(36 indices/12 triangulos) = 3(vertices por triangulo))
+	{
+		// Calculo normal
+		glm::vec3 normal = glm::normalize(glm::cross(
+			vVertices[vIndexes[i + 1]] - vVertices[vIndexes[i]],
+			vVertices[vIndexes[i + 2]] - vVertices[vIndexes[i]]));
+
+		//Los rellena
+		vNormals[vIndexes[i]] +=  normal;
+		vNormals[vIndexes[i + 1]] += normal;
+		vNormals[vIndexes[i + 2]] += normal;
+	}
+
+	//Normalizamos los vectores de vNormals
+	for (int i = 0; i < vNormals.size(); i++)
+	{
+		vNormals[i] = glm::normalize(vNormals[i]);
+	}
+	
 }

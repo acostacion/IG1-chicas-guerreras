@@ -114,6 +114,10 @@ class ColorMaterialEntity : public SingleColorEntity
 public:
 	explicit ColorMaterialEntity();
 	void render(const glm::dmat4& modelViewMat) const override;
+
+	//static void toggleShowNormals();
+private:
+	//static GLboolean mShowNormals;
 };
 
 class CompoundEntity : public Abs_Entity
@@ -301,7 +305,7 @@ public:
 };
 
 //Apartado 60
-class IndexedBox : public SingleColorEntity
+class IndexedBox : public ColorMaterialEntity
 {
 public:
 	explicit IndexedBox(GLdouble l);
