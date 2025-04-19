@@ -348,8 +348,8 @@ IG1App::key(unsigned int key)
 		break;
 
 	//case 'n':
-	//	//ColorMaterialEntity::toggleShowNormals();
-	//	break;
+		//ColorMaterialEntity::toggleShowNormals();
+		//break;
 
 	default:
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))

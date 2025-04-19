@@ -132,7 +132,6 @@ void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 //void ColorMaterialEntity::toggleShowNormals()
 //{
 //	mShowNormals = !mShowNormals;
-//	std::cout << mShowNormals << std::endl;
 //}
 
 // ---- COMPOUND ENTITY ----
@@ -760,6 +759,8 @@ void Photo::update()
 Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints y mSamples = 40
 { 
 	mShader = Shader::get("simple");
+	//Shader* auxShader = Shader::get("normals");
+	//auxShader->use();
 	std::vector<glm::vec2> profile;
 
 	// Se van guardando en sentido antihorario desde x = 0
@@ -777,6 +778,30 @@ Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints 
 
 	//Hacemos la malla por revolucion
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
+	setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+}
+
+void Torus::render(const glm::dmat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		mShader->setUniform("color", mColor);
+		upload(aMat);
+
+		glEnable(GL_CULL_FACE);
+		// CARA DE DELANTE
+		glCullFace(GL_BACK);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		// CARA DE ATRAS
+		glCullFace(GL_FRONT);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+		glDisable(GL_CULL_FACE);
+
+	}
 }
 
 IndexedBox::IndexedBox(GLdouble l)

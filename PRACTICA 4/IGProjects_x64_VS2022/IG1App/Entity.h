@@ -302,6 +302,7 @@ public:
 	nSamples - numero de repeticiones del perfil en la figura final
 	*/
 	explicit Torus(GLdouble R, GLdouble r, GLuint nPoints = 40, GLuint nSamples = 40);
+	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 //Apartado 60

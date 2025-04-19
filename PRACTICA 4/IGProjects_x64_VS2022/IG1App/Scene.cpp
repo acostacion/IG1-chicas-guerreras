@@ -288,7 +288,6 @@ void Scene0::init()
 {
 	Scene::init();
 
-	/*
 	// Triangulo cian.
 	RegularPolygon *triang = new RegularPolygon(3, 200);
 	triang->setColor({ 0,1,1,1 });
@@ -297,8 +296,7 @@ void Scene0::init()
 	// Circulo magenta.
 	RegularPolygon *circ = new RegularPolygon(40, 200);
 	circ->setColor({1,0,1,1});
-	gObjects.push_back(circ);
-	*/
+	gObjects.push_back(circ); 
 }
 
 // ---- SCENE 1 ----
@@ -307,7 +305,6 @@ void Scene1::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	/*
 	// -- crea y mete los objetos en la escena
 	RGBTriangle* triangulo = new RGBTriangle(1);
 
@@ -322,8 +319,7 @@ void Scene1::init()
 	gObjects.push_back(new RegularPolygon(40, r));
 
 	// -- traslaciones, escalas y rotaciones
-	triangulo->setModelMat(translate(glm::dmat4(1), glm::dvec3(r, 0, 0)));
-	*/
+	triangulo->setModelMat(translate(glm::dmat4(1), glm::dvec3(r, 0, 0))); 
 }
 
 // ---- SCENE 2 ----
@@ -331,12 +327,12 @@ void Scene2::init()
 {
 	// -- llama a init del padre
 	Scene::init();
-	/*
+	
 	double length = 200;
 	RGBCube* cube = new RGBCube(length, 2);
 
 	gObjects.push_back(cube);
-	*/
+	
 }
 
 // ---- SCENE 3 ----
@@ -345,7 +341,6 @@ void Scene3::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	/*
 	// ----- SUELO -----
 	// --- texturas
 	// creamos y cargamos (con load()) las texturas de los objetos de la escena
@@ -440,9 +435,6 @@ void Scene3::init()
 	Grass* hier = new Grass(40.0, false);				// entidad
 	hier->setTexture(texH);										// establece la textura de esta entidad
 	gObjects.push_back(hier);									// mete la entidad en la escena
-
-
-*/
 }
 
 // ---- SCENE 4 ----
@@ -451,8 +443,8 @@ void Scene4::init() {
 	Scene::init();
 
 	// ----- TORUS -----
-	//Torus* torus = new Torus(200, 50, 3, 5);
-	//gObjects.push_back(torus);
+	Torus* torus = new Torus(200, 50, 40, 40);
+	gObjects.push_back(torus);
 }
 
 // ---- SCENE 5 ----
@@ -473,7 +465,7 @@ void Scene6::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	//createAdvancedTie();
+	createAdvancedTie();
 }
 
 // ---- SCENE 7 ----
@@ -482,7 +474,7 @@ void Scene7::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	/*//TODO: duda, como poner fondo negro aqui, y que no afecte a las demas escenas
+	//TODO: duda, como poner fondo negro aqui, y que no afecte a las demas escenas
 	//Fondo negro
 	//glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
 
@@ -505,7 +497,7 @@ void Scene7::init()
 	// colocacion del nodo ficticio en el polo norte y con escala
 	//_advancedTieInTatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
 
-	_advancedTieInTatooine->addEntity(_advancedTie);*/
+	_advancedTieInTatooine->addEntity(_advancedTie);
 
 }
 
@@ -515,10 +507,10 @@ void Scene8::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	/*// Creamos la entidad compuesta farmer
+	// Creamos la entidad compuesta farmer
 	_farmer = createFarmer();
 	_farmer->setModelMat(
 		scale(glm::dmat4(1), glm::dvec3(0.5, 0.5, 0.5))
 		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
-	);*/
+	);
 }

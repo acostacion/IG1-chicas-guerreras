@@ -78,7 +78,7 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	//Reserva vertices
 	mesh->mNumVertices = mesh->vVertices.size();
 
-	//buildNormalVectors();
+	mesh->buildNormalVectors();
 	//Devuelve la malla correspondiente
 	return mesh;
 }
@@ -190,9 +190,9 @@ void IndexMesh::draw() const
 void IndexMesh::buildNormalVectors()
 {
 	// METODO NEWELL (REVISAR):
-	// TODO.
+	// TODO: releer manana que esto es complicao por si hay q explicarselo a la mariaelena
 	//Rellena inicialmente con (0.0, 0.0, 0.0)
-	for (int i = 0; i < vNormals.size(); i++)
+	for (int i = 0; i < vIndexes.size(); i++)
 	{
 		vNormals.emplace_back(0.0, 0.0, 0.0);
 	}
