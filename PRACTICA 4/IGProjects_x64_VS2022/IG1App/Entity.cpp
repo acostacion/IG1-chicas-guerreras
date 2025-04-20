@@ -806,7 +806,7 @@ void Torus::render(const glm::dmat4& modelViewMat) const
 
 IndexedBox::IndexedBox(GLdouble l)
 {
-	mShader = Shader::get("simple");
+	mShader = Shader::get("simple_light");
 	// mesh.
 	mMesh = IndexMesh::generateIndexedBox(l);
 	// verde.
@@ -839,7 +839,7 @@ void IndexedBox::render(const glm::dmat4& modelViewMat) const
 
 Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)
 {
-	mShader = Shader::get("simple");
+	mShader = Shader::get("simple_light");
 	std::vector<glm::vec2> profile;
 
 	// Se van guardando en sentido antihorario desde x = 0
@@ -885,7 +885,7 @@ void Sphere::render(const glm::dmat4& modelViewMat) const
 
 Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 {
-	mShader = Shader::get("simple");
+	mShader = Shader::get("simple_light");
 	std::vector<glm::vec2> profile;
 
 	//El perfil es una linea recta
@@ -928,7 +928,7 @@ void Disk::render(const glm::dmat4& modelViewMat) const
 
 Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 {
-	mShader = Shader::get("simple");
+	mShader = Shader::get("simple_light");
 	std::vector<glm::vec2> profile;
 
 	// zona de abajo
@@ -988,7 +988,7 @@ WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
 PartialDisk::PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle)
 	: Disk(R, r, nRings, nSamples)
 {
-	mShader = Shader::get("simple");
+	mShader = Shader::get("simple_light");
 	std::vector<glm::vec2> profile;
 
 	//El perfil es una linea recta

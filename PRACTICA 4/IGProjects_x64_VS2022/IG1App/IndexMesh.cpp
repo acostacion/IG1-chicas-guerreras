@@ -140,38 +140,20 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 		mesh->vIndexes.push_back(index[i]); 
 	}
 
-	/*
-	////// METODO NEWELL (REVISAR):
-	////// TODO.
-	////Y reserva los vertices de normales
-	//mesh->vNormals.reserve(mesh->vVertices.size());
+	// ----- Calculo de las NORMALES a mano (sigue el orden de los vertices de arriba).
+	// Nota: ver el dibujo de chuletas para entender.
 
-	//////Inicializa el vector de normales a 0
-	////for (int i = 0; i < mesh->vNormals.size(); i++)
-	////{
-	////	mesh->vNormals.emplace_back(0, 0, 0);
-	////}
-	//
-	//int index = 3 * 12; // 3 vertices * 12 triangulos = 36.
-	//for (int k = 0; k < index; k += 3) {
-	//	glm::vec3 normal = glm::normalize(glm::cross(
-	//		mesh->vVertices[k + 1] - mesh->vVertices[k],
-	//		mesh->vVertices[k + 2] - mesh->vVertices[k]));
+	// --- Cara ROJA.
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(2, 2, -2))); // a
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, -2, -1))); // b
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, 1, 2))); // c
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(2, -1, 1))); // d
 
-	//	// suma la normal del triangulo a todos sus vertices.
-	//	mesh->vNormals.emplace_back(normal.x, normal.y, normal.z);
-	//	mesh->vNormals.emplace_back(normal.x, normal.y, normal.z);
-	//	mesh->vNormals.emplace_back(normal.x, normal.y, normal.z);
-	//	//mesh->vNormals[k] = { mesh->vNormals[k].x + normal.x, 1, 0 };
-	//	//mesh->vNormals[k + 1] += normal;
-	//	//mesh->vNormals[k + 2] += normal;
-	//}
-
-	//for (int i = 0; i < mesh->vNormals.size(); i++)
-	//{
-	//	mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
-	//}
-	*/
+	// --- Cara MORADA.
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, 2, 1))); // e
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-2, -2, 2))); // f
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-2, 1, -1))); // g
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, -1, -2))); // h 
 
 	//Devuelve la malla correspondiente
 	return mesh;
@@ -190,7 +172,6 @@ void IndexMesh::draw() const
 void IndexMesh::buildNormalVectors()
 {
 	// METODO NEWELL (REVISAR):
-	// TODO: releer manana que esto es complicao por si hay q explicarselo a la mariaelena
 	//Rellena inicialmente con (0.0, 0.0, 0.0)
 	for (int i = 0; i < vIndexes.size(); i++)
 	{
