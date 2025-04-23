@@ -129,10 +129,10 @@ void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 	mMesh->render();
 }
 
-//void ColorMaterialEntity::toggleShowNormals()
-//{
-//	mShowNormals = !mShowNormals;
-//}
+void ColorMaterialEntity::toggleShowNormals()
+{
+	mShowNormals = !mShowNormals;
+}
 
 // ---- COMPOUND ENTITY ----
 CompoundEntity::CompoundEntity(GLboolean alfaActive): mAlfaActive(alfaActive)

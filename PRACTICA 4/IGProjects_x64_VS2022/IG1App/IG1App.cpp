@@ -347,9 +347,9 @@ IG1App::key(unsigned int key)
 		actualCam->orbit(0.5);
 		break;
 
-	//case 'n':
-		//ColorMaterialEntity::toggleShowNormals();
-		//break;
+	case 'n':
+		ColorMaterialEntity::toggleShowNormals();
+		break;
 
 	default:
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))

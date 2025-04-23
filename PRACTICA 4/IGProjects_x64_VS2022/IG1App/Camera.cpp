@@ -95,19 +95,16 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 void
 Camera::uploadVM() const
 {
-	glm::vec4 direction(-1.0f, -1.0f, -1.0f, 0.0f);
 
-	Shader::setUniform4All("modelView", mViewMat);
-
+	//Vector direccion
+	glm::vec4 dir (-1.0f, -1.0f, -1.0f, 0.0f);
+	//Activar shader simple_light
 	Shader* newShader = Shader::get("simple_light");
+	//Usar shader
 	newShader->use();
-	newShader->setUniform("lightDir", glm::normalize(glm::vec4(mViewMat * direction)));
+	//Vector normalizado
+	newShader->setUniform("lightDir", glm::normalize(glm::vec4(mViewMat * dir)));
 
-
-	//dmat4 ae = (-1.0f, -1.0f, -1.0f);
-	////mViewMat = mViewMat * ae;
-
-	//Shader::setUniform4All("lightDir", mViewMat*ae);
 }
 
 void
