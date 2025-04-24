@@ -115,9 +115,9 @@ public:
 	explicit ColorMaterialEntity();
 	void render(const glm::dmat4& modelViewMat) const override;
 
-	static void toggleShowNormals();
+	//static void toggleShowNormals();
 private:
-	static GLboolean mShowNormals;
+	//static GLboolean mShowNormals;
 };
 
 class CompoundEntity : public Abs_Entity

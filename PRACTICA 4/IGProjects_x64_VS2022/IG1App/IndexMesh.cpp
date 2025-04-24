@@ -94,16 +94,16 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 	//Y reserva los vertices
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	/* Explicación:
+	/* Explicacion:
 	   Creamos los 8 vertices (y los 36 indices asociados)
-		0 (1, 1, -1)
+		0 (1, 1, -1) 
 		1 (1, -1, -1)
-		2 (1, 1, 1)
+		2 (1, 1, 1) 
 		3 (1, -1, 1)
 		4 (-1, 1, 1)
 		5 (-1, -1, 1)
-		6 (-1, 1, -1)
-		7 (-1, -1, -1)
+		6 (-1, 1, -1) 
+		7 (-1, -1, -1) 
 
 		0, 1, 2, 2, 1, 3,
 		2, 3, 4, 4, 3, 5,
@@ -140,20 +140,32 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
 		mesh->vIndexes.push_back(index[i]); 
 	}
 
-	// ----- Calculo de las NORMALES a mano (sigue el orden de los vertices de arriba).
+	/* ---- - Calculo de las NORMALES a mano(sigue el orden de los vertices de arriba, con la explicacion del enunciado).
 	// Nota: ver el dibujo de chuletas para entender.
 
-	// --- Cara ROJA.
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(2, 2, -2))); // a
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, -2, -1))); // b
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, 1, 2))); // c
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(2, -1, 1))); // d
+	//// --- Cara ROJA.
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(2, 2, -2))); // a
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, -2, -1))); // b
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, 1, 2))); // c 
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(2, -1, 1))); // d
 
-	// --- Cara MORADA.
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, 2, 1))); // e
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-2, -2, 2))); // f
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-2, 1, -1))); // g
-	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, -1, -2))); // h 
+	//// --- Cara MORADA.
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, 2, 1))); // e
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-2, -2, 2))); // f
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-2, 1, -1))); // g
+	//mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, -1, -2))); // h 
+	*/
+
+	//Normales usando los valores de los vertices
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, 1, -1))); // a
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, -1, -1))); // b
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, 1, 1))); // c 
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(1, -1, 1))); // d 
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, 1, 1))); // e
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, -1, 1))); // f
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, 1, -1))); // g 
+	mesh->vNormals.emplace_back(glm::normalize(glm::vec3(-1, -1, -1))); // h 
+
 
 	//Devuelve la malla correspondiente
 	return mesh;

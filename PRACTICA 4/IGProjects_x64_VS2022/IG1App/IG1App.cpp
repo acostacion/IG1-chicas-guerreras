@@ -348,7 +348,7 @@ IG1App::key(unsigned int key)
 		break;
 
 	case 'n':
-		ColorMaterialEntity::toggleShowNormals();
+		//ColorMaterialEntity::toggleShowNormals();
 		break;
 
 	default:

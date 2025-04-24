@@ -120,19 +120,26 @@ ColorMaterialEntity::ColorMaterialEntity()
 
 void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 {
+	//if (mShowNormals) //usara el shader de las normales
+	//{
+	//	
+	//}
+	
 	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+	//Primera renderizacion
+	mMesh->render();
 	Shader* normalShaders = Shader::get("normals");
 	normalShaders->use();
 	upload(aMat);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+	//Segunda renderizacion con el shader normals
 	mMesh->render();
 }
 
-void ColorMaterialEntity::toggleShowNormals()
-{
-	mShowNormals = !mShowNormals;
-}
+//void ColorMaterialEntity::toggleShowNormals()
+//{
+//	mShowNormals = !mShowNormals;
+//}
 
 // ---- COMPOUND ENTITY ----
 CompoundEntity::CompoundEntity(GLboolean alfaActive): mAlfaActive(alfaActive)
@@ -758,7 +765,7 @@ void Photo::update()
 #pragma region PRACTICA 4
 Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints y mSamples = 40
 { 
-	mShader = Shader::get("simple");
+	mShader = Shader::get("normals");
 	//Shader* auxShader = Shader::get("normals");
 	//auxShader->use();
 	std::vector<glm::vec2> profile;
@@ -839,7 +846,7 @@ void IndexedBox::render(const glm::dmat4& modelViewMat) const
 
 Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)
 {
-	mShader = Shader::get("simple_light");
+	mShader = Shader::get("normals");
 	std::vector<glm::vec2> profile;
 
 	// Se van guardando en sentido antihorario desde x = 0
@@ -885,7 +892,7 @@ void Sphere::render(const glm::dmat4& modelViewMat) const
 
 Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 {
-	mShader = Shader::get("simple_light");
+	mShader = Shader::get("normals");
 	std::vector<glm::vec2> profile;
 
 	//El perfil es una linea recta
@@ -928,7 +935,7 @@ void Disk::render(const glm::dmat4& modelViewMat) const
 
 Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 {
-	mShader = Shader::get("simple_light");
+	mShader = Shader::get("normals");
 	std::vector<glm::vec2> profile;
 
 	// zona de abajo
@@ -988,7 +995,7 @@ WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
 PartialDisk::PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle)
 	: Disk(R, r, nRings, nSamples)
 {
-	mShader = Shader::get("simple_light");
+	mShader = Shader::get("normals");
 	std::vector<glm::vec2> profile;
 
 	//El perfil es una linea recta
