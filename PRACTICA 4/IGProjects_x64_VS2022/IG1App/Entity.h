@@ -314,21 +314,21 @@ public:
 };
 
 //Apartado 64
-class Sphere : public SingleColorEntity // TODO cambiar herencia
+class Sphere : public ColorMaterialEntity // TODO cambiar herencia
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians);
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
-class Disk : public SingleColorEntity // TODO cambiar herencia
+class Disk : public ColorMaterialEntity // TODO cambiar herencia
 {
 public:
 	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples);
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
-class Cone : public SingleColorEntity // TODO cambiar herencia
+class Cone : public ColorMaterialEntity // TODO cambiar herencia
 {
 	/*
 		· cono(r = 0 o R = 0)

@@ -81,7 +81,6 @@ void Scene::destroyScene()
 
 CompoundEntity* Scene::createAdvancedTie()
 {
-	
 	// ----- TIE FIGHTER -----
 	CompoundEntity* AdvancedTIE = new CompoundEntity();
 	gObjects.push_back(AdvancedTIE);
@@ -111,13 +110,13 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	// ----- CILINDRO DE ALA1 A ALA2 -----
 	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
-	cilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	cilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	cilinder->setModelMat(glm::rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
 	AdvancedTIE->addEntity(cilinder);
 
 	// ----- NUCLEO CENTRAL -----
-	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 20, 20);
-	nucleus->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 500, 500);
+	nucleus->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	AdvancedTIE->addEntity(nucleus);
 
 	// ----- MORRO -----
@@ -126,7 +125,7 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	// ----- CILINDER -----
 	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
-	noseCilinder->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	noseCilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	noseCilinder->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(150.0, 0.0, 0.0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
@@ -134,7 +133,7 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	// ----- DISK -----
 	Disk* noseDisk = new Disk(20, 0, 10, 40);
-	noseDisk->setColor(glm::vec4(0.0f, 65.0f, 106.0f, 255.0f)); //anil
+	noseDisk->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	noseDisk->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
@@ -154,14 +153,14 @@ CompoundEntity* Scene::createFarmer()
 	gObjects.push_back(farmer);
 
 	// ----- Cabeza -----
-	Sphere* cabeza = new Sphere(300, 20, 20);
-	// TODO: POR FAVOR NO VA EL COLOR NARANJA.
-	cabeza->setColor(glm::vec4(255.0, 140.0, 0.0, 255.0)); //orange (de la tabla)
+	Sphere* cabeza = new Sphere(300, 500, 500);
+	cabeza->setColor(glm::vec4(1.0f, 0.55f, 0.0f, 1.0f)); //orange (de la tabla)
 	farmer->addEntity(cabeza);
 
 	// ----- Boca -----
 	PartialDisk* boca = new PartialDisk(230, 30, 5, 50, glm::radians(180.0));
-	boca->setColor(glm::vec4(0.0f, 255.0, 0.0, 255.0)); //green
+	//boca->setColor(glm::vec4(0.0f, 255.0, 0.0, 255.0)); //green sin shader
+	boca->setColor(glm::vec4(0.0f, 1.0, 0.0, 1.0)); //green
 	boca->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, 190.0))
 		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
@@ -170,7 +169,8 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Sombrero -----
 	Disk* sombrero = new Disk(400, 0, 5, 50);
-	sombrero->setColor(glm::vec4(255.0, 0.0, 0.0, 255.0)); //red
+	//sombrero->setColor(glm::vec4(255.0, 0.0, 0.0, 255.0)); //red sin shader
+	sombrero->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0)); //red
 	sombrero->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(0.0, 200.0, 0.0))
 	);
@@ -178,7 +178,7 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Ojo derecho -----
 	Cone* ojoDer = new Cone(70, 5, 40, 5, 50);
-	ojoDer->setColor(glm::vec4(0.0, 0.0, 255.0, 255.0)); // TODO: CAMBIAR COLOR.
+	ojoDer->setColor(glm::vec4(0.3, 0.35, 0.4,1.0)); //gris marengo, (76, 88, 102)
 	ojoDer->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(-70.0, 100.0, 300.0))
 		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
@@ -187,7 +187,7 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Ojo izquierdo -----
 	Cone* ojoIzq = new Cone(70, 5, 30, 5, 50);
-	ojoIzq->setColor(glm::vec4(0.0, 0.0, 255.0, 255.0)); // TODO: CAMBIAR COLOR.
+	ojoIzq->setColor(glm::vec4(0.0, 0.0, 0.5, 1.0)); //azul marino, (0, 0, 128)
 	ojoIzq->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(70.0, 100.0, 300.0))
 		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
@@ -444,6 +444,7 @@ void Scene4::init() {
 
 	// ----- TORUS -----
 	Torus* torus = new Torus(200, 50, 40, 40);
+	torus->setModelMat (glm::rotate(glm::dmat4(1), radians(-180.0), dvec3(0.0, 1.0, 0.0)));
 	gObjects.push_back(torus);
 }
 
@@ -479,12 +480,11 @@ void Scene7::init()
 	//glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
 
 	// ----- TATOOINE -----
-	Sphere* tatooine = new Sphere(150, 30, 30);
-	tatooine->setColor(glm::vec4(255.0f, 233.0f, 0.0f, 255.0f)); //amarillo
+	Sphere* tatooine = new Sphere(150, 500, 500);
+	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
 	gObjects.push_back(tatooine);
 
 	// ----- ADVANCED TIE -----
-	//TODO: duda Que hacer para no copiarlo entero?
 	_advancedTie = createAdvancedTie();
 
 	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
@@ -493,9 +493,6 @@ void Scene7::init()
 
 	// nodo ficticio.
 	_advancedTieInTatooine = new CompoundEntity();
-
-	// colocacion del nodo ficticio en el polo norte y con escala
-	//_advancedTieInTatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
 
 	_advancedTieInTatooine->addEntity(_advancedTie);
 

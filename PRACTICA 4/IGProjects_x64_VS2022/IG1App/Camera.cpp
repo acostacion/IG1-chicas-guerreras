@@ -95,7 +95,6 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 void
 Camera::uploadVM() const
 {
-
 	//Vector direccion
 	glm::vec4 dir (-1.0f, -1.0f, -1.0f, 0.0f);
 	//Activar shader simple_light
