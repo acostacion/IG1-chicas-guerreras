@@ -153,7 +153,6 @@ CompoundEntity::CompoundEntity(GLboolean alfaActive): mAlfaActive(alfaActive)
 		mShader = Shader::get("texture:texture_alpha");
 	}
 	else {
-		// TODO: luego ver que hacer con respecto a las entidades de un solo color.
 		mShader = Shader::get("texture");
 	}
 }

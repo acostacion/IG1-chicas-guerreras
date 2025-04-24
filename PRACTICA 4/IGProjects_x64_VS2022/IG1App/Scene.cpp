@@ -119,6 +119,7 @@ CompoundEntity* Scene::createAdvancedTie()
 	nucleus->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	AdvancedTIE->addEntity(nucleus);
 
+	// TODO: da errores al meter una CompoundEntity dentro de otra. Pasa tambien con el nodo ficticio de Tatooine
 	// ----- MORRO -----
 	// Morro es una entidad compuesta por cilinder y disk
 	CompoundEntity* nose = new CompoundEntity();

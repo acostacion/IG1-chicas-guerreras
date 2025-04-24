@@ -117,6 +117,8 @@ public:
 	Scene7() = default;
 	void init() override;
 	void setBackgroundColor() override;
+
+	
 };
 
 class Scene8 : public Scene
