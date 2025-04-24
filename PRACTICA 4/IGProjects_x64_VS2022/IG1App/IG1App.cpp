@@ -550,6 +550,7 @@ IG1App::changeScene(size_t sceneNr)
 	if (sceneNr != mCurrentScene) {
 		mScenes[mCurrentScene]->unload(); // descarga cosas internas
 		mCurrentScene = sceneNr;
+		mScenes[mCurrentScene]->reset(); // resetea valores de gl
 		mScenes[mCurrentScene]->load(); // carga cosas internas
 		mNeedsRedisplay = true;
 	}

@@ -28,6 +28,8 @@ public:
 	void unload();
 	void destroyScene();
 
+	void reset();
+
 	// metodos de tiefighter starwars
 	
 	void rotate();
@@ -35,7 +37,6 @@ public:
 
 protected:
 	// metodos de tiefighter starwars.
-	//TODO: duda Que hacer para no copiarlo entero?
 	CompoundEntity* _advancedTie;
 	CompoundEntity* _advancedTieInTatooine;
 	CompoundEntity* createAdvancedTie();
@@ -46,10 +47,11 @@ protected:
 	CompoundEntity* createFarmer();
 
 	void destroy();
-	virtual void setGL();
+	void setGL();
+	virtual void setBackgroundColor();
 	void resetGL();
 
-	void reset();
+
 
 	std::vector<Abs_Entity*> gObjects;		// Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
@@ -106,7 +108,7 @@ class Scene6 : public Scene
 public:
 	Scene6() = default;
 	void init() override;
-	void setGL() override;
+	void setBackgroundColor() override;
 };
 
 class Scene7 : public Scene
@@ -114,7 +116,7 @@ class Scene7 : public Scene
 public:
 	Scene7() = default;
 	void init() override;
-	void setGL() override;
+	void setBackgroundColor() override;
 };
 
 class Scene8 : public Scene

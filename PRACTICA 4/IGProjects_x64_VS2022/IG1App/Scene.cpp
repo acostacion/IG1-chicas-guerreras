@@ -234,12 +234,16 @@ void Scene::orbit()
 void
 Scene::setGL()
 {
-	// OpenGL basic setting
-	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha = 1 -> opaque)
+	setBackgroundColor();	//elige el color que se le pase en cada escena, es color base es azul
 	glEnable(GL_DEPTH_TEST);							  // enable Depth test -> inicialzacion
 
 	// BLENDING
 	glEnable(GL_BLEND);
+}
+void Scene::setBackgroundColor()
+{
+	// OpenGL basic setting
+	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha = 1 -> opaque)
 }
 void
 Scene::resetGL()
@@ -470,14 +474,9 @@ void Scene6::init()
 	createAdvancedTie();
 }
 
-void Scene6::setGL()
+void Scene6::setBackgroundColor()
 {
-	// OpenGL basic setting
-	glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
-	glEnable(GL_DEPTH_TEST);							  // enable Depth test -> inicialzacion
-
-	// BLENDING
-	glEnable(GL_BLEND);
+	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
 
 // ---- SCENE 7 ----
@@ -506,14 +505,9 @@ void Scene7::init()
 
 }
 
-void Scene7::setGL()
+void Scene7::setBackgroundColor()
 {
-	// OpenGL basic setting
-	glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
-	glEnable(GL_DEPTH_TEST);							  // enable Depth test -> inicialzacion
-
-	// BLENDING
-	glEnable(GL_BLEND);
+	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
 
 // ---- SCENE 8 ----
