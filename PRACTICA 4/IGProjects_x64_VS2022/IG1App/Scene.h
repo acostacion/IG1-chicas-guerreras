@@ -46,7 +46,7 @@ protected:
 	CompoundEntity* createFarmer();
 
 	void destroy();
-	void setGL();
+	virtual void setGL();
 	void resetGL();
 
 	void reset();
@@ -106,6 +106,7 @@ class Scene6 : public Scene
 public:
 	Scene6() = default;
 	void init() override;
+	void setGL() override;
 };
 
 class Scene7 : public Scene
@@ -113,6 +114,7 @@ class Scene7 : public Scene
 public:
 	Scene7() = default;
 	void init() override;
+	void setGL() override;
 };
 
 class Scene8 : public Scene

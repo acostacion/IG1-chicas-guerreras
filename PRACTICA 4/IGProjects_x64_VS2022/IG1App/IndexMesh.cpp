@@ -2,7 +2,16 @@
 
 #include <numbers>
 
+constexpr GLuint NONE = std::numeric_limits<GLuint>::max();
 
+IndexMesh::IndexMesh(): mIBO(NONE)
+{
+}
+
+IndexMesh::~IndexMesh()
+{
+	unload();
+}
 
 void IndexMesh::load()
 {
@@ -24,16 +33,10 @@ void IndexMesh::unload()
 		mVAO = GL_NONE;
 		mIBO = GL_NONE;
 
-		//if (mCBO != NONE) {
-		//	glDeleteBuffers(1, &mCBO);
-		//	mCBO = NONE;
-		//}
-
-		//// eliminar las coordenadas de textura de la GPU
-		//if (mTCO != NONE) {
-		//	glDeleteBuffers(1, &mTCO);
-		//	mTCO = NONE;
-		//}
+		if (mIBO != NONE) {
+			glDeleteBuffers(1, &mIBO);
+			mIBO = NONE;
+		}
 	}
 }
 

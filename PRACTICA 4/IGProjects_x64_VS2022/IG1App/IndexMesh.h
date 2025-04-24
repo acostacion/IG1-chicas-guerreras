@@ -7,6 +7,9 @@ class IndexMesh : public Mesh
 {
 
 public:
+	IndexMesh();
+	virtual ~IndexMesh();
+
 	void load() override;
 	void unload() override;
 

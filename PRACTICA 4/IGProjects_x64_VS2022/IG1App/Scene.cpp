@@ -463,21 +463,29 @@ void Scene5::init()
 // ---- SCENE 6 ----
 void Scene6::init()
 {
-	// -- llama a init del padre
-	Scene::init();
+	// -- en lugar de llamar al init del padre hacemos:
+	setGL();
+	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
 
 	createAdvancedTie();
+}
+
+void Scene6::setGL()
+{
+	// OpenGL basic setting
+	glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
+	glEnable(GL_DEPTH_TEST);							  // enable Depth test -> inicialzacion
+
+	// BLENDING
+	glEnable(GL_BLEND);
 }
 
 // ---- SCENE 7 ----
 void Scene7::init()
 {
-	// -- llama a init del padre
-	Scene::init();
-
-	//TODO: duda, como poner fondo negro aqui, y que no afecte a las demas escenas
-	//Fondo negro
-	//glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
+	// -- en lugar de llamar al init del padre hacemos:
+	setGL(); 
+	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
 
 	// ----- TATOOINE -----
 	Sphere* tatooine = new Sphere(150, 500, 500);
@@ -496,6 +504,16 @@ void Scene7::init()
 
 	_advancedTieInTatooine->addEntity(_advancedTie);
 
+}
+
+void Scene7::setGL()
+{
+	// OpenGL basic setting
+	glClearColor(0.0, 0.0, 0.0, 1.0); // background color (alpha = 1 -> opaque)
+	glEnable(GL_DEPTH_TEST);							  // enable Depth test -> inicialzacion
+
+	// BLENDING
+	glEnable(GL_BLEND);
 }
 
 // ---- SCENE 8 ----
