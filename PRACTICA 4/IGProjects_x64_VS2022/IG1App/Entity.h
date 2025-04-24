@@ -117,7 +117,7 @@ public:
 
 	static void toggleShowNormals();
 private:
-	static GLboolean mShowNormals;
+	inline static bool mShowNormals = false;
 };
 
 class CompoundEntity : public Abs_Entity

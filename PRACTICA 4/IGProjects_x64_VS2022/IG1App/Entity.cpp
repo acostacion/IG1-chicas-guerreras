@@ -114,7 +114,6 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 // ---- COLOR MATERIAL ENTITY ----
 ColorMaterialEntity::ColorMaterialEntity() 
 {
-	//mShowNormals = false;
 	mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
 }
 
@@ -126,24 +125,25 @@ void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 		//Primera renderizacion
 		mShader->use();
 		mShader->setUniform("modelView", aMat);
+		mShader->setUniform("color", (vec4)getColor()); 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		upload(aMat);
 		mMesh->render();
 
 		//Segunda renderizacion
-		//if (mShowNormals) {
+		if (mShowNormals) {
 			Shader* aux = Shader::get("normals");
 			aux->use();
 			aux->setUniform("modelView", aMat);
 			upload(aMat);
 			mMesh->render();
-		//}
+		}
 	}
 }
 
 void ColorMaterialEntity::toggleShowNormals()
 {
-	//mShowNormals = !mShowNormals;
+	mShowNormals = !mShowNormals;
 }
 
 // ---- COMPOUND ENTITY ----
