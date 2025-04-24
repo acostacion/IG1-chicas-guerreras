@@ -79,6 +79,7 @@ pasa el color al shader de fragmentos.
 #include "Camera.h"
 #include "Scene.h"
 #include "Viewport.h"
+#include "Entity.h"
 
 class IG1App
 {

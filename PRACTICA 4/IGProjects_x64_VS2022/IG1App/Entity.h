@@ -115,9 +115,9 @@ public:
 	explicit ColorMaterialEntity();
 	void render(const glm::dmat4& modelViewMat) const override;
 
-	//static void toggleShowNormals();
+	static void toggleShowNormals();
 private:
-	//static GLboolean mShowNormals;
+	static GLboolean mShowNormals;
 };
 
 class CompoundEntity : public Abs_Entity
@@ -314,21 +314,21 @@ public:
 };
 
 //Apartado 64
-class Sphere : public ColorMaterialEntity // TODO cambiar herencia
+class Sphere : public ColorMaterialEntity 
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians);
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
-class Disk : public ColorMaterialEntity // TODO cambiar herencia
+class Disk : public ColorMaterialEntity 
 {
 public:
 	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples);
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
-class Cone : public ColorMaterialEntity // TODO cambiar herencia
+class Cone : public ColorMaterialEntity 
 {
 	/*
 		· cono(r = 0 o R = 0)
@@ -347,7 +347,7 @@ public:
 };
 
 //Apartado 69
-class PartialDisk : public Disk //Usa el rende de Disk
+class PartialDisk : public Disk //Usa el render de Disk
 {
 public:
 	explicit PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle);

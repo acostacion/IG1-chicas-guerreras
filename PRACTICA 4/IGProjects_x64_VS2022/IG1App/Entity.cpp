@@ -112,7 +112,7 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 }
 
 // ---- COLOR MATERIAL ENTITY ----
-ColorMaterialEntity::ColorMaterialEntity()
+ColorMaterialEntity::ColorMaterialEntity() 
 {
 	//mShowNormals = false;
 	mShader = Shader::get("simple_light"); //simple_light_vertex o _fragment
@@ -120,31 +120,35 @@ ColorMaterialEntity::ColorMaterialEntity()
 
 void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 {
-	//if (mShowNormals) //usara el shader de las normales
-	//{
-	//	
-	//}
-	
-	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-	//Primera renderizacion
-	mMesh->render();
-	Shader* normalShaders = Shader::get("normals");
-	normalShaders->use();
-	upload(aMat);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//Segunda renderizacion con el shader normals
-	mMesh->render();
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
+		//Primera renderizacion
+		mShader->use();
+		mShader->setUniform("modelView", aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		upload(aMat);
+		mMesh->render();
+
+		//Segunda renderizacion
+		//if (mShowNormals) {
+			Shader* aux = Shader::get("normals");
+			aux->use();
+			aux->setUniform("modelView", aMat);
+			upload(aMat);
+			mMesh->render();
+		//}
+	}
 }
 
-//void ColorMaterialEntity::toggleShowNormals()
-//{
-//	mShowNormals = !mShowNormals;
-//}
+void ColorMaterialEntity::toggleShowNormals()
+{
+	//mShowNormals = !mShowNormals;
+}
 
 // ---- COMPOUND ENTITY ----
 CompoundEntity::CompoundEntity(GLboolean alfaActive): mAlfaActive(alfaActive)
 {
-	// TODO: duda: GLboolean modulate nos haria falta aqui para algo, ya que mAlfaActive si lo necesitamos...
 	if (mAlfaActive) {
 		mShader = Shader::get("texture:texture_alpha");
 	}
