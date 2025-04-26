@@ -349,8 +349,14 @@ IG1App::key(unsigned int key)
 		actualCam->orbit(0.5);
 		break;
 
+		// normals
 	case 'n':
 		ColorMaterialEntity::toggleShowNormals();
+		break;
+
+		// luz direccional
+	case 'r':
+		DirLight::toggleDirLight();
 		break;
 
 	default:

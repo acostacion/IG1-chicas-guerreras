@@ -66,6 +66,10 @@ public:
 	Texture* const& getTexture() const { return mTexture; }
 	void setTexture(Texture* tex) { mTexture = tex; }
 
+	//Shader
+	Shader* const& getShader() const { return mShader; }
+	void setShader(Shader* sha) { mShader = sha; }
+
 	// load or unload entity data into the GPU
 	virtual void load();
 	virtual void unload();

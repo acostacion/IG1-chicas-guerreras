@@ -41,14 +41,23 @@ public:
 
 	virtual void upload(Shader& shader, glm::mat4 const& modelViewMat) const override;
 	void setDirection(const glm::vec3& dir);
+	static void toggleDirLight();
 
 protected:
 	glm::vec4 direction = {-1, -1, -1, 0};
+	inline static bool mDirLightOn = false;
 };
 
 inline void
 DirLight::setDirection(const glm::vec3& dir) {
 	direction = glm::vec4(dir, 0.0);
+}
+
+inline void DirLight::toggleDirLight()
+{
+	mDirLightOn = !mDirLightOn;
+	//setEnabled(mDirLightOn);
+
 }
 
 class PosLight : public Light {

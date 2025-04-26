@@ -12,6 +12,16 @@ void Scene::init()
 
 	// allocate memory and load resources
 	// Lights
+	//Luz direccional (con id = 0 default)
+	DirLight* dirLight = new DirLight();
+	//valores de simple_light
+	dirLight->setAmb(vec3(.25, .25, .25));
+	dirLight->setDiff(vec3(.6, .6, .6));
+	dirLight->setSpec(vec3(0, 0.2, 0));
+	//se anade al array
+	gLights.emplace_back(dirLight);
+
+
 	// Textures
 
 	// Graphics objects (entities) of the scene
@@ -264,6 +274,11 @@ Scene::resetGL()
 void Scene::uploadLights() const
 {
 	for (Light* l : gLights) {
+		for (Abs_Entity* el : gObjects)
+		{
+			//l->upload(el->getShader(), el->modelMat());
+		}
+			//el->render(cam.viewMat());
 		//l->upload(); TODO: QUE MODELMAT Y QUE SHADER HAY QUE PASARLE??=?
 	}
 }
