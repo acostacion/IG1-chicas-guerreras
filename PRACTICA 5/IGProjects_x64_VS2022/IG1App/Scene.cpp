@@ -52,6 +52,11 @@ Scene::destroy()
 		delete t;
 
 	gTextures.clear();
+
+	for (Light* l : gLights)
+		delete l;
+
+	gLights.clear();
 }
 
 void
@@ -256,6 +261,13 @@ Scene::resetGL()
 	glDisable(GL_BLEND);
 }
 
+void Scene::uploadLights() const
+{
+	for (Light* l : gLights) {
+		//l->upload(); TODO: QUE MODELMAT Y QUE SHADER HAY QUE PASARLE??=?
+	}
+}
+
 // Para borrar las cosas al cambiar de una escena a otra (ponerla en blanco otra vez).
 void Scene::reset()
 {
@@ -268,6 +280,8 @@ void
 Scene::render(Camera const& cam) const
 {
 	cam.upload();
+
+	//uploadLights(); TODO aun no
 
 	// opacos       -> primero objetos sin transparencia
 	for (Abs_Entity* el : gObjects)
@@ -523,4 +537,24 @@ void Scene8::init()
 		scale(glm::dmat4(1), glm::dvec3(0.5, 0.5, 0.5))
 		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
 	);
+}
+
+void Scene9::init()
+{
+	// -- llama a init del padre
+	Scene::init();
+
+	// ----- TATOOINE -----
+	Sphere* tatooine = new Sphere(100, 500, 500);
+	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	tatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(250, 0, 0)));
+	gObjects.push_back(tatooine);
+
+	// ----- GOLDEN TATOOINE -----
+	Sphere* tatooineG = new Sphere(100, 500, 500);
+	tatooineG->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	tatooineG->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, 250)));
+	gObjects.push_back(tatooineG);
+
+
 }

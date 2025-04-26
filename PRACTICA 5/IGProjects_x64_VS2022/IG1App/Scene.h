@@ -6,6 +6,7 @@
 
 #include "Camera.h"
 #include "Entity.h"
+#include "Light.h"
 
 #include <vector>
 
@@ -51,11 +52,12 @@ protected:
 	virtual void setBackgroundColor();
 	void resetGL();
 
-
+	void uploadLights() const; // para cargar las luces antes de renderizar las entidades
 
 	std::vector<Abs_Entity*> gObjects;		// Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
 	std::vector<Texture*> gTextures;		// texturas de la escena
+	std::vector<Light*> gLights;			// luces de la escena
 };
 
 // --- ESCENAS HIJAS ---
@@ -123,6 +125,13 @@ class Scene8 : public Scene
 {
 public:
 	Scene8() = default;
+	void init() override;
+};
+
+class Scene9 : public Scene
+{
+public:
+	Scene9() = default;
 	void init() override;
 };
 
