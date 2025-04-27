@@ -44,7 +44,8 @@ public:
 	static void toggleDirLight();
 
 protected:
-	glm::vec4 direction = {-1, -1, -1, 0};
+	///glm::vec4 direction = {-1, -1, -1, 0};
+	glm::vec4 direction = { 1, 1, 1, 0 };
 	inline static bool mDirLightOn = false;
 };
 

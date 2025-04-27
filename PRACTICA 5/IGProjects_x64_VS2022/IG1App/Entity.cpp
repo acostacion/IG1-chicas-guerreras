@@ -815,14 +815,14 @@ Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints 
 
 void Torus::render(const glm::dmat4& modelViewMat) const
 {
-	//Vector direccion (no funciona con -1, -1, -1) para los torus
-	glm::vec4 dir(1.0f, 1.0f, 1.0f, 0.0f);
-	//Activar shader simple_light
-	Shader* newShader = Shader::get("simple_light");
-	//Usar shader
-	newShader->use();
-	//Vector normalizado
-	newShader->setUniform("lightDir", glm::normalize(glm::vec4(modelViewMat * dir)));
+	////Vector direccion (no funciona con -1, -1, -1) para los torus
+	//glm::vec4 dir(1.0f, 1.0f, 1.0f, 0.0f);
+	////Activar shader simple_light
+	//Shader* newShader = Shader::get("simple_light");
+	////Usar shader
+	//newShader->use();
+	////Vector normalizado
+	//newShader->setUniform("lightDir", glm::normalize(glm::vec4(modelViewMat * dir)));
 
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
