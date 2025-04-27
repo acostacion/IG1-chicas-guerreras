@@ -116,13 +116,23 @@ protected:
 	GLboolean mAlfaActive;
 };
 
-class ColorMaterialEntity : public SingleColorEntity
+class EntityWithMaterial : public SingleColorEntity {
+public:
+	EntityWithMaterial();
+	void render(const glm::dmat4& modelViewMat) const override;
+	void setMaterial(const Material& m) { _material = m; };
+	Material getMaterial() { return _material; }
+protected:
+	Material _material;
+};
+
+class ColorMaterialEntity : public EntityWithMaterial
 {
 public:
 	explicit ColorMaterialEntity();
 	void render(const glm::dmat4& modelViewMat) const override;
-
 	static void toggleShowNormals();
+	
 private:
 	inline static bool mShowNormals = false;
 };
@@ -149,15 +159,9 @@ protected:
 	GLboolean mAlfaActive;
 };
 
-class EntityWithMaterial : public Abs_Entity {
-public:
-	EntityWithMaterial();
-	void render(const glm::dmat4& modelViewMat) const override;
-	void setMaterial(const Material& m) { material = m; };
-	Material getMaterial() { return material; }
-protected:
-	Material material;
-};
+
+
+
 
 // -----------------
 

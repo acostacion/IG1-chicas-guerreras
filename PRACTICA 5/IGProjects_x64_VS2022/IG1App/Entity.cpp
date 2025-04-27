@@ -112,8 +112,13 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 }
 
 // ---- COLOR MATERIAL ENTITY ----
-ColorMaterialEntity::ColorMaterialEntity() 
+ColorMaterialEntity::ColorMaterialEntity()
 {
+	// Material con todas sus componentes a un color fijo.
+	glm::vec3 color(1.0, 1.0, 0.0); // amarillo inicialmente
+	_material.setAmb(color);
+	_material.setDiff(color);
+	_material.setSpec(color);
 	mShader = Shader::get("simple_light");
 }
 
@@ -129,6 +134,7 @@ void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		upload(aMat);
 		mMesh->render();
+
 
 		//Segunda renderizacion
 		if (mShowNormals) {

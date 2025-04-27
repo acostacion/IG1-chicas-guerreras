@@ -18,7 +18,13 @@ public:
 	void setSpec(const glm::vec3& v);
 	void setExp(GLfloat exp);
 
+	const glm::vec3& getAmb() { return ambient; }
+	const glm::vec3& getDiff() { return diffuse; }
+	const glm::vec3& getSpec() { return specular; }
+	GLfloat getExp() { return expF; }
+
 	void setCopper();
+
 
 protected:
 	// Coeficientes de reflexión
