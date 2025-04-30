@@ -87,6 +87,9 @@ Scene::unload()
 
 	for (Abs_Entity* obj : gObjectsTrans)
 		obj->unload();
+
+	//for(Light* obj : gLights)
+		//obj->un
 }
 
 void Scene::destroyScene()
@@ -160,7 +163,6 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	return AdvancedTIE;
 }
-
 
 CompoundEntity* Scene::createFarmer()
 {
@@ -271,15 +273,12 @@ Scene::resetGL()
 	glDisable(GL_BLEND);
 }
 
-void Scene::uploadLights() const
+void Scene::uploadLights(Camera const& cam) const
 {
 	for (Light* l : gLights) {
-		for (Abs_Entity* el : gObjects)
-		{
-			//l->upload(el->getShader(), el->modelMat());
-		}
-			//el->render(cam.viewMat());
-		//l->upload(); TODO: QUE MODELMAT Y QUE SHADER HAY QUE PASARLE??=?
+		// se pasa el shader "light" y el modelviewmat de la camera.
+		Shader s = Shader("light");
+		l->upload(s, cam.viewMat());
 	}
 }
 
@@ -296,7 +295,7 @@ Scene::render(Camera const& cam) const
 {
 	cam.upload();
 
-	//uploadLights(); TODO aun no
+	uploadLights(cam);
 
 	// opacos       -> primero objetos sin transparencia
 	for (Abs_Entity* el : gObjects)

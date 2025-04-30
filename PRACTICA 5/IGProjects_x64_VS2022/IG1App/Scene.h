@@ -52,7 +52,7 @@ protected:
 	virtual void setBackgroundColor();
 	void resetGL();
 
-	void uploadLights() const; // para cargar las luces antes de renderizar las entidades
+	void uploadLights(Camera const& cam) const; // para cargar las luces antes de renderizar las entidades
 
 	std::vector<Abs_Entity*> gObjects;		// Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
