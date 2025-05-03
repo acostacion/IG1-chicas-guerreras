@@ -41,11 +41,11 @@ public:
 
 	virtual void upload(Shader& shader, glm::mat4 const& modelViewMat) const override;
 	void setDirection(const glm::vec3& dir);
-	static void toggleDirLight();
+	void toggleDirLight();
 
 protected:
 	///glm::vec4 direction = {-1, -1, -1, 0};
-	inline static bool mDirLightOn = false;
+	bool mDirLightOn = false;
 	glm::vec4 direction = { 1, 1, 1, 0 };
 };
 
@@ -68,10 +68,10 @@ public:
 
 	void setPosition(const glm::fvec3& dir);
 	void setAttenuation(GLfloat kc, GLfloat kl, GLfloat kq);
-	static void togglePosLight();
+	void togglePosLight();
 
 protected:
-	inline static bool mPosLightOn = false;
+	bool mPosLightOn = false;
 	glm::vec4 position = {0, 0, 0, 1};
 	// Factores de atenuación
 	GLfloat constant = 1, linear = 0, quadratic = 0;
@@ -91,6 +91,7 @@ PosLight::setAttenuation(GLfloat nkc, GLfloat nkl, GLfloat nkq) {
 
 inline void PosLight::togglePosLight()
 {
+	// TODO: hacer que se haga con los ifs fuera.
 	mPosLightOn = !mPosLightOn;
 	//setEnabled(mPosLightOn);
 }
@@ -102,10 +103,10 @@ public:
 	virtual void upload(Shader& shader, glm::mat4 const& modelViewMat) const override;
 	void setDirection(const glm::vec3& dir) { direction = dir; }
 	void setCutoff(float inner, float outer);
-	static void toggleSpotLight();
+	void toggleSpotLight();
 
 protected:
-	inline static bool mSpotLightOn = false;
+	bool mSpotLightOn = false;
 	// Atributos del foco
 	glm::vec3 direction = {0, 0, -1};
 	GLfloat cutoff = 60, outerCutoff = 120;

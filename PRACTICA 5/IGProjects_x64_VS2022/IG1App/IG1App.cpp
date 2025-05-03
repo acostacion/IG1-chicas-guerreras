@@ -356,7 +356,7 @@ IG1App::key(unsigned int key)
 
 		// luz direccional
 	case 'r':
-		DirLight::toggleDirLight();
+		//DirLight::toggleDirLight();
 		//std::cout << DirLight::mDirLightOn;
 		break;
 
@@ -364,7 +364,7 @@ IG1App::key(unsigned int key)
 	case 't':
 		if (mScenes[mCurrentScene] == mScenes[7])
 		{
-			PosLight::togglePosLight();
+			//PosLight::togglePosLight();
 		}
 		break;
 
@@ -372,7 +372,7 @@ IG1App::key(unsigned int key)
 	case 'y':
 		if (mScenes[mCurrentScene] == mScenes[7])
 		{
-			SpotLight::toggleSpotLight();
+			//SpotLight::toggleSpotLight(); TODO AJUSAR PARA Q NO SEAN ESTATICOS
 		}
 		break;
 

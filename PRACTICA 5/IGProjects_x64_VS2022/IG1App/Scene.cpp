@@ -248,8 +248,7 @@ void Scene::orbit()
 	);
 }
 
-void
-Scene::setGL()
+void Scene::setGL()
 {
 	setBackgroundColor();	//elige el color que se le pase en cada escena, es color base es azul
 	glEnable(GL_DEPTH_TEST);							  // enable Depth test -> inicialzacion
@@ -532,6 +531,7 @@ void Scene7::init()
 
 	// allocate memory and load resources
 	// Lights
+
 	//Luz posicional 
 	PosLight* posLight = new PosLight();
 	//valores de luz
@@ -553,6 +553,17 @@ void Scene7::init()
 	spotLight->setSpec(vec3(0, 0.2, 0));
 	//se anade al array
 	gLights.emplace_back(spotLight);
+
+	// Luz foco tie
+	SpotLight* tieSpotLight = new SpotLight();
+	//valores de luz
+	//en algun punto de la parte positiva del plano XY
+	tieSpotLight->setPosition(vec3(450.0f, 450.0f, -450.0f)); // tst! posicion del tie.
+	tieSpotLight->setAmb(vec3(.25, .25, .25));
+	tieSpotLight->setDiff(vec3(1.0, 1.0, 0.0));
+	tieSpotLight->setSpec(vec3(0, 0.2, 0));
+	//se anade al array
+	gLights.emplace_back(tieSpotLight);
 
 	// Entities
 	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
