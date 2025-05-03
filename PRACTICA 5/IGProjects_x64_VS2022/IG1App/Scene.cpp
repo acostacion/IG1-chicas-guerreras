@@ -293,11 +293,15 @@ void Scene::reset()
 void
 Scene::render(Camera const& cam) const
 {
+	// 1. Camara.
 	cam.upload();
 
+	// 2. Luces.
 	uploadLights(cam);
 
-	// opacos       -> primero objetos sin transparencia
+	// 3. Accion.
+
+	// --- opacos       -> primero objetos sin transparencia
 	for (Abs_Entity* el : gObjects)
 		el->render(cam.viewMat());
 
@@ -305,7 +309,7 @@ Scene::render(Camera const& cam) const
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // activa blend func antes de renderizar objetos translucidos
 	glDepthMask(GL_FALSE);							   // 
 
-	// translucidos -> despues objetos con transparencia
+	// --- translucidos -> despues objetos con transparencia
 	for (Abs_Entity* el : gObjectsTrans) 
 		el->render(cam.viewMat());
 
