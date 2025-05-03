@@ -18,9 +18,9 @@ void Scene::init()
 	dirLight->setAmb(vec3(.25, .25, .25));
 	dirLight->setDiff(vec3(.6, .6, .6));
 	dirLight->setSpec(vec3(0, 0.2, 0));
+	dirLight->setDirection(vec3(-1.0, -1.0, -1.0));
 	//se anade al array
 	gLights.emplace_back(dirLight);
-
 
 	// Textures
 
@@ -42,7 +42,6 @@ Scene::~Scene()
 	destroy();
 	resetGL();
 }
-
 
 void
 Scene::destroy()
@@ -79,8 +78,7 @@ Scene::load()
 		obj->load();
 }
 
-void
-Scene::unload()
+void Scene::unload()
 {
 	for (Abs_Entity* obj : gObjects)
 		obj->unload();
@@ -88,8 +86,9 @@ Scene::unload()
 	for (Abs_Entity* obj : gObjectsTrans)
 		obj->unload();
 
-	//for(Light* obj : gLights)
-		//obj->un
+	Shader s = Shader("light");
+	for (Light* lig : gLights)
+		lig->unload(s );
 }
 
 void Scene::destroyScene()
@@ -258,13 +257,14 @@ Scene::setGL()
 	// BLENDING
 	glEnable(GL_BLEND);
 }
+
 void Scene::setBackgroundColor()
 {
 	// OpenGL basic setting
 	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha = 1 -> opaque)
 }
-void
-Scene::resetGL()
+
+void Scene::resetGL()
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 	glDisable(GL_DEPTH_TEST);					  // disable Depth test
@@ -276,10 +276,23 @@ Scene::resetGL()
 void Scene::uploadLights(Camera const& cam) const
 {
 	for (Light* l : gLights) {
+	
 		// se pasa el shader "light" y el modelviewmat de la camera.
 		Shader s = Shader("light");
+		//Usamos el shader
+		s.use();
+		// actualizamos las luces
 		l->upload(s, cam.viewMat());
 	}
+
+	/*//Vector direccion
+	glm::vec4 dir(-1.0f, -1.0f, -1.0f, 0.0f);
+	//Activar shader simple_light
+	Shader* newShader = Shader::get("simple_light");
+	//Usar shader
+	newShader->use();
+	//Vector normalizado
+	newShader->setUniform("lightDir", glm::normalize(glm::vec4(mViewMat * dir)));*/
 }
 
 // Para borrar las cosas al cambiar de una escena a otra (ponerla en blanco otra vez).
@@ -290,8 +303,7 @@ void Scene::reset()
 	init();
 }
 
-void
-Scene::render(Camera const& cam) const
+void Scene::render(Camera const& cam) const
 {
 	// 1. Camara.
 	cam.upload();
@@ -301,7 +313,7 @@ Scene::render(Camera const& cam) const
 
 	// 3. Accion.
 
-	// --- opacos       -> primero objetos sin transparencia
+	// --- opacos -> primero objetos sin transparencia
 	for (Abs_Entity* el : gObjects)
 		el->render(cam.viewMat());
 
@@ -516,7 +528,33 @@ void Scene6::setBackgroundColor()
 void Scene7::init()
 {
 	// -- en lugar de llamar al init del padre hacemos:
-	setGL(); 
+	setGL();
+
+	// allocate memory and load resources
+	// Lights
+	//Luz posicional 
+	PosLight* posLight = new PosLight();
+	//valores de luz
+	//en algun punto de la parte positiva del plano XY
+	posLight->setPosition(vec3(450.0f, 450.0f, 450.0f));
+	posLight->setAmb(vec3(.25, .25, .25));
+	posLight->setDiff(vec3(.6, .6, .6));
+	posLight->setSpec(vec3(0, 0.2, 0));
+	//se anade al array
+	gLights.emplace_back(posLight);
+
+	//Luz foco
+	SpotLight* spotLight = new SpotLight();
+	//valores de luz
+	//en algun punto de la parte positiva del plano XY
+	spotLight->setPosition(vec3(450.0f, 450.0f, 450.0f));
+	spotLight->setAmb(vec3(.25, .25, .25));
+	spotLight->setDiff(vec3(1.0, 1.0, 0.0));
+	spotLight->setSpec(vec3(0, 0.2, 0));
+	//se anade al array
+	gLights.emplace_back(spotLight);
+
+	// Entities
 	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
 
 	// ----- TATOOINE -----
