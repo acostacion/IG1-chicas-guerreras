@@ -33,6 +33,7 @@ public:
 	void setRed();
 	void setGrey();
 	void setYellow();
+	void setGolden();
 
 protected:
 	// Coeficientes de reflexión

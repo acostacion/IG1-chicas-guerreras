@@ -96,16 +96,7 @@ void
 Camera::uploadVM() const
 {
 	// Vacia uploadVM, que hacia referencia al shader simple_light.
-	/*
-	//Vector direccion
-	glm::vec4 dir (-1.0f, -1.0f, -1.0f, 0.0f);
-	//Activar shader simple_light
-	Shader* newShader = Shader::get("simple_light");
-	//Usar shader
-	newShader->use();
-	//Vector normalizado
-	newShader->setUniform("lightDir", glm::normalize(glm::vec4(mViewMat * dir)));
-	*/
+	Shader::setUniform4All("modelView", mViewMat);
 }
 
 void

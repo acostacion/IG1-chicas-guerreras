@@ -356,6 +356,7 @@ IG1App::key(unsigned int key)
 
 		// luz direccional
 	case 'r':
+		//Light::toggleLight();
 		//DirLight::toggleDirLight();
 		//std::cout << DirLight::mDirLightOn;
 		break;
@@ -365,6 +366,7 @@ IG1App::key(unsigned int key)
 		if (mScenes[mCurrentScene] == mScenes[7])
 		{
 			//PosLight::togglePosLight();
+			
 		}
 		break;
 

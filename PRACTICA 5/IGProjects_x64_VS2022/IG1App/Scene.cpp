@@ -13,7 +13,7 @@ void Scene::init()
 	// allocate memory and load resources
 	// Lights
 	//Luz direccional (con id = 0 default)
-	DirLight* dirLight = new DirLight();
+	DirLight* dirLight = new DirLight(0);
 	//valores de simple_light
 	dirLight->setAmb(vec3(.25, .25, .25));
 	dirLight->setDiff(vec3(.6, .6, .6));
@@ -21,7 +21,7 @@ void Scene::init()
 	dirLight->setDirection(vec3(-1.0, -1.0, -1.0));
 	dirLight->setEnabled(true);
 	//se anade al array
-	gLights.emplace_back(dirLight);
+	gLights.push_back(dirLight);
 
 	// Textures
 
@@ -87,9 +87,14 @@ void Scene::unload()
 	for (Abs_Entity* obj : gObjectsTrans)
 		obj->unload();
 
-	Shader s = Shader("light");
+	Shader* s = Shader::get("light");
+	s->use();
 	for (Light* lig : gLights)
-		lig->unload(s );
+	{
+		lig->unload(*s);
+		lig->setEnabled(false);
+	}
+
 }
 
 void Scene::destroyScene()
@@ -521,7 +526,7 @@ void Scene7::init()
 	// Lights
 
 	//Luz posicional 
-	PosLight* posLight = new PosLight();
+	PosLight* posLight = new PosLight(0);
 	//valores de luz
 	//en algun punto de la parte positiva del plano XY
 	posLight->setPosition(vec3(450.0f, 450.0f, 450.0f));
@@ -530,31 +535,31 @@ void Scene7::init()
 	posLight->setSpec(vec3(0, 0.2, 0));
 	posLight->setEnabled(true);
 	//se anade al array
-	gLights.emplace_back(posLight);
+	gLights.push_back(posLight);
 
 	//Luz foco
-	SpotLight* spotLight = new SpotLight();
+	SpotLight* spotLight = new SpotLight(vec3(450.0f, 450.0f, 450.0f), 0);
 	//valores de luz
 	//en algun punto de la parte positiva del plano XY
-	spotLight->setPosition(vec3(450.0f, 450.0f, 450.0f));
+	//spotLight->setPosition(vec3(450.0f, 450.0f, 450.0f));
 	spotLight->setAmb(vec3(.25, .25, .25));
 	spotLight->setDiff(vec3(1.0, 1.0, 0.0));
 	spotLight->setSpec(vec3(0, 0.2, 0));
 	spotLight->setEnabled(true);
 	//se anade al array
-	gLights.emplace_back(spotLight);
+	gLights.push_back(spotLight);
 
 	// Luz foco tie
-	SpotLight* tieSpotLight = new SpotLight();
+	SpotLight* tieSpotLight = new SpotLight(vec3(0.0f, 1190.0f, 0.0f), 1);
 	//valores de luz
 	//en algun punto de la parte positiva del plano XY
-	tieSpotLight->setPosition(vec3(450.0f, 450.0f, -450.0f)); // tst! posicion del tie.
+	//tieSpotLight->setPosition(vec3(450.0f, 450.0f, -450.0f)); // tst! posicion del tie.
 	tieSpotLight->setAmb(vec3(.25, .25, .25));
 	tieSpotLight->setDiff(vec3(1.0, 1.0, 0.0));
 	tieSpotLight->setSpec(vec3(0, 0.2, 0));
 	tieSpotLight->setEnabled(true);
 	//se anade al array
-	gLights.emplace_back(tieSpotLight);
+	gLights.push_back(tieSpotLight);
 
 	// Entities
 	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
@@ -610,7 +615,7 @@ void Scene9::init()
 
 	// ----- GOLDEN TATOOINE -----
 	Sphere* tatooineG = new Sphere(100, 500, 500);
-	tatooine->getMaterial().setYellow(); // NOTA CAMBIAR A GOLDEN.
+	tatooine->getMaterial().setGolden(); 
 	tatooineG->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, 250)));
 
 	gObjects.push_back(tatooineG);

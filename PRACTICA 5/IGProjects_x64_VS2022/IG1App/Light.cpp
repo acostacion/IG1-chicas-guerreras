@@ -7,16 +7,15 @@ using namespace glm;
 Light::Light(std::string name)
  : lightID(std::move(name))
 {
-}
+	}
 
 Light::Light(const std::string& name, int id)
  : lightID(name + "[" + std::to_string(id) + "]")
 {
+	// lightID : dirLights [0], posLights [1], etc.
+	
 }
 
-Light::~Light()
-{
-}
 
 void Light::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {

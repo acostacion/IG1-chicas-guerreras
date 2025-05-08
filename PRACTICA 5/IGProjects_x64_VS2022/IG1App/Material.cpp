@@ -99,3 +99,11 @@ void Material::setYellow()
 	specular = yellow;
 	expF = 0;
 }
+
+void Material::setGolden()
+{
+	ambient = { 0.24725, 0.1995, 0.0745 };
+	diffuse = { 0.75164, 0.60648, 0.22648 };
+	specular = { 0.628281, 0.555802, 0.366065 };
+	expF = 51.2;
+}

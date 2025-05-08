@@ -222,9 +222,6 @@ void EntityWithMaterial::render(const glm::dmat4& modelViewMat) const
 	mMesh->render();
 }
 
-
-
-
 #pragma endregion
 
 #pragma region PRACTICA 1
