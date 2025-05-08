@@ -36,6 +36,7 @@ public:
 	void rotate();
 	void orbit();
 
+	virtual void handleKey(unsigned int key);
 protected:
 	// metodos de tiefighter starwars.
 	CompoundEntity* _advancedTie;
@@ -46,6 +47,7 @@ protected:
 	// metodos de farmer (opcional)
 	CompoundEntity* _farmer;
 	CompoundEntity* createFarmer();
+
 
 	void destroy();
 	void setGL();
@@ -119,6 +121,7 @@ public:
 	Scene7() = default;
 	void init() override;
 	void setBackgroundColor() override;
+	void handleKey(unsigned int key) override;
 };
 
 class Scene8 : public Scene

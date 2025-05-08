@@ -13,15 +13,15 @@ void Scene::init()
 	// allocate memory and load resources
 	// Lights
 	//Luz direccional (con id = 0 default)
-	DirLight* dirLight = new DirLight(0);
+	DirLight* initLight = new DirLight(0);
 	//valores de simple_light
-	dirLight->setAmb(vec3(.25, .25, .25));
-	dirLight->setDiff(vec3(.6, .6, .6));
-	dirLight->setSpec(vec3(0, 0.2, 0));
-	dirLight->setDirection(vec3(-1.0, -1.0, -1.0));
-	dirLight->setEnabled(true);
+	initLight->setAmb(vec3(.25, .25, .25));
+	initLight->setDiff(vec3(.6, .6, .6));
+	initLight->setSpec(vec3(0, 0.2, 0));
+	initLight->setDirection(vec3(-1.0, -1.0, -1.0));
+	initLight->setEnabled(true);
 	//se anade al array
-	gLights.push_back(dirLight);
+	gLights.push_back(initLight);
 
 	// Textures
 
@@ -250,6 +250,20 @@ void Scene::orbit()
 		glm::translate(_advancedTieInTatooine->modelMat(), dvec3(_advancedTie->_advancedTieMovement, 0.0, 0.0)) // avanza tantos pasos
 		* glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, 0.0, -1.0)) // rota alrededor del planeta en la direccion del morro
 	);
+}
+
+void Scene::handleKey(unsigned int key)
+{
+	switch (key)
+	{
+		// luz inicial
+	case 'r':
+		gLights[0]->toggleLight();
+		break;
+
+	default:
+		break;
+	}
 }
 
 void Scene::setGL()
@@ -586,6 +600,35 @@ void Scene7::init()
 void Scene7::setBackgroundColor()
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
+}
+
+void Scene7::handleKey(unsigned int key)
+{
+	switch (key)
+	{
+		// luz inicial
+	case 'r':
+		gLights[0]->toggleLight();
+		break;
+
+		// luz posicional escena 7
+	case 't':
+		gLights[1]->toggleLight();
+		break;
+
+		// luz foco escena 7
+	case 'y':
+		gLights[2]->toggleLight();
+		break;
+
+		// luz foco tie escena 7
+	case 'h':
+		gLights[3]->toggleLight();
+		break;
+
+	default:
+		break;
+	}
 }
 
 // ---- SCENE 8 ----

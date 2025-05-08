@@ -237,8 +237,10 @@ IG1App::key(unsigned int key)
 	Scene* actualScene = mScenes[mCurrentScene];
 	//ColorMaterialEntity* cME = new ColorMaterialEntity();
 
+
 	bool need_redisplay = true;
 
+	mScenes[mCurrentScene]->handleKey(key);
 	switch (key) {
 	case '+':
 		actualCam->setScale(+0.01); // zoom in  (increases the scale)
@@ -347,43 +349,6 @@ IG1App::key(unsigned int key)
 		// orbita alrededor del eje y
 	case 'q':
 		actualCam->orbit(0.5);
-		break;
-
-		// normals
-	case 'n':
-		ColorMaterialEntity::toggleShowNormals();
-		break;
-
-		// luz direccional
-	case 'r':
-		//Light::toggleLight();
-		//DirLight::toggleDirLight();
-		//std::cout << DirLight::mDirLightOn;
-		break;
-
-		// luz posicional escena 7
-	case 't':
-		if (mScenes[mCurrentScene] == mScenes[7])
-		{
-			//PosLight::togglePosLight();
-			
-		}
-		break;
-
-		// luz foco escena 7
-	case 'y':
-		if (mScenes[mCurrentScene] == mScenes[7])
-		{
-			//SpotLight::toggleSpotLight(); TODO AJUSAR PARA Q NO SEAN ESTATICOS
-		}
-		break;
-
-		// luz foco tie escena 7
-	case 'h':
-		if (mScenes[mCurrentScene] == mScenes[7])
-		{
-			//SpotLight::toggleSpotLight();
-		}
 		break;
 
 	default:
