@@ -18,7 +18,7 @@ void Scene::init()
 	initLight->setAmb(vec3(.25, .25, .25));
 	initLight->setDiff(vec3(.6, .6, .6));
 	initLight->setSpec(vec3(0, 0.2, 0));
-	initLight->setDirection(vec3(-1.0, -1.0, -1.0));
+	//initLight->setDirection(vec3(-1.0, -1.0, -1.0));
 	initLight->setEnabled(true);
 	//se anade al array
 	gLights.push_back(initLight);
@@ -77,6 +77,10 @@ Scene::load()
 
 	for (Abs_Entity* obj : gObjectsTrans)
 		obj->load();
+
+	//Activamos todas las luces
+	for (Light* lig : gLights)
+		lig->setEnabled(true);
 }
 
 void Scene::unload()
@@ -258,7 +262,7 @@ void Scene::handleKey(unsigned int key)
 	{
 		// luz inicial
 	case 'r':
-		gLights[0]->toggleLight();
+		gLights[0]->toggleLight(gLights[0]);
 		break;
 
 	default:
@@ -604,26 +608,31 @@ void Scene7::setBackgroundColor()
 
 void Scene7::handleKey(unsigned int key)
 {
+	
 	switch (key)
 	{
 		// luz inicial
 	case 'r':
-		gLights[0]->toggleLight();
+		gLights[0]->toggleLight(gLights[0]);
+		//std::cout << "Pulsa r" << std::endl;
 		break;
 
 		// luz posicional escena 7
 	case 't':
-		gLights[1]->toggleLight();
+		gLights[1]->toggleLight(gLights[1]);
+		//std::cout << "Pulsa t" << std::endl;
 		break;
 
 		// luz foco escena 7
 	case 'y':
-		gLights[2]->toggleLight();
+		gLights[2]->toggleLight(gLights[2]);
+		//std::cout << "Pulsa y" << std::endl;
 		break;
 
 		// luz foco tie escena 7
 	case 'h':
-		gLights[3]->toggleLight();
+		gLights[3]->toggleLight(gLights[3]);
+		//std::cout << "Pulsa h" << std::endl;
 		break;
 
 	default:

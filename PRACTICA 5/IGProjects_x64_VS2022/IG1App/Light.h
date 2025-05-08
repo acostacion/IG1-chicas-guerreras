@@ -21,9 +21,10 @@ public:
 	void setDiff(const glm::vec3& ind);
 	void setSpec(const glm::vec3& ind);
 
-	inline void toggleLight()
+	inline void toggleLight(Light* lig)
 	{
-		bEnabled = !bEnabled;
+		lig->setEnabled(!lig->enabled());
+		//bEnabled = !bEnabled;
 	}
 
 protected:
