@@ -23,8 +23,16 @@ public:
 	const glm::vec3& getSpec() { return specular; }
 	GLfloat getExp() { return expF; }
 
+	// --- effects.
 	void setCopper();
 
+	// --- simple colors.
+	void setDarkBlue(); // anil del tie.
+	void setGreen(); // verde indexedbox
+	void setOrange();
+	void setRed();
+	void setGrey();
+	void setYellow();
 
 protected:
 	// Coeficientes de reflexión

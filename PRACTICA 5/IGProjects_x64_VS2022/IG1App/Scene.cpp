@@ -19,6 +19,7 @@ void Scene::init()
 	dirLight->setDiff(vec3(.6, .6, .6));
 	dirLight->setSpec(vec3(0, 0.2, 0));
 	dirLight->setDirection(vec3(-1.0, -1.0, -1.0));
+	dirLight->setEnabled(true);
 	//se anade al array
 	gLights.emplace_back(dirLight);
 
@@ -127,13 +128,13 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	// ----- CILINDRO DE ALA1 A ALA2 -----
 	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
-	cilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
+	cilinder->getMaterial().setDarkBlue(); //anil
 	cilinder->setModelMat(glm::rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
 	AdvancedTIE->addEntity(cilinder);
 
 	// ----- NUCLEO CENTRAL -----
 	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 500, 500);
-	nucleus->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
+	cilinder->getMaterial().setDarkBlue(); //anil
 	AdvancedTIE->addEntity(nucleus);
 
 	// TODO: da errores al meter una CompoundEntity dentro de otra. Pasa tambien con el nodo ficticio de Tatooine
@@ -143,7 +144,7 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	// ----- CILINDER -----
 	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
-	noseCilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
+	cilinder->getMaterial().setDarkBlue(); //anil
 	noseCilinder->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(150.0, 0.0, 0.0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
@@ -151,7 +152,7 @@ CompoundEntity* Scene::createAdvancedTie()
 
 	// ----- DISK -----
 	Disk* noseDisk = new Disk(20, 0, 10, 40);
-	noseDisk->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
+	cilinder->getMaterial().setDarkBlue(); //anil
 	noseDisk->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
@@ -171,13 +172,12 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Cabeza -----
 	Sphere* cabeza = new Sphere(300, 500, 500);
-	cabeza->setColor(glm::vec4(1.0f, 0.55f, 0.0f, 1.0f)); //orange (de la tabla)
+	cabeza->getMaterial().setOrange();
 	farmer->addEntity(cabeza);
 
 	// ----- Boca -----
 	PartialDisk* boca = new PartialDisk(230, 30, 5, 50, glm::radians(180.0));
-	//boca->setColor(glm::vec4(0.0f, 255.0, 0.0, 255.0)); //green sin shader
-	boca->setColor(glm::vec4(0.0f, 1.0, 0.0, 1.0)); //green
+	boca->getMaterial().setGreen();
 	boca->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, 190.0))
 		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
@@ -186,8 +186,7 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Sombrero -----
 	Disk* sombrero = new Disk(400, 0, 5, 50);
-	//sombrero->setColor(glm::vec4(255.0, 0.0, 0.0, 255.0)); //red sin shader
-	sombrero->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0)); //red
+	cabeza->getMaterial().setRed();
 	sombrero->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(0.0, 200.0, 0.0))
 	);
@@ -195,7 +194,7 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Ojo derecho -----
 	Cone* ojoDer = new Cone(70, 5, 40, 5, 50);
-	ojoDer->setColor(glm::vec4(0.3, 0.35, 0.4,1.0)); //gris marengo, (76, 88, 102)
+	cabeza->getMaterial().setGrey();
 	ojoDer->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(-70.0, 100.0, 300.0))
 		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
@@ -204,7 +203,7 @@ CompoundEntity* Scene::createFarmer()
 
 	// ----- Ojo izquierdo -----
 	Cone* ojoIzq = new Cone(70, 5, 30, 5, 50);
-	ojoIzq->setColor(glm::vec4(0.0, 0.0, 0.5, 1.0)); //azul marino, (0, 0, 128)
+	ojoIzq->getMaterial().setDarkBlue();
 	ojoIzq->setModelMat(
 		glm::translate(glm::dmat4(1), dvec3(70.0, 100.0, 300.0))
 		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
@@ -274,24 +273,12 @@ void Scene::resetGL()
 
 void Scene::uploadLights(Camera const& cam) const
 {
+	Shader* s = Shader::get("light");
+	s->use();
 	for (Light* l : gLights) {
-	
-		// se pasa el shader "light" y el modelviewmat de la camera.
-		Shader s = Shader("light");
-		//Usamos el shader
-		s.use();
 		// actualizamos las luces
-		l->upload(s, cam.viewMat());
+		l->upload(*s, cam.viewMat());
 	}
-
-	/*//Vector direccion
-	glm::vec4 dir(-1.0f, -1.0f, -1.0f, 0.0f);
-	//Activar shader simple_light
-	Shader* newShader = Shader::get("simple_light");
-	//Usar shader
-	newShader->use();
-	//Vector normalizado
-	newShader->setUniform("lightDir", glm::normalize(glm::vec4(mViewMat * dir)));*/
 }
 
 // Para borrar las cosas al cambiar de una escena a otra (ponerla en blanco otra vez).
@@ -325,6 +312,7 @@ void Scene::render(Camera const& cam) const
 		el->render(cam.viewMat());
 
 	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
 	// ---
 }
 
@@ -540,6 +528,7 @@ void Scene7::init()
 	posLight->setAmb(vec3(.25, .25, .25));
 	posLight->setDiff(vec3(.6, .6, .6));
 	posLight->setSpec(vec3(0, 0.2, 0));
+	posLight->setEnabled(true);
 	//se anade al array
 	gLights.emplace_back(posLight);
 
@@ -551,6 +540,7 @@ void Scene7::init()
 	spotLight->setAmb(vec3(.25, .25, .25));
 	spotLight->setDiff(vec3(1.0, 1.0, 0.0));
 	spotLight->setSpec(vec3(0, 0.2, 0));
+	spotLight->setEnabled(true);
 	//se anade al array
 	gLights.emplace_back(spotLight);
 
@@ -562,6 +552,7 @@ void Scene7::init()
 	tieSpotLight->setAmb(vec3(.25, .25, .25));
 	tieSpotLight->setDiff(vec3(1.0, 1.0, 0.0));
 	tieSpotLight->setSpec(vec3(0, 0.2, 0));
+	tieSpotLight->setEnabled(true);
 	//se anade al array
 	gLights.emplace_back(tieSpotLight);
 
@@ -570,7 +561,7 @@ void Scene7::init()
 
 	// ----- TATOOINE -----
 	Sphere* tatooine = new Sphere(150, 500, 500);
-	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	tatooine->getMaterial().setYellow();
 	gObjects.push_back(tatooine);
 
 	// ----- ADVANCED TIE -----
@@ -613,14 +604,15 @@ void Scene9::init()
 
 	// ----- TATOOINE -----
 	Sphere* tatooine = new Sphere(100, 500, 500);
-	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	tatooine->getMaterial().setYellow();
 	tatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(250, 0, 0)));
 	gObjects.push_back(tatooine);
 
 	// ----- GOLDEN TATOOINE -----
 	Sphere* tatooineG = new Sphere(100, 500, 500);
-	tatooineG->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	tatooine->getMaterial().setYellow(); // NOTA CAMBIAR A GOLDEN.
 	tatooineG->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, 250)));
+
 	gObjects.push_back(tatooineG);
 
 

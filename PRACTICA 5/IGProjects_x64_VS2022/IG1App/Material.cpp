@@ -33,3 +33,69 @@ Material::setCopper()
 	specular = {0.256777, 0.137622, 0.086014};
 	expF = 12.8;
 }
+
+void Material::setDarkBlue()
+{
+	// Nota: el color ahora lo lleva el material.
+	// Si Amb == Dif == Spec == color. El material es de ese color y ya.
+	glm::vec4 darkBlue(0.0, 0.25, 0.42, 1.0);
+	ambient = darkBlue;
+	diffuse = darkBlue;
+	specular = darkBlue;
+	expF = 0;
+}
+
+void Material::setGreen()
+{
+	// Nota: el color ahora lo lleva el material.
+	// Si Amb == Dif == Spec == color. El material es de ese color y ya.
+	glm::vec4 green(0.0, 1.0, 0.0, 1.0);
+	ambient = green;
+	diffuse = green;
+	specular = green;
+	expF = 0;
+}
+
+void Material::setOrange()
+{
+	// Nota: el color ahora lo lleva el material.
+	// Si Amb == Dif == Spec == color. El material es de ese color y ya.
+	glm::vec4 orange(1.0, 0.55, 0.0, 1.0);
+	ambient = orange;
+	diffuse = orange;
+	specular = orange;
+	expF = 0;
+}
+
+void Material::setRed()
+{
+	// Nota: el color ahora lo lleva el material.
+	// Si Amb == Dif == Spec == color. El material es de ese color y ya.
+	glm::vec4 red(1.0, 0.0, 0.0, 1.0);
+	ambient = red;
+	diffuse = red;
+	specular = red;
+	expF = 0;
+}
+
+void Material::setGrey()
+{
+	// Nota: el color ahora lo lleva el material.
+	// Si Amb == Dif == Spec == color. El material es de ese color y ya.
+	glm::vec4 grey(0.3, 0.35, 0.4, 1.0);
+	ambient = grey;
+	diffuse = grey;
+	specular = grey;
+	expF = 0;
+}
+
+void Material::setYellow()
+{
+	// Nota: el color ahora lo lleva el material.
+	// Si Amb == Dif == Spec == color. El material es de ese color y ya.
+	glm::vec4 yellow(1.0, 0.91, 0.0, 1.0);
+	ambient = yellow;
+	diffuse = yellow;
+	specular = yellow;
+	expF = 0;
+}

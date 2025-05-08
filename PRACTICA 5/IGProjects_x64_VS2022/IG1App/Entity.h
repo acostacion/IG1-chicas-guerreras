@@ -116,12 +116,12 @@ protected:
 	GLboolean mAlfaActive;
 };
 
-class EntityWithMaterial : public SingleColorEntity {
+class EntityWithMaterial : public Abs_Entity {
 public:
 	EntityWithMaterial();
 	void render(const glm::dmat4& modelViewMat) const override;
 	void setMaterial(const Material& m) { _material = m; };
-	Material getMaterial() { return _material; }
+	Material getMaterial() const { return _material; }
 protected:
 	Material _material;
 };
@@ -328,7 +328,6 @@ class IndexedBox : public ColorMaterialEntity
 {
 public:
 	explicit IndexedBox(GLdouble l);
-	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 //Apartado 64
@@ -336,14 +335,12 @@ class Sphere : public ColorMaterialEntity
 {
 public:
 	explicit Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians);
-	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class Disk : public ColorMaterialEntity 
 {
 public:
 	explicit Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples);
-	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class Cone : public ColorMaterialEntity 
@@ -355,7 +352,6 @@ class Cone : public ColorMaterialEntity
 	*/
 public:
 	explicit Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples);
-	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class WingAdvancedTIE : public EntityWithTexture

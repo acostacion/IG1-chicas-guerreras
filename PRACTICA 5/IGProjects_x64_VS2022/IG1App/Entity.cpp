@@ -130,7 +130,8 @@ void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
 		//Primera renderizacion
 		mShader->use();
 		mShader->setUniform("modelView", aMat);
-		mShader->setUniform("color", (vec4)getColor()); 
+		// TODO: si falla arreglar lo de getAmb.
+		mShader->setUniform("color", getMaterial().getAmb()); // le ponemos ambient porq cualquiera de los 3 valdria si no lo cambias.
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		upload(aMat);
 		mMesh->render();
@@ -851,31 +852,9 @@ IndexedBox::IndexedBox(GLdouble l)
 	// mesh.
 	mMesh = IndexMesh::generateIndexedBox(l);
 	// verde.
-	setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
-}
+	getMaterial().setGreen();
 
-void IndexedBox::render(const glm::dmat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		mShader->use();
-		mShader->setUniform("color", mColor);
-		upload(aMat);
-
-		glEnable(GL_CULL_FACE);
-		// CARA DE DELANTE
-		glCullFace(GL_BACK);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-
-		// CARA DE ATRAS
-		glCullFace(GL_FRONT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-		glDisable(GL_CULL_FACE);
-
-	}
 }
 
 Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)
@@ -900,29 +879,6 @@ Sphere::Sphere(GLdouble radius, GLuint nParallels, GLuint nMeridians)
 	mMesh = IndexMesh::generateByRevolution(profile, nMeridians, 2 * std::numbers::pi);
 }
 
-void Sphere::render(const glm::dmat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		mShader->use();
-		mShader->setUniform("color", mColor);
-		upload(aMat);
-
-		glEnable(GL_CULL_FACE);
-		// CARA DE DELANTE
-		glCullFace(GL_BACK);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-
-		// CARA DE ATRAS
-		glCullFace(GL_FRONT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-		glDisable(GL_CULL_FACE);
-
-	}
-}
-
 Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 {
 	mShader = Shader::get("simple_light");
@@ -941,29 +897,6 @@ Disk::Disk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples)
 
 	//Hacemos la malla por revolucion
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
-}
-
-void Disk::render(const glm::dmat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		mShader->use();
-		mShader->setUniform("color", mColor);
-		upload(aMat);
-
-		glEnable(GL_CULL_FACE);
-		// CARA DE DELANTE
-		glCullFace(GL_BACK);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-
-		// CARA DE ATRAS
-		glCullFace(GL_FRONT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-		glDisable(GL_CULL_FACE);
-
-	}
 }
 
 Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
@@ -993,29 +926,6 @@ Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 
 	//Hacemos la malla por revolucion
 	mMesh = IndexMesh::generateByRevolution(profile, nSamples, 2 * std::numbers::pi);
-}
-
-void Cone::render(const glm::dmat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		mShader->use();
-		mShader->setUniform("color", mColor);
-		upload(aMat);
-
-		glEnable(GL_CULL_FACE);
-		// CARA DE DELANTE
-		glCullFace(GL_BACK);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-
-		// CARA DE ATRAS
-		glCullFace(GL_FRONT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		mMesh->render();
-		glDisable(GL_CULL_FACE);
-
-	}
 }
 
 WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate)
