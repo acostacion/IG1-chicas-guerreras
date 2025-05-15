@@ -115,7 +115,7 @@ CompoundEntity* Scene::createAdvancedTie()
 	AdvancedTIE->addEntity(cilinder);
 
 	// ----- NUCLEO CENTRAL -----
-	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 500, 500);
+	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 20, 20);
 	nucleus->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	AdvancedTIE->addEntity(nucleus);
 
@@ -154,7 +154,7 @@ CompoundEntity* Scene::createFarmer()
 	gObjects.push_back(farmer);
 
 	// ----- Cabeza -----
-	Sphere* cabeza = new Sphere(300, 500, 500);
+	Sphere* cabeza = new Sphere(300, 20, 20);
 	cabeza->setColor(glm::vec4(1.0f, 0.55f, 0.0f, 1.0f)); //orange (de la tabla)
 	farmer->addEntity(cabeza);
 
@@ -488,7 +488,7 @@ void Scene7::init()
 	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
 
 	// ----- TATOOINE -----
-	Sphere* tatooine = new Sphere(150, 500, 500);
+	Sphere* tatooine = new Sphere(150, 20, 20);
 	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
 	gObjects.push_back(tatooine);
 
