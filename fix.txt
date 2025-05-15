@@ -1,0 +1,23 @@
+P2:	
+- La captura de la foto debería ser de toda la pantalla, no solo de donde se pinta en la escena.
+- No está bien el viewport de la foto cuando amplias la ventana.
+
+P3:
+- El zoom con la rueda hace un movimiento lateral.
+- No hay movimiento del ratón cuando hay dos vistas.
+- Cuando se pasa de dos vistas a una, desaparece la escena.
+- Si se pulsa m, da un error la aplicacion.
+- En el mouse, no tiene sentido poner a mano que mMouseButt = 2. Tampoco guardar el modificador del control. ¿Para qué lo quereis?
+- Como cambias de escena cuando teneis dos vistas?
+- El orbit también tiene que poner el Up a (0,1,0)
+- Tenéis mal pitch/roll/yaw. Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan. En el roll solo se rota el up. Pero nunca se rota la PM
+
+P4:
+- Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución.
+- Las alas de la nave espacial no son transparentes. Además la textura se aplica a toda la malla.
+- El paso de una escena a otra no es inmediato.
+- Hay fugas de memoria.
+- Queda más limpio si en vez de tener dos metodos para el movimiento de la nave, teneis solo uno, por ejemplo HandleKey en la escena en cuestión.
+- No deberíais mover la nave desde la clase Scene.
+
+P5:
