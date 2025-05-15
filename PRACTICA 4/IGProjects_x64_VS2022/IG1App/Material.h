@@ -27,7 +27,6 @@ protected:
 	glm::vec3 specular = {0.0, 0.0, 0.0};
 	// Exponente para la reflexión especular
 	GLfloat expF = 0;
-	// GLuint face = GL_FRONT_AND_BACK;
 };
 
 inline void

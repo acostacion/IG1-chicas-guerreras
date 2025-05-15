@@ -21,6 +21,8 @@ Material::upload(Shader& lighting) const
 	lighting.setUniform("material.shininess", expF);
 
 	// glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	// can be simulated with a Boolean uniform and
+	// gl_FrontFacing in the fragment shader
 }
 
 void

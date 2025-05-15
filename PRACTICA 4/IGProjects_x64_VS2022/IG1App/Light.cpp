@@ -18,20 +18,17 @@ Light::~Light()
 {
 }
 
-void Light::upload(Shader& shader, glm::dmat4 const& modelViewMat) const
+void Light::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	// Transfer light properties to the GPU
+	shader.setUniform(lightID + ".enabled", bEnabled);
 	shader.setUniform(lightID + ".ambient", ambient);
 	shader.setUniform(lightID + ".diffuse", diffuse);
 	shader.setUniform(lightID + ".specular", specular);
 }
 
-void Light::disable(Shader& shader) {
+void Light::unload(Shader& shader) {
 	shader.setUniform(lightID + ".enabled", false);
-}
-
-void Light::enable(Shader& shader) {
-	shader.setUniform(lightID + ".enabled", true);
 }
 
 void
@@ -57,10 +54,10 @@ DirLight::DirLight(int id)
 {
 }
 
-void DirLight::upload(Shader& shader, glm::dmat4 const& modelViewMat) const
+void DirLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	Light::upload(shader, modelViewMat);
-	shader.setUniform(lightID + ".direction", vec3(modelViewMat * posDir));
+	shader.setUniform(lightID + ".direction", normalize(vec3(modelViewMat * direction)));
 }
 
 PosLight::PosLight(int id)
@@ -68,12 +65,11 @@ PosLight::PosLight(int id)
 {
 }
 
-
-void PosLight::upload(Shader& shader, glm::dmat4 const& modelViewMat) const
+void PosLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	Light::upload(shader, modelViewMat);
 
-	shader.setUniform(lightID + ".position", vec3(modelViewMat * posDir));
+	shader.setUniform(lightID + ".position", vec3(modelViewMat * position));
 	shader.setUniform(lightID + ".constant", constant);
 	shader.setUniform(lightID + ".linear", linear);
 	shader.setUniform(lightID + ".quadratic", quadratic);
@@ -82,15 +78,20 @@ void PosLight::upload(Shader& shader, glm::dmat4 const& modelViewMat) const
 SpotLight::SpotLight(const glm::vec3& pos, int id)
 {
 	lightID = "spotLights[" + std::to_string(id) + "]";
-	posDir = glm::vec4(pos, 1.0);
-};
+	position = glm::vec4(pos, 1.0);
+}
 
-void SpotLight::upload(Shader& shader, glm::dmat4 const& modelViewMat) const
+void SpotLight::setCutoff(float inner, float outer)
+{
+	cutoff = cos(glm::radians(inner));
+	outerCutoff = cos(glm::radians(outer));
+}
+
+void SpotLight::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	PosLight::upload(shader, modelViewMat);
 
 	shader.setUniform(lightID + ".direction", vec3(modelViewMat * vec4(direction, 0.0)));
 	shader.setUniform(lightID + ".cutOff", cutoff);
 	shader.setUniform(lightID + ".outerCutOff", outerCutoff);
-	shader.setUniform(lightID + ".exponent", exp);
 }
