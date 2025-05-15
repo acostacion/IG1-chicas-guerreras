@@ -11,7 +11,6 @@ P3:
 P4:
 - Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución.
 - Las alas de la nave espacial no son transparentes. Además la textura se aplica a toda la malla.
-- El paso de una escena a otra no es inmediato.
 - Hay fugas de memoria.
 - Queda más limpio si en vez de tener dos metodos para el movimiento de la nave, teneis solo uno, por ejemplo HandleKey en la escena en cuestión.
 - No deberíais mover la nave desde la clase Scene.

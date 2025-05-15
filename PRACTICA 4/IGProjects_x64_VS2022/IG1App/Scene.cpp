@@ -92,16 +92,16 @@ CompoundEntity* Scene::createAdvancedTie()
 	gTextures.push_back(texNoche);
 
 	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
-	int wingsDistance = 400;
+	int wingsDistance = 200;
 
 	// ----- ALA 1 -----
-	WingAdvancedTIE* WATIE = new WingAdvancedTIE(200, 100, false);		// entidad
+	WingAdvancedTIE* WATIE = new WingAdvancedTIE(100, 50, false);		// entidad
 	WATIE->setTexture(texNoche);												// establece la textura de esta entidad
 	WATIE->setModelMat(translate(glm::dmat4(1), glm::dvec3(0, 0, -wingsDistance / 2))); // se mueve la wingdistance para colocarla
 	AdvancedTIE->addEntity(WATIE);
 
 	// ----- ALA 2 -----
-	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(200, 100, false);		// entidad
+	WingAdvancedTIE* WATIE2 = new WingAdvancedTIE(100, 50, false);		// entidad
 	WATIE2->setTexture(texNoche);												// establece la textura de esta entidad
 	WATIE2->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(0, 0, wingsDistance / 2)) // se mueve la wingdistance para colocarla
@@ -109,13 +109,13 @@ CompoundEntity* Scene::createAdvancedTie()
 	AdvancedTIE->addEntity(WATIE2);
 
 	// ----- CILINDRO DE ALA1 A ALA2 -----
-	Cone* cilinder = new Cone(wingsDistance, 20, 20, 20, 20);
+	Cone* cilinder = new Cone(wingsDistance, 10, 10, 20, 20);
 	cilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	cilinder->setModelMat(glm::rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0)));
 	AdvancedTIE->addEntity(cilinder);
 
 	// ----- NUCLEO CENTRAL -----
-	Sphere* nucleus = new Sphere(wingsDistance / 2 - 75, 20, 20);
+	Sphere* nucleus = new Sphere(wingsDistance / 2 - 50, 20, 20);
 	nucleus->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	AdvancedTIE->addEntity(nucleus);
 
@@ -125,18 +125,18 @@ CompoundEntity* Scene::createAdvancedTie()
 	CompoundEntity* nose = new CompoundEntity();
 
 	// ----- CILINDER -----
-	Cone* noseCilinder = new Cone(50, 20, 20, 20, 20);
+	Cone* noseCilinder = new Cone(25, 10, 10, 20, 20);
 	noseCilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	noseCilinder->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(150.0, 0.0, 0.0))
+		translate(glm::dmat4(1), glm::dvec3(50.0, 0.0, 0.0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
 	nose->addEntity(noseCilinder);
 
 	// ----- DISK -----
-	Disk* noseDisk = new Disk(20, 0, 10, 40);
+	Disk* noseDisk = new Disk(10, 0, 10, 40);
 	noseDisk->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	noseDisk->setModelMat(
-		translate(glm::dmat4(1), glm::dvec3(175, 0, 0))
+		translate(glm::dmat4(1), glm::dvec3(65, 0, 0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
 	nose->addEntity(noseDisk);
 
