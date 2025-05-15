@@ -59,18 +59,31 @@ void Camera::changePrj()
 void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
 	//Dice si
-	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
+	//mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
+
+
+
+	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
+	//mLook = mEye + rotate(mLook - mEye, (double)(glm::radians(cs)), mRight);
+	//mLook = rotate(mViewMat, (double)(glm::radians(a)), glm::dvec3(1.0, 0.0, 0));
+	//mLook = mEye + glm::rotate(mLook - mEye, glm::radians(a), mRight);
+
+
+
 	setVM();
 }
 
 void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 {
+	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
 	//Dice no
+
 	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 1.0, 0));
 	setVM();
 }
 void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 {
+	// En el roll solo se rota el up
 	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 0, 1.0));
 	setVM();
 }
@@ -80,6 +93,7 @@ void Camera::orbit(GLdouble incAng)
 	mAng += incAng;
 	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	mUp = vec3(0, 1, 0);
 	setVM();
 }
 
@@ -89,6 +103,7 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
 	mEye.y += incY;
+	mUp = vec3(0, 1, 0);
 	setVM();
 }
 

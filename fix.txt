@@ -4,12 +4,8 @@ P2:
 
 P3:
 - El zoom con la rueda hace un movimiento lateral.
-- No hay movimiento del ratón cuando hay dos vistas.
-- Cuando se pasa de dos vistas a una, desaparece la escena.
-- Si se pulsa m, da un error la aplicacion.
-- En el mouse, no tiene sentido poner a mano que mMouseButt = 2. Tampoco guardar el modificador del control. ¿Para qué lo quereis?
-- Como cambias de escena cuando teneis dos vistas?
-- El orbit también tiene que poner el Up a (0,1,0)
+- No hay movimiento del ratón cuando hay dos vistas. 
+- Como cambias de escena cuando teneis dos vistas? (nota: se refiere a en modo 2 escenas?)
 - Tenéis mal pitch/roll/yaw. Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan. En el roll solo se rota el up. Pero nunca se rota la PM
 
 P4:

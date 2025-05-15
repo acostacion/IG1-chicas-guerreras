@@ -329,7 +329,7 @@ void RGBTriangle::render(const glm::dmat4& modelViewMat) const
 			
 			// CARA DE ATRAS
 			glCullFace(GL_FRONT);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			mMesh->render();
 		glDisable(GL_CULL_FACE);
 	}

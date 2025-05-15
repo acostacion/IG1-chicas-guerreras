@@ -279,6 +279,8 @@ IG1App::key(unsigned int key)
 		}
 		else
 		{
+			mScenes[1]->unload();
+			mScenes[3]->unload();
 			mScenes[mCurrentScene] = actualScene;
 		}
 		break;
@@ -375,6 +377,8 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 
 	bool need_redisplay = true;
 
+	mMouseMods = mods;
+
 	// Handle keyboard input
 	// (key reference: https://www.glfw.org/docs/3.4/group__keys.html)
 	switch (key) {
@@ -411,17 +415,12 @@ IG1App::specialkey(int key, int scancode, int action, int mods)
 void IG1App::mouse(int button, int action, int mods)
 {
 	//Mira hay teclas pulsadas
-	//Si no, el boton default es uno que no tiene accion
-	if (action == 0) { mMouseButt = 2; }
-	//Y si hay tecla pulsada, pues la que sea
-	else { mMouseButt = button;}
+	//Si hay accion, adjudicamos la correspondiente al boton
+	if (action != 0) { mMouseButt = button;}
 
 	// Guarda en mCoord la posicion (x, y) del raton
 	glfwGetCursorPos(mWindow, &mMouseCoord.x, &mMouseCoord.y);
 
-	// Guarda el modificador de Control
-	if (mods == GLFW_MOD_CONTROL) { ctrlOn = true; }
-	else ctrlOn = false;
 }
 
 void IG1App::motion(double x, double y)
@@ -455,14 +454,14 @@ void IG1App::mouseWheel(double dx, double dy)
 	if (m2Scenes && mMouseCoord.x > mWinW / 2) { actualCam = mCamera2; }
 
 	// si se pulsa ctrl
-	if (ctrlOn) {
+	if (mMouseMods == GLFW_MOD_CONTROL) {
 		// escala la escena, de nuevo según el valor de d
-		actualCam->setScale(dy);
+		actualCam->setScale(dy*0.01);
 	}
 	// si no está pulsada ninguna tecla modificadora.
 	else {
 		// desplaza la cámara en su dirección de vista.
-		actualCam->moveFB(dy);
+		actualCam->moveFB(dy*4);
 	}
 	
 	mNeedsRedisplay = true;
