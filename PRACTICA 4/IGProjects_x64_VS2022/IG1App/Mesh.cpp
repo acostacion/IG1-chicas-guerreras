@@ -631,6 +631,12 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 	return mesh;
 }
 
+/**
+ * 
+ * @param w 
+ * @param h 
+ * @return 
+ */
 Mesh* Mesh::generateWingAdvancedTIE(GLdouble w, GLdouble h)
 {
 	// Nota: Ver chuleta en el repo para entender.
@@ -664,15 +670,15 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble w, GLdouble h)
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 
 	mesh->vTexCoords.emplace_back(0, 0);
-	mesh->vTexCoords.emplace_back(0, 1);
-	mesh->vTexCoords.emplace_back(1, 0);
-	mesh->vTexCoords.emplace_back(1, 1);
+	mesh->vTexCoords.emplace_back(0, 0.33);
+	mesh->vTexCoords.emplace_back(0.33, 0);
+	mesh->vTexCoords.emplace_back(0.33, 0.33);
 
 	mesh->vTexCoords.emplace_back(0, 0);
-	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(0, 0.33);
 
-	mesh->vTexCoords.emplace_back(1, 0);
-	mesh->vTexCoords.emplace_back(1, 1);
+	mesh->vTexCoords.emplace_back(0.33, 0);
+	mesh->vTexCoords.emplace_back(0.33, 0.33);
 
 
 	return mesh;

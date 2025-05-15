@@ -2,7 +2,7 @@ P2:
 - La captura de la foto debería ser de toda la pantalla, no solo de donde se pinta en la escena.
 - No está bien el viewport de la foto cuando amplias la ventana.
 
-P3:
+P3: (HEMOS MANDADO CORREO)
 - El zoom con la rueda hace un movimiento lateral.
 - No hay movimiento del ratón cuando hay dos vistas. 
 - Como cambias de escena cuando teneis dos vistas? (nota: se refiere a en modo 2 escenas?)
@@ -10,8 +10,8 @@ P3:
 
 P4:
 - Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución.
-- Las alas de la nave espacial no son transparentes. Además la textura se aplica a toda la malla.
-- Hay fugas de memoria.
+- Las alas de la nave espacial no son transparentes (Este error viene dado por añadirlo al compound entity del tie?).
+- Hay fugas de memoria. (Ya se lo explicamos. Vienen de crear el nodo ficticio para la nariz del tie)
 
 ???
 - No deberíais mover la nave desde la clase Scene. (Nota: Usando la técnica del nodo ficticio programa dos métodos en la clase Scene ?????)
