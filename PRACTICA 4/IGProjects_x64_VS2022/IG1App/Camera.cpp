@@ -1,11 +1,8 @@
 #include "Shader.h"
 #include "Camera.h"
 
-#include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-#include "IG1App.h"
 
 using namespace glm;
 
@@ -58,17 +55,11 @@ void Camera::changePrj()
 
 void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
-	//Dice si
-	//mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
-
-
-
 	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
-	//mLook = mEye + rotate(mLook - mEye, (double)(glm::radians(cs)), mRight);
-	//mLook = rotate(mViewMat, (double)(glm::radians(a)), glm::dvec3(1.0, 0.0, 0));
-	//mLook = mEye + glm::rotate(mLook - mEye, glm::radians(a), mRight);
+	//Dice si
+	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
 
-
+	//mLook = rotate(mViewMat, (double)(glm::radians(cs)), mRight);
 
 	setVM();
 }

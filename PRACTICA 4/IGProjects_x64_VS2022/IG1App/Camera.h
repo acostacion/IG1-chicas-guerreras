@@ -13,16 +13,6 @@
 // METODOS: 
 // Metodos para cargar las matrices en la GPU ->
 
-/*
-void Camera::uploadPM() const {
-Shader::setUniform4All("projection", mProjMat);
-}
-
-void Camera::uploadVM() const {
-Shader::setUniform4All("modelView", mViewMat);
-}
-*/
-
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
