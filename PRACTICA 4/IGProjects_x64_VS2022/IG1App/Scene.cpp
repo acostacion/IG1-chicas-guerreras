@@ -264,6 +264,20 @@ void Scene::reset()
 	init();
 }
 
+void Scene::handleKey(unsigned int key)
+{
+	switch (key)
+	{
+	//	// luz inicial
+	//case 'r':
+	//	gLights[0]->toggleLight();
+	//	break;
+
+	default:
+		break;
+	}
+}
+
 void
 Scene::render(Camera const& cam) const
 {
@@ -509,6 +523,46 @@ void Scene7::init()
 void Scene7::setBackgroundColor()
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
+}
+
+void Scene7::handleKey(unsigned int key)
+{
+	switch (key)
+	{
+		// METODOS DEL ADVANCEDTIE
+	case 'f':
+		rotate();
+		break;
+
+	case 'g':
+
+		orbit();
+		break;
+
+	
+	//	// luz inicial
+	//case 'r':
+	//	gLights[0]->toggleLight();
+	//	break;
+
+	//	// luz posicional escena 7
+	//case 't':
+	//	gLights[1]->toggleLight();
+	//	break;
+
+	//	// luz foco escena 7
+	//case 'y':
+	//	gLights[2]->toggleLight();
+	//	break;
+
+	//	// luz foco tie escena 7
+	//case 'h':
+	//	gLights[3]->toggleLight();
+	//	break;
+
+	default:
+		break;
+	}
 }
 
 // ---- SCENE 8 ----

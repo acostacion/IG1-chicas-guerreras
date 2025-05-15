@@ -238,6 +238,8 @@ IG1App::key(unsigned int key)
 
 	bool need_redisplay = true;
 
+	mScenes[mCurrentScene]->handleKey(key);
+
 	switch (key) {
 	case '+':
 		actualCam->setScale(+0.01); // zoom in  (increases the scale)
@@ -293,21 +295,6 @@ IG1App::key(unsigned int key)
 		// SCREENSHOT.
 	case 'i': // es la i de instantanea jajaj
 		captura();
-		break;
-
-		// METODOS DEL ADVANCEDTIE
-	case 'f':
-		if (mScenes[mCurrentScene] == mScenes[7])
-		{
-			mScenes[mCurrentScene]->rotate();
-		}
-		break;
-
-	case 'g':
-		if (mScenes[mCurrentScene] == mScenes[7])
-		{
-			mScenes[mCurrentScene]->orbit();
-		}
 		break;
 
 		// MOVELR (left)

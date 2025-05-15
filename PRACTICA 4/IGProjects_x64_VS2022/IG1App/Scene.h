@@ -30,12 +30,15 @@ public:
 
 	void reset();
 
+	//Maneja input de escenas concretas
+	virtual void handleKey(unsigned int key);
+
+protected:
 	// metodos de tiefighter starwars
-	
 	void rotate();
 	void orbit();
 
-protected:
+
 	// metodos de tiefighter starwars.
 	CompoundEntity* _advancedTie;
 	CompoundEntity* _advancedTieInTatooine;
@@ -118,7 +121,7 @@ public:
 	void init() override;
 	void setBackgroundColor() override;
 
-	
+	void handleKey(unsigned int key) override;
 };
 
 class Scene8 : public Scene
