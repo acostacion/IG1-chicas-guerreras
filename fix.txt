@@ -28,6 +28,5 @@ Por ejemplo: cilinder->getMaterial().setDarkBlue();
 que está activa por defecto y 
 solo se modifica en la escena del planeta.
 
-- AdvancedTiE es una nueva clase que hereda de CompoundEntity.
-No es un un método de esta última.
-Además la nave deberá incluir en su clase la luz focal.
+- AdvancedTiE. Además la nave deberá incluir 
+en su clase la luz focal.
