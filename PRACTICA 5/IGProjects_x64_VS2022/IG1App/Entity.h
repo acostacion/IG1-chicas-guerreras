@@ -164,6 +164,11 @@ protected:
 	GLboolean mAlfaActive;
 };
 
+class AdvancedTie : public CompoundEntity
+{
+	explicit AdvancedTie(GLboolean alfaActive = false);
+	virtual ~AdvancedTie();
+};
 
 
 
