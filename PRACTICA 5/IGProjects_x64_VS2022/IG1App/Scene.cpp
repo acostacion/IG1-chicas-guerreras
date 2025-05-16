@@ -78,9 +78,6 @@ Scene::load()
 	for (Abs_Entity* obj : gObjectsTrans)
 		obj->load();
 
-	//Activamos todas las luces
-	for (Light* lig : gLights)
-		lig->setEnabled(true);
 }
 
 void Scene::unload()
@@ -299,6 +296,8 @@ void Scene::uploadLights(Camera const& cam) const
 	Shader* s = Shader::get("light");
 	s->use();
 	for (Light* l : gLights) {
+		//Activamos todas las luces
+		l->setEnabled(true);
 		// actualizamos las luces
 		l->upload(*s, cam.viewMat());
 	}
@@ -342,6 +341,8 @@ void Scene::render(Camera const& cam) const
 // --- ESCENAS HIJAS ---
 // Scene0, Scene1, Scene2 ... 
 
+Scene0::Scene0() {}
+
 // ---- SCENE 0 ----
 void Scene0::init()
 {
@@ -357,6 +358,8 @@ void Scene0::init()
 	circ->setColor({1,0,1,1});
 	gObjects.push_back(circ); 
 }
+
+Scene1::Scene1() {}
 
 // ---- SCENE 1 ----
 void Scene1::init()
@@ -381,6 +384,8 @@ void Scene1::init()
 	triangulo->setModelMat(translate(glm::dmat4(1), glm::dvec3(r, 0, 0))); 
 }
 
+Scene2::Scene2() {}
+
 // ---- SCENE 2 ----
 void Scene2::init()
 {
@@ -393,6 +398,8 @@ void Scene2::init()
 	gObjects.push_back(cube);
 	
 }
+
+Scene3::Scene3() {}
 
 // ---- SCENE 3 ----
 void Scene3::init()
@@ -496,6 +503,8 @@ void Scene3::init()
 	gObjects.push_back(hier);									// mete la entidad en la escena
 }
 
+Scene4::Scene4() {}
+
 // ---- SCENE 4 ----
 void Scene4::init() {
 	// -- llama a init del padre
@@ -506,6 +515,8 @@ void Scene4::init() {
 	torus->setModelMat (glm::rotate(glm::dmat4(1), radians(-180.0), dvec3(0.0, 1.0, 0.0)));
 	gObjects.push_back(torus);
 }
+
+Scene5::Scene5() {}
 
 // ---- SCENE 5 ----
 void Scene5::init()
@@ -518,6 +529,8 @@ void Scene5::init()
 	gObjects.push_back(ibox);
 
 }
+
+Scene6::Scene6() {}
 
 // ---- SCENE 6 ----
 void Scene6::init()
@@ -533,6 +546,8 @@ void Scene6::setBackgroundColor()
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
+
+Scene7::Scene7() {}
 
 // ---- SCENE 7 ----
 void Scene7::init()
@@ -640,6 +655,8 @@ void Scene7::handleKey(unsigned int key)
 	}
 }
 
+Scene8::Scene8() {}
+
 // ---- SCENE 8 ----
 void Scene8::init()
 {
@@ -653,6 +670,8 @@ void Scene8::init()
 		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
 	);
 }
+
+Scene9::Scene9() {}
 
 void Scene9::init()
 {

@@ -122,19 +122,24 @@ public:
 	void render(const glm::dmat4& modelViewMat) const override;
 	void setMaterial(const Material& m) { _material = m; };
 	Material getMaterial() const { return _material; }
+	static void toggleShowNormals();
+
 protected:
 	Material _material;
+	inline static bool mShowNormals = false;
+
 };
 
 class ColorMaterialEntity : public EntityWithMaterial
 {
 public:
 	explicit ColorMaterialEntity();
-	void render(const glm::dmat4& modelViewMat) const override;
-	static void toggleShowNormals();
-	
-private:
-	inline static bool mShowNormals = false;
+
+	glm::vec4 getColor() const { return mColor; }
+	void setColor(glm::vec4 const& c) { mColor = c; } // & para q no se copie y const porque no se modifica dentro.
+
+protected:
+	glm::vec4 mColor; // predefinido.
 };
 
 class CompoundEntity : public Abs_Entity

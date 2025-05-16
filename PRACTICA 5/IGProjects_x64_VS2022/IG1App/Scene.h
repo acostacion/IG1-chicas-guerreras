@@ -68,49 +68,49 @@ protected:
 class Scene0 : public Scene
 {
 public:
-	Scene0() = default;
+	Scene0();
 	void init() override;
 };
 
 class Scene1 : public Scene
 {
 public:
-	Scene1() = default;
+	Scene1();
 	void init() override;
 };
 
 class Scene2 : public Scene
 {
 public:
-	Scene2() = default;
+	Scene2();
 	void init() override;
 };
 
 class Scene3 : public Scene
 {
 public:
-	Scene3() = default;
+	Scene3();
 	void init() override;
 };
 
 class Scene4 : public Scene
 {
 public:
-	Scene4() = default;
+	Scene4();
 	void init() override;
 };
 
 class Scene5 : public Scene
 {
 public:
-	Scene5() = default;
+	Scene5();
 	void init() override;
 };
 
 class Scene6 : public Scene
 {
 public:
-	Scene6() = default;
+	Scene6();
 	void init() override;
 	void setBackgroundColor() override;
 };
@@ -118,7 +118,7 @@ public:
 class Scene7 : public Scene
 {
 public:
-	Scene7() = default;
+	Scene7();
 	void init() override;
 	void setBackgroundColor() override;
 	void handleKey(unsigned int key) override;
@@ -127,14 +127,14 @@ public:
 class Scene8 : public Scene
 {
 public:
-	Scene8() = default;
+	Scene8();
 	void init() override;
 };
 
 class Scene9 : public Scene
 {
 public:
-	Scene9() = default;
+	Scene9();
 	void init() override;
 };
 

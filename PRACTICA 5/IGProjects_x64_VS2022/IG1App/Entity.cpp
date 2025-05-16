@@ -100,8 +100,6 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 		mShader->setUniform("modulate", mModulate);
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
 		if (mTexture != nullptr) // si la textura no es nula podemos proceder a renderizarla
 		{
 			mTexture->bind();	 // activa la textura en la gpu
@@ -120,37 +118,6 @@ ColorMaterialEntity::ColorMaterialEntity()
 	_material.setDiff(color);
 	_material.setSpec(color);
 	mShader = Shader::get("simple_light");
-}
-
-void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-
-		//Primera renderizacion
-		mShader->use();
-		mShader->setUniform("modelView", aMat);
-		// TODO: si falla arreglar lo de getAmb.
-		mShader->setUniform("color", getMaterial().getAmb()); // le ponemos ambient porq cualquiera de los 3 valdria si no lo cambias.
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		upload(aMat);
-		mMesh->render();
-
-
-		//Segunda renderizacion
-		if (mShowNormals) {
-			Shader* aux = Shader::get("normals");
-			aux->use();
-			aux->setUniform("modelView", aMat);
-			upload(aMat);
-			mMesh->render();
-		}
-	}
-}
-
-void ColorMaterialEntity::toggleShowNormals()
-{
-	mShowNormals = !mShowNormals;
 }
 
 // ---- COMPOUND ENTITY ----
@@ -210,16 +177,46 @@ void CompoundEntity::unload()
 // ---- ENTITY WITH MATERIAL ----
 EntityWithMaterial::EntityWithMaterial()
 {
-	mShader = Shader::get("light");
+	//mShader = Shader::get("light");
 }
 
 void EntityWithMaterial::render(const glm::dmat4& modelViewMat) const
 {
-	mShader->use();
-	// Carga los atributos del material en la GPU
-	mMaterial->upload(*mShader);
-	upload(modelViewMat * mModelMat);
-	mMesh->render();
+	if (mMesh != nullptr) {
+		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+
+		//Primera renderizacion
+		//mShader->use();
+		//mShader->setUniform("modelView", aMat);
+		// TODO: si falla arreglar lo de getAmb.
+		//mShader->setUniform("color", getMaterial().getAmb()); // le ponemos ambient porq cualquiera de los 3 valdria si no lo cambias.
+		//upload(aMat);
+		// Carga los atributos del material en la GPU
+		mMaterial->upload(*mShader);
+		upload(modelViewMat * mModelMat);
+		mMesh->render();
+
+
+		//Segunda renderizacion
+		if (mShowNormals) {
+			Shader* aux = Shader::get("normals");
+			aux->use();
+			aux->setUniform("modelView", aMat);
+			upload(aMat);
+			mMesh->render();
+		}
+	}
+
+	//mShader->use();
+	//// Carga los atributos del material en la GPU
+	//mMaterial->upload(*mShader);
+	//upload(modelViewMat * mModelMat);
+	//mMesh->render();
+}
+
+void EntityWithMaterial::toggleShowNormals()
+{
+	mShowNormals = !mShowNormals;
 }
 
 #pragma endregion
