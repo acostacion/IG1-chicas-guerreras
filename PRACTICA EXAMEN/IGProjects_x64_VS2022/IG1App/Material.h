@@ -13,6 +13,13 @@ public:
 	virtual ~Material() = default;
 	void upload(Shader& shader) const;
 
+	// getters
+	const glm::vec3& getAmb();
+	const glm::vec3& getDiff();
+	const glm::vec3& getSpec();
+	GLfloat getExp();
+
+	// setters
 	void setAmb(const glm::vec3& v);
 	void setDiff(const glm::vec3& v);
 	void setSpec(const glm::vec3& v);
@@ -29,29 +36,23 @@ protected:
 	GLfloat expF = 0;
 };
 
-inline void
-Material::setAmb(const glm::vec3& v)
-{
-	ambient = v;
-}
+// getters
+inline const glm::vec3& Material::getAmb() { return ambient; }
 
-inline void
-Material::setDiff(const glm::vec3& v)
-{
-	diffuse = v;
-}
+inline const glm::vec3& Material::getDiff() { return diffuse; }
 
-inline void
-Material::setSpec(const glm::vec3& v)
-{
-	specular = v;
-}
+inline const glm::vec3& Material::getSpec() { return specular; }
 
-inline void
-Material::setExp(GLfloat exp)
-{
-	expF = exp;
-}
+inline GLfloat Material::getExp() { return expF;}
+
+// setters
+inline void Material::setAmb(const glm::vec3& v) { ambient = v; }
+
+inline void Material::setDiff(const glm::vec3& v) { diffuse = v; }
+
+inline void Material::setSpec(const glm::vec3& v) { specular = v; }
+
+inline void Material::setExp(GLfloat exp) { expF = exp; }
 
 #endif //_H_Material_H_
 

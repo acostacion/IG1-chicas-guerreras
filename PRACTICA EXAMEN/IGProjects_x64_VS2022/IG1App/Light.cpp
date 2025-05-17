@@ -12,19 +12,16 @@ Light::Light(std::string name)
 Light::Light(const std::string& name, int id)
  : lightID(name + "[" + std::to_string(id) + "]")
 {
-}
-
-Light::~Light()
-{
+	// lightID : dirLights [0], posLights [1], etc.
 }
 
 void Light::upload(Shader& shader, glm::mat4 const& modelViewMat) const
 {
 	// Transfer light properties to the GPU
-	shader.setUniform(lightID + ".enabled", bEnabled);
 	shader.setUniform(lightID + ".ambient", ambient);
 	shader.setUniform(lightID + ".diffuse", diffuse);
 	shader.setUniform(lightID + ".specular", specular);
+	shader.setUniform(lightID + ".enabled", bEnabled);
 }
 
 void Light::unload(Shader& shader) {
@@ -32,22 +29,13 @@ void Light::unload(Shader& shader) {
 }
 
 void
-Light::setAmb(const glm::vec3& ind)
-{
-	ambient = ind;
-}
+Light::setAmb(const glm::vec3& ind) { ambient = ind; }
 
 void
-Light::setDiff(const glm::vec3& ind)
-{
-	diffuse = ind;
-}
+Light::setDiff(const glm::vec3& ind) { diffuse = ind; }
 
 void
-Light::setSpec(const glm::vec3& ind)
-{
-	specular = ind;
-}
+Light::setSpec(const glm::vec3& ind) { specular = ind; }
 
 DirLight::DirLight(int id)
  : Light("dirLights", id)
