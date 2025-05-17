@@ -98,6 +98,7 @@ IG1App::init()
 	mScenes.push_back(new Scene6());
 	mScenes.push_back(new Scene7());
 	mScenes.push_back(new Scene8());
+	mScenes.push_back(new Scene9());
 
 	mCamera->set2D();
 	mCamera2->set2D();
@@ -337,9 +338,9 @@ IG1App::key(unsigned int key)
 		actualCam->orbit(0.5);
 		break;
 
-	case 'n':
-		ColorMaterialEntity::toggleShowNormals();
-		break;
+	//case 'n':
+	//	ColorMaterialEntity::toggleShowNormals();
+	//	break;
 
 	default:
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))

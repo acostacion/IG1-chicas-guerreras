@@ -525,3 +525,22 @@ void Scene8::init()
 		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
 	);
 }
+
+// ---- SCENE 9 ----
+void Scene9::init()
+{
+	// -- llama a init del padre
+	Scene::init();
+
+	// ----- TATOOINE -----
+	Sphere* tatooine = new Sphere(50, 50, 50);
+	tatooine->setModelMat(translate(glm::dmat4(1), glm::dvec3(200.0, 0.0, 0.0)));
+	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	gObjects.push_back(tatooine);
+
+	// ----- TATOOINE GOLDEN -----
+	Sphere* tatooineG = new Sphere(50, 50, 50);
+	tatooineG->setModelMat(translate(glm::dmat4(1), glm::dvec3(0.0, 0.0, 200.0)));
+	tatooineG->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //dorado
+	gObjects.push_back(tatooineG);
+}

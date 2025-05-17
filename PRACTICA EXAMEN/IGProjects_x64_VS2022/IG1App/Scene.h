@@ -121,4 +121,10 @@ public:
 	void init() override;
 };
 
+class Scene9 : public Scene
+{
+public:
+	void init() override;
+};
+
 #endif //_H_Scene_H_

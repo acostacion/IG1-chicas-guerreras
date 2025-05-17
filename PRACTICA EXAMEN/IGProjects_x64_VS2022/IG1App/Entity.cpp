@@ -112,38 +112,55 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 }
 
 // ---- COLOR MATERIAL ENTITY ----
-ColorMaterialEntity::ColorMaterialEntity() 
+ColorMaterialEntity::ColorMaterialEntity()
+	: mColor(dvec4(1.0, 1.0, 1.0,1.0)) //Un color por defecto
 {
 	mShader = Shader::get("simple_light");
 }
 
-void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
+//void ColorMaterialEntity::render(const glm::dmat4& modelViewMat) const
+//{
+//	if (mMesh != nullptr) {
+//		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+//
+//		//Primera renderizacion
+//		mShader->use();
+//		mShader->setUniform("modelView", aMat);
+//		//mShader->setUniform("color", (vec4)getColor()); 
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//		upload(aMat);
+//		mMesh->render();
+//
+//		//Segunda renderizacion
+//		if (mShowNormals) {
+//			Shader* aux = Shader::get("normals");
+//			aux->use();
+//			aux->setUniform("modelView", aMat);
+//			upload(aMat);
+//			mMesh->render();
+//		}
+//	}
+//}
+
+//void EntityWithMaterial::toggleShowNormals()
+//{
+//	mShowNormals = !mShowNormals;
+//}
+
+EntityWithMaterial::EntityWithMaterial()
 {
-	if (mMesh != nullptr) {
-		mat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-
-		//Primera renderizacion
-		mShader->use();
-		mShader->setUniform("modelView", aMat);
-		mShader->setUniform("color", (vec4)getColor()); 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		upload(aMat);
-		mMesh->render();
-
-		//Segunda renderizacion
-		if (mShowNormals) {
-			Shader* aux = Shader::get("normals");
-			aux->use();
-			aux->setUniform("modelView", aMat);
-			upload(aMat);
-			mMesh->render();
-		}
-	}
+	mShader = Shader::get("light");
 }
 
-void ColorMaterialEntity::toggleShowNormals()
+void EntityWithMaterial::render(const glm::dmat4& modelViewMat) const
 {
-	mShowNormals = !mShowNormals;
+	//Con este render no se muestran normales
+
+	mShader->use();
+	//Carga los atributos del material en la GPU
+	mMaterial.upload(*mShader);
+	upload(modelViewMat * mModelMat);
+	mMesh->render();
 }
 
 CompoundEntity::CompoundEntity(GLboolean alfaActive) : mAlfaActive(alfaActive)
@@ -1085,7 +1102,7 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex)
 	// TODO: da errores al meter una CompoundEntity dentro de otra. Pasa tambien con el nodo ficticio de Tatooine
 	// ----- MORRO -----
 	// Morro es una entidad compuesta por cilinder y disk
-	CompoundEntity* nose = new CompoundEntity();
+	//CompoundEntity* nose = new CompoundEntity();
 
 	// ----- CILINDER -----
 	Cone* noseCilinder = new Cone(25, 10, 10, 20, 20);
@@ -1093,7 +1110,7 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex)
 	noseCilinder->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(50.0, 0.0, 0.0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	nose->addEntity(noseCilinder);
+	/*nose->*/addEntity(noseCilinder);
 
 	// ----- DISK -----
 	Disk* noseDisk = new Disk(10, 0, 10, 40);
@@ -1101,8 +1118,9 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex)
 	noseDisk->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(65, 0, 0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	nose->addEntity(noseDisk);
+	/*nose->*/addEntity(noseDisk);
 
 	//Aniadimos la entidad morro a la general del TIE
-	addEntity(nose);
+	//addEntity(nose);
 }
+

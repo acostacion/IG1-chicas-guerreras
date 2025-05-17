@@ -6,6 +6,7 @@
 
 #include "Mesh.h"
 #include "IndexMesh.h"
+#include "Material.h"
 #include "Shader.h"
 #include "Texture.h"
 
@@ -17,7 +18,8 @@ public:
 	Abs_Entity()
 	  : mModelMat(1.0)  // 4x4 identity matrix
 	  , mShader(nullptr)
-	  , mTexture(nullptr) {}
+	  , mTexture(nullptr)
+	  , mMaterial() {}
 
 	virtual ~Abs_Entity();
 
@@ -31,10 +33,6 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; }
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; }
 
-	// texture
-	Texture* const& getTexture() const { return mTexture; }
-	void setTexture(Texture* tex) { mTexture = tex; }
-
 	// load or unload entity data into the GPU
 	virtual void load();
 	virtual void unload();
@@ -43,7 +41,8 @@ protected:
 	Mesh* mMesh = nullptr;		 // the mesh
 	glm::dmat4 mModelMat;		 // modeling matrix
 	Shader* mShader;			 // shader
-	Texture* mTexture = nullptr; // texture
+	Material mMaterial;			 // material
+	Texture* mTexture;			 // texture
 
 	// transfers modelViewMat to the GPU
 	virtual void upload(const glm::mat4& mModelViewMat) const;
@@ -75,20 +74,45 @@ public:
 	explicit EntityWithTexture(GLboolean modulate = false, GLboolean alfaActive = false);
 	virtual void render(const glm::dmat4& modelViewMat) const override;
 
+	// getter y setter
+	Texture* const& getTexture() const { return mTexture; }
+	void setTexture(Texture* tex) { mTexture = tex; }
+
 protected:
 	bool mModulate;
 	GLboolean mAlfaActive;
 };
 
-class ColorMaterialEntity : public SingleColorEntity
+class EntityWithMaterial : public Abs_Entity
+{
+public:
+	explicit EntityWithMaterial();
+	void render(const glm::dmat4& modelViewMat) const override;
+
+	// getter y setter
+	Material const& getMaterial() const { return mMaterial; }
+	void setMaterial(Material& mat) { mMaterial = mat; }
+
+	//static void toggleShowNormals();
+
+protected:
+	Material material;
+	//inline static bool mShowNormals = false;
+
+};
+
+class ColorMaterialEntity : public EntityWithMaterial
 {
 public:
 	explicit ColorMaterialEntity();
-	void render(const glm::dmat4& modelViewMat) const override;
+	//void render(const glm::dmat4& modelViewMat) const override;
 
-	static void toggleShowNormals();
-private:
-	inline static bool mShowNormals = false;
+	//getter y setter de color
+	glm::vec4 getColor() const { return mColor; }
+	void setColor(glm::vec4 const& c) { mColor = c; } // & para q no se copie y const porque no se modifica dentro.
+
+protected:
+	glm::vec4 mColor; 
 };
 
 class CompoundEntity : public Abs_Entity
