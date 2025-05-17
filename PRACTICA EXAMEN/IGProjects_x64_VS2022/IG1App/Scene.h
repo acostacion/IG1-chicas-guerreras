@@ -5,9 +5,11 @@
 #include <glm/glm.hpp>
 
 #include "Camera.h"
+#include "Light.h"
 #include "Entity.h"
 
 #include <vector>
+
 
 class Scene
 {
@@ -34,10 +36,11 @@ public:
 	virtual void handleKey(unsigned int key);
 
 protected:
+	void uploadLights(Camera const& cam) const;
+
 	// metodos de tiefighter starwars
 	void rotate();
 	void orbit();
-
 
 	// metodos de tiefighter starwars.
 	CompoundEntity* _advancedTie;
@@ -58,6 +61,7 @@ protected:
 	std::vector<Abs_Entity*> gObjects;		// Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
 	std::vector<Texture*> gTextures;		// texturas de la escena
+	std::vector<Light*> gLights;
 };
 
 // --- ESCENAS HIJAS ---

@@ -52,6 +52,11 @@ Scene::destroy()
 		delete t;
 
 	gTextures.clear();
+
+	for (Light* l : gLights)
+		delete l;
+
+	gLights.clear();
 }
 
 void
@@ -72,6 +77,14 @@ Scene::unload()
 
 	for (Abs_Entity* obj : gObjectsTrans)
 		obj->unload();
+
+	Shader* s = Shader::get("light");
+	for (Light* l : gLights)
+	{
+		l->setEnabled(false);
+		l->unload(*s);
+	}
+
 }
 
 void Scene::destroyScene()
@@ -210,10 +223,22 @@ void Scene::handleKey(unsigned int key)
 	}
 }
 
+void Scene::uploadLights(Camera const& cam) const
+{
+	Shader* s = Shader::get("light");
+	s->use();
+
+	for (Light* l : gLights){
+		l->setEnabled(true); // activamos todas las luces
+		l->upload(*s, cam.viewMat()); // actualizamos las luces
+	}
+}
+
 void
 Scene::render(Camera const& cam) const
 {
 	cam.upload();
+	uploadLights(cam);
 
 	// opacos       -> primero objetos sin transparencia
 	for (Abs_Entity* el : gObjects)
