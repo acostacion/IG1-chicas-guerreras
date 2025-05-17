@@ -17,16 +17,17 @@ P4:
 - No deberíais mover la nave desde la clase Scene. (Nota: Usando la técnica del nodo ficticio programa dos métodos en la clase Scene ?????)
 
 P5:
-- Múltiples errores por consola. 
-Se muestran cuando intentáis cargar el shader
- del color al renderizar ColorMaterialEntity.
+He sido incapaz de hacer funcionar el código. Tenéis errores graves.
 
-- Nunca llaméis un método de un método. 
-Por ejemplo: cilinder->getMaterial().setDarkBlue();
-
-- Todas las escenas comparten una luz direccional, 
-que está activa por defecto y 
-solo se modifica en la escena del planeta.
-
-- AdvancedTiE. Además la nave deberá incluir 
-en su clase la luz focal.
+- Múltiples errores por consola. Se muestran cuando intentáis cargar el shader del color al renderizar ColorMaterialEntity.
+- No entiendo muy bien porque tenéis en los constructores de las escenas = default
+- Nunca llaméis un método de un método. Por ejemplo: cilinder->getMaterial().setDarkBlue();
+- Quitad los shaders del CompoundEntity::CompoundEntity. No es necesario.
+- Quitad la activación de las luces de Scene::load. Debería haber un método independiente que las activase (como pone en el enunciado de la práctica). Sin embargo, si podéis desactivarlas en Scene::unload.
+- Todas las escenas comparten una luz direccional, que está activa por defecto y solo se modifica en la escena del planeta.
+- AdvancedTiE deberá incluir en su clase la luz focal.
+- Quitad glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); de EntityWithTexture::render. No es necesario y si lo necesitáis es porque hace falta en otro sitio.
+- ColorMaterialEntity no debería tener render propio, sino reutilizar el de EntityWithMaterial (que se queda con el dibujado de normales). Por lo que tampoco deberia tener mShowNormals ni toggleShowNormals.
+- EntityWithMayerial no hace falta que tenga un atributo Shader
+- No se puede cargar ninguna luz. Y cuando lo intentas, al final aparece un runtime error.
+- ColorMaterialEntity debería tener un método setColor.

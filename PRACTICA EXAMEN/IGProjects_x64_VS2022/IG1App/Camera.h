@@ -1,0 +1,114 @@
+#ifndef _H_Camera_H_
+#define _H_Camera_H_
+
+// GUARDA (atributos):
+// mViewPort -> puntero al viewport
+// mViewMat -> puntero a matrices de vista (recoge la inversa de la transformacion que establece la camara de la escena)
+// mProjMat -> puntero a proyeccion
+// los limites del volumen de la escana
+// mScaleFact -> el factor de zoom
+// bOrto -> si se utiliza proyeccion ortogonal
+// ...
+
+// METODOS: 
+// Metodos para cargar las matrices en la GPU ->
+
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+
+#include "Viewport.h"
+
+class Camera
+{
+public:
+	explicit Camera(Viewport* vp);
+	~Camera() = default;
+
+	// viewPort
+	Viewport const& viewPort() const { return *mViewPort; };
+
+	// view matrix
+	glm::dmat4 const& viewMat() const { return mViewMat; };
+
+	void set2D();
+	void set3D();
+
+	// --- Apartado 47.
+	void setCenital();
+	// ------
+
+	void pitch(GLdouble a); // rotates a degrees on the X axis
+	void yaw(GLdouble a);   // rotates a degrees on the Y axis
+	void roll(GLdouble a);  // rotates a degrees on the Z axis
+
+	// --- Apartado 39.
+	glm::dvec3 row(glm::dmat4 matrix, int index);
+	// ------
+
+	// --- Apartado 40.
+	void moveLR(GLfloat cs); // A izquierda/A derecha
+	void moveFB(GLfloat cs); // Adelante/Atrás
+	void moveUD(GLfloat cs); // Arriba/Abajo
+	// ------
+
+	// --- Apartado 41.
+	void changePrj();
+	// ------
+
+	// --- Apartado 45.
+	void pitchReal(GLfloat cs);
+	void yawReal(GLfloat cs);
+	void rollReal(GLfloat cs);
+	// ------
+
+	// --- Apartado 46.
+	void orbit(GLdouble incAng); // con la tecla q.
+	void orbit(GLdouble incAng, GLdouble incY); // para eventos de raton.
+	// ------
+
+	// projection matrix
+	glm::dmat4 const& projMat() const { return mProjMat; };
+
+	// sets scene visible area size
+	void setSize(GLdouble xw, GLdouble yh);
+	// updates the scale factor
+	void setScale(GLdouble s);
+
+	// transfers its viewport, the view matrix and projection matrix to the GPU
+	void upload() const;
+
+protected:
+	glm::dvec3 mEye = {0.0, 0.0, 500.0}; // camera's position
+	glm::dvec3 mLook = {0.0, 0.0, 0.0};  // target's position
+	glm::dvec3 mUp = {0.0, 1.0, 0.0};    // the up vector
+
+	// Atributo de la clase Camera
+	// Ejes de la cámara ap 38.
+	glm::vec3 mRight;
+	glm::vec3 mUpward;
+	glm::vec3 mFront;
+
+	GLdouble mRadio = 1000.0, // Esfera virtual de radio 1000 
+			 mAng = -45; // Longitud 45 grados oeste.
+	// ap 46.
+
+	void setAxes();
+
+	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
+	void uploadVM() const; // transfers viewMat to the GPU
+
+	glm::dmat4 mProjMat;   // projection matrix
+	void uploadPM() const; // transfers projMat to the GPU
+
+	GLdouble xRight, xLeft, yTop, yBot;     // size of scene visible area
+	GLdouble mNearVal = 1, mFarVal = 10000; // view volume
+	GLdouble mScaleFact = 1;                // scale factor
+	bool bOrto = true;                      // orthogonal or perspective projection
+
+	Viewport* mViewPort; // the viewport
+
+	void setVM();
+	void setPM();
+};
+
+#endif //_H_Camera_H_

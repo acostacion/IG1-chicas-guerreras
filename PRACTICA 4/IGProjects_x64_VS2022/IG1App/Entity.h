@@ -138,8 +138,7 @@ public:
 
 protected:
 	std::vector<Abs_Entity*> gObjects;
-	bool mModulate;
-	GLboolean mAlfaActive;
+
 
 
 
