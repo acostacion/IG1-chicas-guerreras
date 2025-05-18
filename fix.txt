@@ -24,7 +24,9 @@ P5:
 - No se puede cargar ninguna luz. Y cuando lo intentas, al final aparece un runtime error.
 
 Dudas:
-- Todas las memory Leaks son de la escena 7. 2 Memory Leak relacionadas al nodo ficticio _advancedTieInTatooine 
+ML- Todas las memory Leaks son de la escena 7. Memory Leak relacionado al nodo ficticio _advancedTieInTatooine 
+¿?: ¿Cómo hacer el movimiento de la nave sin 2 nodos ficticios?
+¿?: Tie- Entidad compuesta Nariz no funciona.
 
 
 

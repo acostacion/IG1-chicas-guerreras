@@ -1080,6 +1080,25 @@ void WingAdvancedTIE::render(const glm::dmat4& modelViewMat) const
 	}
 }
 
+NoseAdvancedTIE::NoseAdvancedTIE()
+{
+	// ----- CILINDRO NARIZ -----
+	Cone* noseCilinder = new Cone(25, 10, 10, 20, 20);
+	noseCilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
+	noseCilinder->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(50.0, 0.0, 0.0))
+		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	addEntity(noseCilinder);
+
+	// ----- DISK -----
+	Disk* noseDisk = new Disk(10, 0, 10, 40);
+	noseDisk->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
+	noseDisk->setModelMat(
+		translate(glm::dmat4(1), glm::dvec3(65, 0, 0))
+		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	addEntity(noseDisk);
+}
+
 AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(alfaActive)
 {
 	//Para la transparencia de las alas
@@ -1118,16 +1137,19 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(
 
 	// TODO: da errores al meter una CompoundEntity dentro de otra. Pasa tambien con el nodo ficticio de Tatooine
 	// ----- MORRO -----
-	// Morro es una entidad compuesta por cilinder y disk
-	//CompoundEntity* nose = new CompoundEntity();
+	//// Morro es una entidad compuesta por cilinder y disk
+	//NoseAdvancedTIE* nose = new NoseAdvancedTIE();
+	////Aniadimos la entidad morro a la general del TIE
+	//addEntity(nose);
 
+	//TODO: En su lugar, lo hacemos sin entidad compuesta
 	// ----- CILINDER -----
 	Cone* noseCilinder = new Cone(25, 10, 10, 20, 20);
 	noseCilinder->setColor(glm::vec4(0.0f, 0.25f, 0.42f, 1.0f)); //anil
 	noseCilinder->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(50.0, 0.0, 0.0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	/*nose->*/addEntity(noseCilinder);
+	addEntity(noseCilinder);
 
 	// ----- DISK -----
 	Disk* noseDisk = new Disk(10, 0, 10, 40);
@@ -1135,10 +1157,28 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(
 	noseDisk->setModelMat(
 		translate(glm::dmat4(1), glm::dvec3(65, 0, 0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
-	/*nose->*/addEntity(noseDisk);
+	addEntity(noseDisk);
 
-	//Aniadimos la entidad morro a la general del TIE
-	//addEntity(nose);
+
+}
+
+void AdvancedTIE::rotate()
+{
+	//Rotamos el nodo ficticio
+	setModelMat(
+		glm::rotate(mModelMat, radians(_advancedTieAngle), dvec3(0.0, 1.0, 0.0))
+	);
+
+	//No hace falta actualizar el angulo porque en nodo ficticio no es igual que antes.
+}
+
+void AdvancedTIE::orbit()
+{
+	// movemos hacia adelante el nodo ficticio con la rotacion alrededor del planeta.
+	setModelMat(
+		glm::translate(dmat4(0), dvec3(_advancedTieMovement, 0.0, 0.0)) // avanza tantos pasos
+		* glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, 0.0, -1.0)) // rota alrededor del planeta en la direccion del morro
+	);
 }
 
 Farmer::Farmer()

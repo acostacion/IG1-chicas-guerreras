@@ -112,41 +112,6 @@ void Scene::destroyScene()
 	destroy();
 }
 
-void Scene::initialAdvandedTieConfig()
-{
-	//Colocamos el tie en la posicion del nodo con la escala
-	_advancedTie->setModelMat(
-		scale(_advancedTieInTatooine->modelMat(), glm::dvec3(0.15, 0.15, 0.15)) // su escala, porque si no al rotar se hace grande.
-		* translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)) // se coloca en el polo norte, porque si no avanza dentro del planeta.
-		// nota: el translate lo hacemos desde el origen (0,0,0) para que se desplace esos 1200 desde el origen en si, no desde la pos del origen del nodo!!
-	);
-}
-
-void Scene::rotate()
-{
-	// colocacion del advancedtie en la escena.
-	initialAdvandedTieConfig();
-
-	//Rotamos el nodo ficticio
-	_advancedTieInTatooine->setModelMat(
-		glm::rotate(_advancedTieInTatooine->modelMat(), radians(_advancedTie->_advancedTieAngle), dvec3(0.0, 1.0, 0.0))
-	);
-
-	//No hace falta actualizar el angulo porque en nodo ficticio no es igual que antes.
-}
-
-void Scene::orbit()
-{
-	// colocacion del advancedtie en la escena.
-	initialAdvandedTieConfig();
-
-	// movemos hacia adelante el nodo ficticio con la rotacion alrededor del planeta.
-	_advancedTieInTatooine->setModelMat(
-		glm::translate(_advancedTieInTatooine->modelMat(), dvec3(_advancedTie->_advancedTieMovement, 0.0, 0.0)) // avanza tantos pasos
-		* glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, 0.0, -1.0)) // rota alrededor del planeta en la direccion del morro
-	);
-}
-
 void
 Scene::setGL()
 {
@@ -428,84 +393,99 @@ void Scene6::setBackgroundColor()
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
 
-//// ---- SCENE 7 ----
-//void Scene7::init()
-//{
-//	// -- en lugar de llamar al init del padre hacemos:
-//	setGL(); 
-//	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
-//
-//	// ----- TATOOINE -----
-//	Sphere* tatooine = new Sphere(150, 20, 20);
-//	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
-//	gObjects.push_back(tatooine);
-//
-//	// ----- cosas para ambas alas:
-//	Texture* texNoche = new Texture();						// crea nueva textura
-//	const std::string win = "../assets/images/noche.jpg";	// ruta de la textura
-//	texNoche->load(win, 200);							// carga la textura con su alfa 255 opaco
-//	gTextures.push_back(texNoche);
-//
-//	// ----- ADVANCED TIE -----
-//	_advancedTie = new AdvancedTIE(texNoche, true);
-//	gObjects.push_back(_advancedTie);
-//	
-//	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
-//	_advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
-//	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
-//
-//	// nodo ficticio.
-//	_advancedTieInTatooine = new CompoundEntity();
-//	_advancedTieInTatooine->addEntity(_advancedTie);
-//	//gObjects.push_back(_advancedTieInTatooine);
-//
-//}
-//
-//void Scene7::setBackgroundColor()
-//{
-//	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
-//}
-//
-//void Scene7::handleKey(unsigned int key)
-//{
-//	switch (key)
-//	{
-//		// METODOS DEL ADVANCEDTIE
-//	case 'f':
-//		rotate();
-//		break;
-//
-//	case 'g':
-//
-//		orbit();
-//		break;
-//
-//	
-//	//	// luz inicial
-//	//case 'r':
-//	//	gLights[0]->toggleLight();
-//	//	break;
-//
-//	//	// luz posicional escena 7
-//	//case 't':
-//	//	gLights[1]->toggleLight();
-//	//	break;
-//
-//	//	// luz foco escena 7
-//	//case 'y':
-//	//	gLights[2]->toggleLight();
-//	//	break;
-//
-//	//	// luz foco tie escena 7
-//	//case 'h':
-//	//	gLights[3]->toggleLight();
-//	//	break;
-//
-//	default:
-//		break;
-//	}
-//}
+// ---- SCENE 7 ----
+void Scene7::init()
+{
+	// -- en lugar de llamar al init del padre hacemos:
+	setGL(); 
+	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
 
+	//// ----- TATOOINE -----
+	//Sphere* tatooine = new Sphere(150, 20, 20);
+	//tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	//gObjects.push_back(tatooine);
+
+	// ----- cosas para ambas alas:
+	Texture* texNoche = new Texture();						// crea nueva textura
+	const std::string win = "../assets/images/noche.jpg";	// ruta de la textura
+	texNoche->load(win, 200);							// carga la textura con su alfa 255 opaco
+	gTextures.push_back(texNoche);
+
+	// ----- ADVANCED TIE -----
+	AdvancedTIE* advancedTie = new AdvancedTIE(texNoche, true);
+	gObjects.push_back(advancedTie);
+	
+	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
+	advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
+	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
+
+	// nodo ficticio.
+	//_advancedTieInTatooine = new CompoundEntity();
+	//_advancedTieInTatooine->addEntity(_advancedTie);
+	//gObjects.push_back(_advancedTieInTatooine);
+
+}
+
+void Scene7::setBackgroundColor()
+{
+	glClearColor(0.6, 0.7, 0.8, 1.0);
+	//glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
+}
+
+void Scene7::handleKey(unsigned int key)
+{
+	switch (key)
+	{
+		// METODOS DEL ADVANCEDTIE
+	case 'f':
+		rotateTie();
+		break;
+
+	case 'g':
+		orbitTie();
+		break;
+
+	
+	//	// luz inicial
+	//case 'r':
+	//	gLights[0]->toggleLight();
+	//	break;
+
+	//	// luz posicional escena 7
+	//case 't':
+	//	gLights[1]->toggleLight();
+	//	break;
+
+	//	// luz foco escena 7
+	//case 'y':
+	//	gLights[2]->toggleLight();
+	//	break;
+
+	//	// luz foco tie escena 7
+	//case 'h':
+	//	gLights[3]->toggleLight();
+	//	break;
+
+	default:
+		break;
+	}
+}
+
+void Scene7::rotateTie()
+{
+	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
+	//poder coger su clase derivada CompoundEntity->AdvancedTie
+	AdvancedTIE* tie = static_cast<AdvancedTIE*>(gObjects[1]);
+	tie->rotate();
+}
+
+void Scene7::orbitTie()
+{
+	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
+	//poder coger su clase derivada CompoundEntity->AdvancedTie
+	AdvancedTIE* tie = static_cast<AdvancedTIE*>(gObjects[1]);
+	tie->orbit();
+}
 
 // ---- SCENE 8 ----
 void Scene8::init()

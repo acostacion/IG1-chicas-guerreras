@@ -35,18 +35,10 @@ public:
 	//Maneja input de escenas concretas
 	virtual void handleKey(unsigned int key);
 
-	CompoundEntity* _advancedTie;
-	CompoundEntity* _advancedTieInTatooine;
+	//CompoundEntity* _advancedTie;
 
 protected:
 	void uploadLights(Camera const& cam) const;
-
-	// metodos de tiefighter starwars
-	void rotate();
-	void orbit();
-
-	// metodos de tiefighter starwars.
-	void initialAdvandedTieConfig();
 
 	void destroy();
 	void setGL();
@@ -105,14 +97,18 @@ public:
 	void setBackgroundColor() override;
 };
 
-//class Scene7 : public Scene
-//{
-//public:
-//	void init() override;
-//	void setBackgroundColor() override;
-//
-//	void handleKey(unsigned int key) override;
-//};
+class Scene7 : public Scene
+{
+public:
+	void init() override;
+	void setBackgroundColor() override;
+
+	void handleKey(unsigned int key) override;
+
+private:
+	void rotateTie();
+	void orbitTie();
+};
 
 class Scene8 : public Scene
 {

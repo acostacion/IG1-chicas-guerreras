@@ -127,13 +127,8 @@ public:
 	void load() override;
 	void unload() override;
 
-	// TODO: hola el advancedTIEANGLE este deberia ir en la clase AdvancedTIE pero no sabemos que pasa que no funciona.
-	double _advancedTieAngle = 1.0;
-	float _advancedTieMovement = 1.0;
-
 protected:
 	std::vector<Abs_Entity*> gObjects;
-	
 };
 
 // -----------------
@@ -350,14 +345,29 @@ public:
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
+class NoseAdvancedTIE : public CompoundEntity
+{
+public:
+	explicit NoseAdvancedTIE();
+};
+
 class AdvancedTIE: public CompoundEntity
 {
 public:
 	explicit AdvancedTIE(Texture* wingsTex, GLboolean alfaActive = false);
 
+	// metodos de tiefighter starwars
+	void rotate();
+	void orbit();
+
 private:
+	//Para el movimiento cuando hay planeta
+	//void initialAdvandedTieConfig();
 	bool mModulate;
 	GLboolean mAlfaActive;
+
+	double _advancedTieAngle = 1.0;
+	float _advancedTieMovement = 1.0;
 };
 
 class Farmer : public CompoundEntity

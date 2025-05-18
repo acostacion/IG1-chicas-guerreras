@@ -89,16 +89,16 @@ IG1App::init()
 
 	// Crea las escenas
 	// Mete las escenas en el vector de escenas
-	mScenes.push_back(new Scene0());
-	mScenes.push_back(new Scene1());
-	mScenes.push_back(new Scene2());
-	mScenes.push_back(new Scene3());
-	mScenes.push_back(new Scene4());
-	mScenes.push_back(new Scene5());
-	mScenes.push_back(new Scene6());
-	//mScenes.push_back(new Scene7());
-	mScenes.push_back(new Scene8());
-	mScenes.push_back(new Scene9());
+	//mScenes.push_back(new Scene0());
+	//mScenes.push_back(new Scene1());
+	//mScenes.push_back(new Scene2());
+	//mScenes.push_back(new Scene3());
+	//mScenes.push_back(new Scene4());
+	//mScenes.push_back(new Scene5());
+	//mScenes.push_back(new Scene6()); // Error por Nariz al ser CompoundEntity
+	mScenes.push_back(new Scene7()); // ML por nodo ficticio 
+	//mScenes.push_back(new Scene8());
+	//mScenes.push_back(new Scene9());
 
 	mCamera->set2D();
 	mCamera2->set2D();
