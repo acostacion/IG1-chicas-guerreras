@@ -54,51 +54,43 @@ protected:
 // --- ESCENAS HIJAS ---
 // Scene0, Scene1, Scene2 ...
 
-class Scene0 : public Scene
-{
+class Scene0 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene1 : public Scene
-{
+class Scene1 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene2 : public Scene
-{
+class Scene2 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene3 : public Scene
-{
+class Scene3 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene4 : public Scene
-{
+class Scene4 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene5 : public Scene
-{
+class Scene5 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene6 : public Scene
-{
+class Scene6 : public Scene{
 public:
 	void init() override;
 	void setBackgroundColor() override;
 };
 
-class Scene7 : public Scene
-{
+class Scene7 : public Scene{
 public:
 	void init() override;
 	void setBackgroundColor() override;
@@ -110,14 +102,12 @@ private:
 	void orbitTie();
 };
 
-class Scene8 : public Scene
-{
+class Scene8 : public Scene{
 public:
 	void init() override;
 };
 
-class Scene9 : public Scene
-{
+class Scene9 : public Scene{
 public:
 	void init() override;
 };

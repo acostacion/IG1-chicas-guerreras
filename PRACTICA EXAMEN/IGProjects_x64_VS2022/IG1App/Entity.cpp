@@ -1164,20 +1164,21 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(
 
 void AdvancedTIE::rotate()
 {
-	//Rotamos el nodo ficticio
+	// rota sobre si mismo
 	setModelMat(
 		glm::rotate(mModelMat, radians(_advancedTieAngle), dvec3(0.0, 1.0, 0.0))
 	);
-
-	//No hace falta actualizar el angulo porque en nodo ficticio no es igual que antes.
 }
 
 void AdvancedTIE::orbit()
 {
-	// movemos hacia adelante el nodo ficticio con la rotacion alrededor del planeta.
+	// saca la dir
+	dvec3 dir = glm::normalize(glm::dvec3(mModelMat * glm::dvec4(0.0, 0.0, -1.0, 0.0)));
+
+	// movemos hacia adelante con la rotacion alrededor del planeta.
 	setModelMat(
-		glm::translate(dmat4(0), dvec3(_advancedTieMovement, 0.0, 0.0)) // avanza tantos pasos
-		* glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, 0.0, -1.0)) // rota alrededor del planeta en la direccion del morro
+		glm::rotate(glm::dmat4(1), radians(4.0), dir) // rota alrededor del planeta en la direccion del morro
+		* glm::translate(mModelMat, dvec3(_advancedTieMovement, 0.0, 0.0)) // avanza tantos pasos
 	);
 }
 

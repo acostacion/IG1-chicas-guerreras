@@ -401,9 +401,9 @@ void Scene7::init()
 	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
 
 	//// ----- TATOOINE -----
-	//Sphere* tatooine = new Sphere(150, 20, 20);
-	//tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
-	//gObjects.push_back(tatooine);
+	Sphere* tatooine = new Sphere(150, 20, 20);
+	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+	gObjects.push_back(tatooine);
 
 	// ----- cosas para ambas alas:
 	Texture* texNoche = new Texture();						// crea nueva textura
@@ -418,18 +418,11 @@ void Scene7::init()
 	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
 	advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
 	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
-
-	// nodo ficticio.
-	//_advancedTieInTatooine = new CompoundEntity();
-	//_advancedTieInTatooine->addEntity(_advancedTie);
-	//gObjects.push_back(_advancedTieInTatooine);
-
 }
 
 void Scene7::setBackgroundColor()
 {
-	glClearColor(0.6, 0.7, 0.8, 1.0);
-	//glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
+	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
 
 void Scene7::handleKey(unsigned int key)
@@ -475,7 +468,7 @@ void Scene7::rotateTie()
 {
 	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
 	//poder coger su clase derivada CompoundEntity->AdvancedTie
-	AdvancedTIE* tie = static_cast<AdvancedTIE*>(gObjects[1]);
+	AdvancedTIE* tie = static_cast<AdvancedTIE*>(gObjects[2]);
 	tie->rotate();
 }
 
@@ -483,9 +476,10 @@ void Scene7::orbitTie()
 {
 	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
 	//poder coger su clase derivada CompoundEntity->AdvancedTie
-	AdvancedTIE* tie = static_cast<AdvancedTIE*>(gObjects[1]);
+	AdvancedTIE* tie = static_cast<AdvancedTIE*>(gObjects[2]);
 	tie->orbit();
 }
+
 
 // ---- SCENE 8 ----
 void Scene8::init()
