@@ -511,7 +511,9 @@ void Scene9::init()
 	// ----- TATOOINE GOLDEN -----
 	Sphere* tatooineG = new Sphere(50, 50, 50);
 	tatooineG->setModelMat(translate(glm::dmat4(1), glm::dvec3(0.0, 0.0, 200.0)));
-	tatooineG->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //dorado
+	Material tatooineMaterial = tatooineG->getMaterial();
+	tatooineMaterial.setGolden();
+	tatooineG->setMaterial(tatooineMaterial);
 	gObjects.push_back(tatooineG);
 }
 

@@ -26,6 +26,7 @@ public:
 	void setExp(GLfloat exp);
 
 	void setCopper();
+	void setGolden();
 
 protected:
 	// Coeficientes de reflexión

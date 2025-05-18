@@ -55,7 +55,7 @@ IndexMesh* IndexMesh::generateByRevolution(const std::vector<glm::vec2>& profile
 	// Genera los vertices de las muestras (como si fuera un poligono regular)
 	GLdouble theta1 = angleMax / nSamples; //antes era 2 * std::numbers::pi (360º)
 	//Crea los vertices
-	for (int i = 0; i <= nSamples; ++i) { // muestra i-esima
+	for (int i = 0; i <= nSamples ; ++i) { // muestra i-esima
 		GLdouble c = cos(i * theta1), s = sin(i * theta1);
 		for (auto p : profile) // rota el perfil
 			mesh->vVertices.emplace_back(p.x * c, p.y, -p.x * s);
@@ -189,9 +189,7 @@ void IndexMesh::buildNormalVectors()
 	// METODO NEWELL (REVISAR):
 	//Rellena inicialmente con (0.0, 0.0, 0.0)
 	for (int i = 0; i < vIndexes.size(); i++)
-	{
 		vNormals.emplace_back(0.0, 0.0, 0.0);
-	}
 
 	//Define las normales con el producto vectorial
 	for (int i = 0; i < vIndexes.size(); i += 3) //(36 indices/12 triangulos) = 3(vertices por triangulo))
@@ -199,7 +197,8 @@ void IndexMesh::buildNormalVectors()
 		// Calculo normal
 		glm::vec3 normal = glm::normalize(glm::cross(
 			vVertices[vIndexes[i + 1]] - vVertices[vIndexes[i]],
-			vVertices[vIndexes[i + 2]] - vVertices[vIndexes[i]]));
+			vVertices[vIndexes[i + 2]] - vVertices[vIndexes[i]])
+		);
 
 		//Los rellena
 		vNormals[vIndexes[i]] +=  normal;
@@ -209,8 +208,5 @@ void IndexMesh::buildNormalVectors()
 
 	//Normalizamos los vectores de vNormals
 	for (int i = 0; i < vNormals.size(); i++)
-	{
 		vNormals[i] = glm::normalize(vNormals[i]);
-	}
-	
 }

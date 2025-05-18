@@ -9,24 +9,17 @@ P3: (HEMOS MANDADO CORREO)
 - Tenéis mal pitch/roll/yaw. Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan. En el roll solo se rota el up. Pero nunca se rota la PM
 
 P4:
-- Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución. //Lo veremos más tarde
 - Las alas de la nave espacial no son transparentes (Este error viene dado por añadirlo al compound entity del tie?).
-- Hay fugas de memoria. (Ya se lo explicamos. Vienen de crear el nodo ficticio para la nariz del tie)
-
-???
-- No deberíais mover la nave desde la clase Scene. (Nota: Usando la técnica del nodo ficticio programa dos métodos en la clase Scene ?????)
 
 P5:
 - Múltiples errores por consola. Se muestran cuando intentáis cargar el shader del color al renderizar ColorMaterialEntity.
-- Nunca llaméis un método de un método. Por ejemplo: cilinder->getMaterial().setDarkBlue(); //Lo veremos más tarde
 - Todas las escenas comparten una luz direccional, solo se modifica en la escena del planeta.
 - AdvancedTiE deberá incluir en su clase la luz focal. 
 - No se puede cargar ninguna luz. Y cuando lo intentas, al final aparece un runtime error.
 
 Dudas:
-ML- Todas las memory Leaks son de la escena 7. Memory Leak relacionado al nodo ficticio _advancedTieInTatooine 
-¿?: ¿Cómo hacer el movimiento de la nave sin 2 nodos ficticios?
 ¿?: Tie- Entidad compuesta Nariz no funciona.
+- Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución. //Lo veremos más tarde
 
 
 

@@ -91,7 +91,7 @@ public:
 	void render(const glm::dmat4& modelViewMat) const override;
 
 	// getter y setter
-	Material const& getMaterial() const { return mMaterial; }
+	Material getMaterial() const { return mMaterial; }
 	void setMaterial(Material& mat) { mMaterial = mat; }
 
 	//static void toggleShowNormals();
