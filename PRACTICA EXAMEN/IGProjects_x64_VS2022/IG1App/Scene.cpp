@@ -3,6 +3,7 @@
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Light.h"
 
 using namespace glm;
 
@@ -11,7 +12,26 @@ void Scene::init()
 	setGL(); // OpenGL settings
 
 	// allocate memory and load resources
+
 	// Lights
+
+	//Luz direccional de todas las escenas
+	DirLight* dirLight = new DirLight(); //Con id = 0
+
+	//Caracteristicas de shader simple_light
+	dirLight->setAmb(vec3(0.25, 0.25, 0.25));
+	dirLight->setDiff(vec3(0.6, 0.6, 0.6));
+	dirLight->setSpec(vec3(0.0, 0.2, 0.0));
+	//Cambiamos la direccion porque DirLight (-1, -1, -1) viene desde abajo
+	dirLight->setDirection(vec3(1.0, 1.0, 1.0));
+	dirLight->setEnabled(true);
+
+	//La anadimos al vector de luces
+	//Al pushear da error por la tarjeta gráfica.
+	//Poco podemos hacer para arreglar este error. 
+	gLights.push_back(dirLight);
+
+
 	// Textures
 
 	// Graphics objects (entities) of the scene
@@ -92,57 +112,6 @@ void Scene::destroyScene()
 	destroy();
 }
 
-CompoundEntity* Scene::createFarmer()
-{
-	// ----- FARMER -----
-	CompoundEntity* farmer = new CompoundEntity();
-	gObjects.push_back(farmer);
-
-	// ----- Cabeza -----
-	Sphere* cabeza = new Sphere(300, 20, 20);
-	cabeza->setColor(glm::vec4(1.0f, 0.55f, 0.0f, 1.0f)); //orange (de la tabla)
-	farmer->addEntity(cabeza);
-
-	// ----- Boca -----
-	PartialDisk* boca = new PartialDisk(230, 30, 5, 50, glm::radians(180.0));
-	//boca->setColor(glm::vec4(0.0f, 255.0, 0.0, 255.0)); //green sin shader
-	boca->setColor(glm::vec4(0.0f, 1.0, 0.0, 1.0)); //green
-	boca->setModelMat(
-		glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, 190.0))
-		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
-	);
-	farmer->addEntity(boca);
-
-	// ----- Sombrero -----
-	Disk* sombrero = new Disk(400, 0, 5, 50);
-	//sombrero->setColor(glm::vec4(255.0, 0.0, 0.0, 255.0)); //red sin shader
-	sombrero->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0)); //red
-	sombrero->setModelMat(
-		glm::translate(glm::dmat4(1), dvec3(0.0, 200.0, 0.0))
-	);
-	farmer->addEntity(sombrero);
-
-	// ----- Ojo derecho -----
-	Cone* ojoDer = new Cone(70, 5, 40, 5, 50);
-	ojoDer->setColor(glm::vec4(0.3, 0.35, 0.4,1.0)); //gris marengo, (76, 88, 102)
-	ojoDer->setModelMat(
-		glm::translate(glm::dmat4(1), dvec3(-70.0, 100.0, 300.0))
-		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
-	);
-	farmer->addEntity(ojoDer);
-
-	// ----- Ojo izquierdo -----
-	Cone* ojoIzq = new Cone(70, 5, 30, 5, 50);
-	ojoIzq->setColor(glm::vec4(0.0, 0.0, 0.5, 1.0)); //azul marino, (0, 0, 128)
-	ojoIzq->setModelMat(
-		glm::translate(glm::dmat4(1), dvec3(70.0, 100.0, 300.0))
-		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
-	);
-	farmer->addEntity(ojoIzq);
-
-	return farmer;
-}
-
 void Scene::initialAdvandedTieConfig()
 {
 	//Colocamos el tie en la posicion del nodo con la escala
@@ -162,6 +131,7 @@ void Scene::rotate()
 	_advancedTieInTatooine->setModelMat(
 		glm::rotate(_advancedTieInTatooine->modelMat(), radians(_advancedTie->_advancedTieAngle), dvec3(0.0, 1.0, 0.0))
 	);
+
 	//No hace falta actualizar el angulo porque en nodo ficticio no es igual que antes.
 }
 
@@ -311,6 +281,7 @@ void Scene2::init()
 	
 }
 
+
 // ---- SCENE 3 ----
 void Scene3::init()
 {
@@ -449,9 +420,7 @@ void Scene6::init()
 	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
 	gTextures.push_back(texNoche);
 
-	gObjects.push_back(new AdvancedTIE(texNoche));
-
-	
+	gObjects.push_back(new AdvancedTIE(texNoche, true));
 }
 
 void Scene6::setBackgroundColor()
@@ -459,83 +428,84 @@ void Scene6::setBackgroundColor()
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
 
-// ---- SCENE 7 ----
-void Scene7::init()
-{
-	// -- en lugar de llamar al init del padre hacemos:
-	setGL(); 
-	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
+//// ---- SCENE 7 ----
+//void Scene7::init()
+//{
+//	// -- en lugar de llamar al init del padre hacemos:
+//	setGL(); 
+//	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
+//
+//	// ----- TATOOINE -----
+//	Sphere* tatooine = new Sphere(150, 20, 20);
+//	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
+//	gObjects.push_back(tatooine);
+//
+//	// ----- cosas para ambas alas:
+//	Texture* texNoche = new Texture();						// crea nueva textura
+//	const std::string win = "../assets/images/noche.jpg";	// ruta de la textura
+//	texNoche->load(win, 200);							// carga la textura con su alfa 255 opaco
+//	gTextures.push_back(texNoche);
+//
+//	// ----- ADVANCED TIE -----
+//	_advancedTie = new AdvancedTIE(texNoche, true);
+//	gObjects.push_back(_advancedTie);
+//	
+//	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
+//	_advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
+//	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
+//
+//	// nodo ficticio.
+//	_advancedTieInTatooine = new CompoundEntity();
+//	_advancedTieInTatooine->addEntity(_advancedTie);
+//	//gObjects.push_back(_advancedTieInTatooine);
+//
+//}
+//
+//void Scene7::setBackgroundColor()
+//{
+//	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
+//}
+//
+//void Scene7::handleKey(unsigned int key)
+//{
+//	switch (key)
+//	{
+//		// METODOS DEL ADVANCEDTIE
+//	case 'f':
+//		rotate();
+//		break;
+//
+//	case 'g':
+//
+//		orbit();
+//		break;
+//
+//	
+//	//	// luz inicial
+//	//case 'r':
+//	//	gLights[0]->toggleLight();
+//	//	break;
+//
+//	//	// luz posicional escena 7
+//	//case 't':
+//	//	gLights[1]->toggleLight();
+//	//	break;
+//
+//	//	// luz foco escena 7
+//	//case 'y':
+//	//	gLights[2]->toggleLight();
+//	//	break;
+//
+//	//	// luz foco tie escena 7
+//	//case 'h':
+//	//	gLights[3]->toggleLight();
+//	//	break;
+//
+//	default:
+//		break;
+//	}
+//}
 
-	// ----- TATOOINE -----
-	Sphere* tatooine = new Sphere(150, 20, 20);
-	tatooine->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //amarillo
-	gObjects.push_back(tatooine);
-
-	// ----- cosas para ambas alas:
-	Texture* texNoche = new Texture();										// crea nueva textura
-	const std::string win = "../assets/images/noche.jpg";				// ruta de la textura
-	texNoche->load(win, 200);											// carga la textura con su alfa 255 opaco
-	gTextures.push_back(texNoche);
-
-	// ----- ADVANCED TIE -----
-	_advancedTie = new AdvancedTIE(texNoche);
-	gObjects.push_back(_advancedTie);
-	
-	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
-	_advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
-	*	translate(glm::dmat4(1), glm::dvec3(0.0, 1200.0, 0.0)));
-
-	// nodo ficticio.
-	_advancedTieInTatooine = new CompoundEntity();
-
-	_advancedTieInTatooine->addEntity(_advancedTie);
-
-}
-
-void Scene7::setBackgroundColor()
-{
-	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
-}
-
-void Scene7::handleKey(unsigned int key)
-{
-	switch (key)
-	{
-		// METODOS DEL ADVANCEDTIE
-	case 'f':
-		rotate();
-		break;
-
-	case 'g':
-
-		orbit();
-		break;
-
-	
-	//	// luz inicial
-	//case 'r':
-	//	gLights[0]->toggleLight();
-	//	break;
-
-	//	// luz posicional escena 7
-	//case 't':
-	//	gLights[1]->toggleLight();
-	//	break;
-
-	//	// luz foco escena 7
-	//case 'y':
-	//	gLights[2]->toggleLight();
-	//	break;
-
-	//	// luz foco tie escena 7
-	//case 'h':
-	//	gLights[3]->toggleLight();
-	//	break;
-
-	default:
-		break;
-	}
-}
 
 // ---- SCENE 8 ----
 void Scene8::init()
@@ -543,9 +513,10 @@ void Scene8::init()
 	// -- llama a init del padre
 	Scene::init();
 
-	// Creamos la entidad compuesta farmer
-	_farmer = createFarmer();
-	_farmer->setModelMat(
+	CompoundEntity* farmer = new Farmer();
+	gObjects.push_back(farmer);
+
+	farmer->setModelMat(
 		scale(glm::dmat4(1), glm::dvec3(0.5, 0.5, 0.5))
 		* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
 	);
@@ -569,3 +540,5 @@ void Scene9::init()
 	tatooineG->setColor(glm::vec4(1.0f, 0.91f, 0.0f, 1.0f)); //dorado
 	gObjects.push_back(tatooineG);
 }
+
+

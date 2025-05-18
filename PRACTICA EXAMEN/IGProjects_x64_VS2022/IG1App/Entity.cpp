@@ -100,8 +100,6 @@ void EntityWithTexture::render(const glm::dmat4& modelViewMat) const
 		mShader->setUniform("modulate", mModulate);
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
 		if (mTexture != nullptr) // si la textura no es nula podemos proceder a renderizarla
 		{
 			mTexture->bind();	 // activa la textura en la gpu
@@ -147,10 +145,10 @@ ColorMaterialEntity::ColorMaterialEntity()
 //	mShowNormals = !mShowNormals;
 //}
 
-EntityWithMaterial::EntityWithMaterial()
-{
-	mShader = Shader::get("light");
-}
+//EntityWithMaterial::EntityWithMaterial()
+//{
+//	mShader = Shader::get("light");
+//}
 
 void EntityWithMaterial::render(const glm::dmat4& modelViewMat) const
 {
@@ -161,16 +159,6 @@ void EntityWithMaterial::render(const glm::dmat4& modelViewMat) const
 	mMaterial.upload(*mShader);
 	upload(modelViewMat * mModelMat);
 	mMesh->render();
-}
-
-CompoundEntity::CompoundEntity(GLboolean alfaActive) : mAlfaActive(alfaActive)
-{
-	if (mAlfaActive) {
-		mShader = Shader::get("texture:texture_alpha");
-	}
-	else {
-		mShader = Shader::get("texture");
-	}
 }
 
 // ---- COMPOUND ENTITY ----
@@ -961,6 +949,48 @@ void Disk::render(const glm::dmat4& modelViewMat) const
 	}
 }
 
+PartialDisk::PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle)
+{
+	mShader = Shader::get("simple_light");
+	std::vector<glm::vec2> profile;
+
+	//El perfil es una linea recta
+	GLdouble incremento = (R - r) / nRings;
+	//Conseguimos los puntos del perfil
+	for (GLuint i = 0; i < nRings + 2; i++)
+	{
+		GLdouble x = r + (incremento * i);
+		GLdouble y = 0;
+
+		profile.emplace_back(x, y);
+	}
+
+	//Hacemos la malla por revolucion
+	mMesh = IndexMesh::generateByRevolution(profile, nSamples, maxAngle);
+}
+
+void PartialDisk::render(const glm::dmat4& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		mShader->use();
+		mShader->setUniform("color", mColor);
+		upload(aMat);
+
+		glEnable(GL_CULL_FACE);
+		// CARA DE DELANTE
+		glCullFace(GL_BACK);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+
+		// CARA DE ATRAS
+		glCullFace(GL_FRONT);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+		glDisable(GL_CULL_FACE);
+	}
+}
+
 Cone::Cone(GLdouble h, GLdouble r, GLdouble R, GLuint nRings, GLuint nSamples)
 {
 	mShader = Shader::get("simple_light");
@@ -1019,6 +1049,7 @@ WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate, Tex
 	mMesh = Mesh::generateWingAdvancedTIE(w, h);
 	setTexture(tex);
 }
+
 void WingAdvancedTIE::render(const glm::dmat4& modelViewMat) const
 {
 	if (mMesh != nullptr) {
@@ -1048,31 +1079,17 @@ void WingAdvancedTIE::render(const glm::dmat4& modelViewMat) const
 		}
 	}
 }
-#pragma endregion
 
-PartialDisk::PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle)
-	: Disk(R, r, nRings, nSamples)
+AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(alfaActive)
 {
-	mShader = Shader::get("simple_light");
-	std::vector<glm::vec2> profile;
-
-	//El perfil es una linea recta
-	GLdouble incremento = (R - r) / nRings;
-	//Conseguimos los puntos del perfil
-	for (GLuint i = 0; i < nRings + 2; i++)
-	{
-		GLdouble x = r + (incremento * i);
-		GLdouble y = 0;
-
-		profile.emplace_back(x, y);
+	//Para la transparencia de las alas
+	if (mAlfaActive) {
+		mShader = Shader::get("texture:texture_alpha");
+	}
+	else {
+		mShader = Shader::get("texture");
 	}
 
-	//Hacemos la malla por revolucion
-	mMesh = IndexMesh::generateByRevolution(profile, nSamples, maxAngle);
-}
-
-AdvancedTIE::AdvancedTIE(Texture* wingsTex)
-{
 	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
 	int wingsDistance = 200;
 
@@ -1124,3 +1141,52 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex)
 	//addEntity(nose);
 }
 
+Farmer::Farmer()
+{
+	mShader = Shader::get("texture");
+
+	// ----- Cabeza -----
+	Sphere* cabeza = new Sphere(300, 20, 20);
+	cabeza->setColor(glm::vec4(1.0f, 0.55f, 0.0f, 1.0f)); //orange (de la tabla)
+	addEntity(cabeza);
+
+	// ----- Boca -----
+	PartialDisk* boca = new PartialDisk(230, 30, 5, 50, glm::radians(180.0));
+	//boca->setColor(glm::vec4(0.0f, 255.0, 0.0, 255.0)); //green sin shader
+	boca->setColor(glm::vec4(0.0f, 1.0, 0.0, 1.0)); //green
+	boca->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(0.0, 0.0, 190.0))
+		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
+	);
+	addEntity(boca);
+
+	// ----- Sombrero -----
+	Disk* sombrero = new Disk(400, 0, 5, 50);
+	//sombrero->setColor(glm::vec4(255.0, 0.0, 0.0, 255.0)); //red sin shader
+	sombrero->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0)); //red
+	sombrero->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(0.0, 200.0, 0.0))
+	);
+	addEntity(sombrero);
+
+	// ----- Ojo derecho -----
+	Cone* ojoDer = new Cone(70, 5, 40, 5, 50);
+	ojoDer->setColor(glm::vec4(0.3, 0.35, 0.4, 1.0)); //gris marengo, (76, 88, 102)
+	ojoDer->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(-70.0, 100.0, 300.0))
+		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
+	);
+	addEntity(ojoDer);
+
+	// ----- Ojo izquierdo -----
+	Cone* ojoIzq = new Cone(70, 5, 30, 5, 50);
+	ojoIzq->setColor(glm::vec4(0.0, 0.0, 0.5, 1.0)); //azul marino, (0, 0, 128)
+	ojoIzq->setModelMat(
+		glm::translate(glm::dmat4(1), dvec3(70.0, 100.0, 300.0))
+		* glm::rotate(glm::dmat4(1), radians(-90.0), dvec3(1.0, 0.0, 0.0))
+	);
+	addEntity(ojoIzq);
+
+}
+
+#pragma endregion

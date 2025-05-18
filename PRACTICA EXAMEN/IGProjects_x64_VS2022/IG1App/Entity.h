@@ -19,7 +19,8 @@ public:
 	  : mModelMat(1.0)  // 4x4 identity matrix
 	  , mShader(nullptr)
 	  , mTexture(nullptr)
-	  , mMaterial() {}
+	  , mMaterial()
+	{}
 
 	virtual ~Abs_Entity();
 
@@ -86,7 +87,7 @@ protected:
 class EntityWithMaterial : public Abs_Entity
 {
 public:
-	explicit EntityWithMaterial();
+	//explicit EntityWithMaterial();
 	void render(const glm::dmat4& modelViewMat) const override;
 
 	// getter y setter
@@ -118,7 +119,6 @@ protected:
 class CompoundEntity : public Abs_Entity
 {
 public:
-	explicit CompoundEntity(GLboolean alfaActive = false);
 	virtual ~CompoundEntity();
 	void addEntity(Abs_Entity* ae);
 
@@ -133,8 +133,7 @@ public:
 
 protected:
 	std::vector<Abs_Entity*> gObjects;
-	bool mModulate;
-	GLboolean mAlfaActive;
+	
 };
 
 // -----------------
@@ -324,6 +323,14 @@ public:
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
+//Apartado 69
+class PartialDisk : public ColorMaterialEntity 
+{
+public:
+	explicit PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle);
+	void render(const glm::dmat4& modelViewMat) const override;
+};
+
 class Cone : public ColorMaterialEntity 
 {
 	/*
@@ -339,21 +346,24 @@ public:
 class WingAdvancedTIE : public EntityWithTexture
 {
 public:
-	WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate, Texture* tex);
+	explicit WingAdvancedTIE(GLdouble w, GLdouble h, GLboolean modulate, Texture* tex);
 	void render(const glm::dmat4& modelViewMat) const override;
 };
 
 class AdvancedTIE: public CompoundEntity
 {
 public:
-	AdvancedTIE(Texture* wingsTex);
+	explicit AdvancedTIE(Texture* wingsTex, GLboolean alfaActive = false);
+
+private:
+	bool mModulate;
+	GLboolean mAlfaActive;
 };
 
-//Apartado 69
-class PartialDisk : public Disk //Usa el render de Disk
+class Farmer : public CompoundEntity
 {
 public:
-	explicit PartialDisk(GLdouble R, GLdouble r, GLuint nRings, GLuint nSamples, GLfloat maxAngle);
+	explicit Farmer();
 };
 
 #endif //_H_Entities_H_

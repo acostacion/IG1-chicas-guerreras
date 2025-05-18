@@ -35,6 +35,9 @@ public:
 	//Maneja input de escenas concretas
 	virtual void handleKey(unsigned int key);
 
+	CompoundEntity* _advancedTie;
+	CompoundEntity* _advancedTieInTatooine;
+
 protected:
 	void uploadLights(Camera const& cam) const;
 
@@ -43,20 +46,12 @@ protected:
 	void orbit();
 
 	// metodos de tiefighter starwars.
-	CompoundEntity* _advancedTie;
-	CompoundEntity* _advancedTieInTatooine;
 	void initialAdvandedTieConfig();
-
-	// metodos de farmer (opcional)
-	CompoundEntity* _farmer;
-	CompoundEntity* createFarmer();
 
 	void destroy();
 	void setGL();
 	virtual void setBackgroundColor();
 	void resetGL();
-
-
 
 	std::vector<Abs_Entity*> gObjects;		// Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gObjectsTrans; // Entidades con transparencias
@@ -110,14 +105,14 @@ public:
 	void setBackgroundColor() override;
 };
 
-class Scene7 : public Scene
-{
-public:
-	void init() override;
-	void setBackgroundColor() override;
-
-	void handleKey(unsigned int key) override;
-};
+//class Scene7 : public Scene
+//{
+//public:
+//	void init() override;
+//	void setBackgroundColor() override;
+//
+//	void handleKey(unsigned int key) override;
+//};
 
 class Scene8 : public Scene
 {
