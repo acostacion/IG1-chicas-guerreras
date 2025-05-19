@@ -35,8 +35,6 @@ public:
 	//Maneja input de escenas concretas
 	virtual void handleKey(unsigned int key);
 
-	//CompoundEntity* _advancedTie;
-
 protected:
 	void uploadLights(Camera const& cam) const;
 

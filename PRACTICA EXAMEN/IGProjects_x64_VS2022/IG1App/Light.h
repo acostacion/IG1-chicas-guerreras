@@ -22,6 +22,9 @@ public:
 	void setDiff(const glm::vec3& ind);
 	void setSpec(const glm::vec3& ind);
 
+	// Enciende y apaga las luces
+	void toggleLight();
+
 protected:
 	Light(std::string name);
 	Light(const std::string& name, int id);

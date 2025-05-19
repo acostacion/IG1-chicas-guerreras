@@ -1,5 +1,6 @@
 #include "Light.h"
 
+#include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
 using namespace glm;
@@ -36,6 +37,12 @@ Light::setDiff(const glm::vec3& ind) { diffuse = ind; }
 
 void
 Light::setSpec(const glm::vec3& ind) { specular = ind; }
+
+void Light::toggleLight()
+{
+	bEnabled = !bEnabled;
+	//setEnabled(!bEnabled);
+}
 
 DirLight::DirLight(int id)
  : Light("dirLights", id)

@@ -1101,6 +1101,21 @@ NoseAdvancedTIE::NoseAdvancedTIE()
 
 AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(alfaActive)
 {
+	// --- Luces ---
+	tieLight = new SpotLight(vec3(0.0, 1200.0, 0.0), 3);
+	//Caracteristicas de shader simple_light
+	tieLight->setAmb(vec3(0.25, 0.25, 0.25));
+	tieLight->setDiff(vec3(0.6, 0.6, 0.6));
+	tieLight->setSpec(vec3(0.0, 0.2, 0.0));
+	//Direccion hacia el planeta
+	tieLight->setDirection(vec3(0, -1, 0));
+	tieLight->setEnabled(true);
+	//La anadimos al vector de luces
+	//Al pushear da error por la tarjeta gráfica.
+	//Poco podemos hacer para arreglar este error. 
+	//addEntity(tieLight);
+
+	// --- Texturas ---
 	//Para la transparencia de las alas
 	if (mAlfaActive) {
 		mShader = Shader::get("texture:texture_alpha");
@@ -1109,6 +1124,7 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(
 		mShader = Shader::get("texture");
 	}
 
+	//--- Entidades ---
 	// distancia entre ala y ala (ademas de la h del cilindro que las atraviesa)
 	int wingsDistance = 200;
 
@@ -1158,7 +1174,6 @@ AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(
 		translate(glm::dmat4(1), glm::dvec3(65, 0, 0))
 		* glm::rotate(dmat4(1), radians(90.0), dvec3(0.0, 0.0, 1.0)));
 	addEntity(noseDisk);
-
 
 }
 

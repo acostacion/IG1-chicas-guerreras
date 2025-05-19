@@ -148,10 +148,10 @@ void Scene::handleKey(unsigned int key)
 {
 	switch (key)
 	{
-	//	// luz inicial
-	//case 'r':
-	//	gLights[0]->toggleLight();
-	//	break;
+		// luz direccional general (esta en l)
+	case 'r':
+		gLights[0]->toggleLight();
+		break;
 
 	default:
 		break;
@@ -164,7 +164,6 @@ void Scene::uploadLights(Camera const& cam) const
 	s->use();
 
 	for (Light* l : gLights){
-		l->setEnabled(true); // activamos todas las luces
 		l->upload(*s, cam.viewMat()); // actualizamos las luces
 	}
 }
@@ -245,7 +244,6 @@ void Scene2::init()
 	gObjects.push_back(cube);
 	
 }
-
 
 // ---- SCENE 3 ----
 void Scene3::init()
@@ -375,9 +373,8 @@ void Scene5::init()
 // ---- SCENE 6 ----
 void Scene6::init()
 {
-	// -- en lugar de llamar al init del padre hacemos:
-	setGL();
-	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
+	// llama a init del padre
+	Scene::init();
 
 	// ----- cosas para ambas alas:
 	Texture* texNoche = new Texture();										// crea nueva textura
@@ -396,9 +393,44 @@ void Scene6::setBackgroundColor()
 // ---- SCENE 7 ----
 void Scene7::init()
 {
-	// -- en lugar de llamar al init del padre hacemos:
-	setGL(); 
-	gObjects.push_back(new RGBAxes(400.0)); // EJES XYZ.
+	// llama a init del padre
+	Scene::init();
+
+	// ----- LUCES -----
+	// --- LUZ POSICIONAL ---
+	PosLight* posLight = new PosLight(1);
+
+	//Caracteristicas de shader simple_light
+	posLight->setAmb(vec3(0.25, 0.25, 0.25));
+	posLight->setDiff(vec3(1.0, 1.0, 1.));
+	posLight->setSpec(vec3(0.0, 0.2, 0.0));
+	//La posicion en el lado positivo del plano XZ
+	posLight->setPosition(vec3(200, 200, 200));
+	posLight->setEnabled(true);
+	//La anadimos al vector de luces
+	//Al pushear da error por la tarjeta gráfica.
+	//Poco podemos hacer para arreglar este error. 
+	gLights.push_back(posLight);
+
+	// --- LUZ FOCAL ---
+	//TODO: Cambiar la posicion cuando se vean
+	//La posicion en el lado positivo del plano YZ
+	SpotLight* spotLight = new SpotLight(vec3(200, 200, 200), 2);
+
+	//Caracteristicas de shader simple_light
+	spotLight->setAmb(vec3(0.25, 0.25, 0.25));
+	spotLight->setDiff(vec3(0.6, 0.6, 0.6));
+	spotLight->setSpec(vec3(0.0, 0.2, 0.0));
+	//Direccion hacia el planeta
+	//TODO: cambiar la direccion cuando se vea
+	spotLight->setDirection(vec3(0, 0, 0));
+	spotLight->setEnabled(true);
+	//La anadimos al vector de luces
+	//Al pushear da error por la tarjeta gráfica.
+	//Poco podemos hacer para arreglar este error. 
+	gLights.push_back(spotLight);
+
+	SpotLight* tieLight;
 
 	//// ----- TATOOINE -----
 	Sphere* tatooine = new Sphere(150, 20, 20);
@@ -414,6 +446,10 @@ void Scene7::init()
 	// ----- ADVANCED TIE -----
 	AdvancedTIE* advancedTie = new AdvancedTIE(texNoche, true);
 	gObjects.push_back(advancedTie);
+
+	//Anadimos su luz al array
+	tieLight = advancedTie->getTieLight();
+	gLights.push_back(tieLight);
 	
 	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
 	advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
@@ -437,27 +473,26 @@ void Scene7::handleKey(unsigned int key)
 	case 'g':
 		orbitTie();
 		break;
-
 	
-	//	// luz inicial
-	//case 'r':
-	//	gLights[0]->toggleLight();
-	//	break;
+		// luz direccional
+	case 'r':
+		gLights[0]->toggleLight();
+		break;
 
-	//	// luz posicional escena 7
-	//case 't':
-	//	gLights[1]->toggleLight();
-	//	break;
+		// luz posicional escena 7
+	case 't':
+		gLights[1]->toggleLight();
+		break;
 
-	//	// luz foco escena 7
-	//case 'y':
-	//	gLights[2]->toggleLight();
-	//	break;
+		// luz foco escena 7
+	case 'y':
+		gLights[2]->toggleLight();
+		break;
 
-	//	// luz foco tie escena 7
-	//case 'h':
-	//	gLights[3]->toggleLight();
-	//	break;
+		// luz foco tie escena 7
+	case 'h':
+		gLights[3]->toggleLight();
+		break;
 
 	default:
 		break;

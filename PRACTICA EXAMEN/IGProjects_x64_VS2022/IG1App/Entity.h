@@ -6,6 +6,7 @@
 
 #include "Mesh.h"
 #include "IndexMesh.h"
+#include "Light.h"
 #include "Material.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -360,14 +361,17 @@ public:
 	void rotate();
 	void orbit();
 
+	SpotLight* getTieLight() { return tieLight; }
 private:
-	//Para el movimiento cuando hay planeta
-	//void initialAdvandedTieConfig();
 	bool mModulate;
 	GLboolean mAlfaActive;
 
+	//Para el movimiento cuando hay planeta
 	double _advancedTieAngle = 1.0;
 	float _advancedTieMovement = 1.0;
+
+	//Luz Focal
+	SpotLight* tieLight;
 };
 
 class Farmer : public CompoundEntity

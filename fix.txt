@@ -10,16 +10,17 @@ P3: (HEMOS MANDADO CORREO)
 
 P4:
 - Las alas de la nave espacial no son transparentes (Este error viene dado por añadirlo al compound entity del tie?).
+- Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución. //Lo veremos más tarde
 
-P5:
-- Múltiples errores por consola. Se muestran cuando intentáis cargar el shader del color al renderizar ColorMaterialEntity.
+P5: (HEMOS MANDADO CORREO)
+- Múltiples errores se muestran cuando intentáis cargar el shader del color al renderizar ColorMaterialEntity.
 - Todas las escenas comparten una luz direccional, solo se modifica en la escena del planeta.
 - AdvancedTiE deberá incluir en su clase la luz focal. 
-- No se puede cargar ninguna luz. Y cuando lo intentas, al final aparece un runtime error.
+- No se puede cargar ninguna luz. 
 
 Dudas:
 ¿?: Tie- Entidad compuesta Nariz no funciona.
-- Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución. //Lo veremos más tarde
+¿?: Se ven las "costuras" donde se unen los calculos de las normales en las figuras de revolución. //Lo veremos más tarde
 
 
 
