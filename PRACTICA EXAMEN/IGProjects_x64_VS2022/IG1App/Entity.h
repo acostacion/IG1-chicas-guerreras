@@ -361,7 +361,7 @@ public:
 	void rotate();
 	void orbit();
 
-	SpotLight* getTieLight() { return tieLight; }
+	//SpotLight* getTieLight() { return tieLight; }
 private:
 	bool mModulate;
 	GLboolean mAlfaActive;
@@ -371,7 +371,7 @@ private:
 	float _advancedTieMovement = 1.0;
 
 	//Luz Focal
-	SpotLight* tieLight;
+	//SpotLight* tieLight;
 };
 
 class Farmer : public CompoundEntity

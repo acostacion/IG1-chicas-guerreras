@@ -57,9 +57,10 @@ void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
 	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
 	//Dice si
-	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
+	//mLook += mUpward * cs;
+	//mUp = rotate(mViewMat, (double)(glm::radians(cs)), mRight);
 
-	//mLook = rotate(mViewMat, (double)(glm::radians(cs)), mRight);
+	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
 
 	setVM();
 }
@@ -68,6 +69,8 @@ void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 {
 	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
 	//Dice no
+	//mLook += mRight * cs;
+	//mUp = rotate(mViewMat, (double)(glm::radians(cs)), mUpward);
 
 	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 1.0, 0));
 	setVM();
@@ -75,6 +78,8 @@ void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 {
 	// En el roll solo se rota el up
+	//mUp = rotate(mViewMat, (double)(glm::radians(cs)), mFront);
+
 	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 0, 1.0));
 	setVM();
 }

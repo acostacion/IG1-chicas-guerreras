@@ -1101,15 +1101,15 @@ NoseAdvancedTIE::NoseAdvancedTIE()
 
 AdvancedTIE::AdvancedTIE(Texture* wingsTex, GLboolean alfaActive) : mAlfaActive(alfaActive)
 {
-	// --- Luces ---
-	tieLight = new SpotLight(vec3(0.0, 1200.0, 0.0), 3);
-	//Caracteristicas de shader simple_light
-	tieLight->setAmb(vec3(0.25, 0.25, 0.25));
-	tieLight->setDiff(vec3(0.6, 0.6, 0.6));
-	tieLight->setSpec(vec3(0.0, 0.2, 0.0));
-	//Direccion hacia el planeta
-	tieLight->setDirection(vec3(0, -1, 0));
-	tieLight->setEnabled(true);
+	//// --- Luces ---
+	//tieLight = new SpotLight(vec3(0.0, 1200.0, 0.0), 3);
+	////Caracteristicas de shader simple_light
+	//tieLight->setAmb(vec3(0.25, 0.25, 0.25));
+	//tieLight->setDiff(vec3(0.6, 0.6, 0.6));
+	//tieLight->setSpec(vec3(0.0, 0.2, 0.0));
+	////Direccion hacia el planeta
+	//tieLight->setDirection(vec3(0, -1, 0));
+	//tieLight->setEnabled(true);
 	//La anadimos al vector de luces
 	//Al pushear da error por la tarjeta gráfica.
 	//Poco podemos hacer para arreglar este error. 

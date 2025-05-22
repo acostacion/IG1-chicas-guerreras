@@ -448,8 +448,8 @@ void Scene7::init()
 	gObjects.push_back(advancedTie);
 
 	//Anadimos su luz al array
-	tieLight = advancedTie->getTieLight();
-	gLights.push_back(tieLight);
+	//tieLight = advancedTie->getTieLight();
+	//gLights.push_back(tieLight);
 	
 	//AdvancedTIE esta en el polo norte del planeta y con menos tamano
 	advancedTie->setModelMat(scale(glm::dmat4(1), glm::dvec3(0.15, 0.15, 0.15))
@@ -490,9 +490,9 @@ void Scene7::handleKey(unsigned int key)
 		break;
 
 		// luz foco tie escena 7
-	case 'h':
-		gLights[3]->toggleLight();
-		break;
+	//case 'h':
+	//	gLights[3]->toggleLight();
+	//	break;
 
 	default:
 		break;
