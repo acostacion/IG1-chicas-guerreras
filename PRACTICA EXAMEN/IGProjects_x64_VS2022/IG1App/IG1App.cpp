@@ -239,8 +239,6 @@ IG1App::key(unsigned int key)
 
 	bool need_redisplay = true;
 
-	mScenes[mCurrentScene]->handleKey(key);
-
 	switch (key) {
 	case '+':
 		actualCam->setScale(+0.01); // zoom in  (increases the scale)
@@ -346,13 +344,12 @@ IG1App::key(unsigned int key)
 		if (key >= '0' && key <= '9' && !changeScene(key - '0'))
 			cout << "[NOTE] There is no scene " << char(key) << ".\n";
 		else
-			need_redisplay = false;
+			need_redisplay = mScenes[mCurrentScene]->handleKey(key);
 		break;
 	} // switch
 
 	if (need_redisplay)
 		mNeedsRedisplay = true;
-	
 }
 
 void
@@ -445,7 +442,7 @@ void IG1App::mouseWheel(double dx, double dy)
 	if (m2Scenes && mMouseCoord.x > mWinW / 2) { actualCam = mCamera2; }
 
 	// si se pulsa ctrl
-	if (mMouseMods == GLFW_MOD_CONTROL) {
+	if (mMouseMods == GLFW_KEY_LEFT_CONTROL) {
 		// escala la escena, de nuevo según el valor de d
 		actualCam->setScale(dy*0.01);
 	}

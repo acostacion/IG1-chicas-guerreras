@@ -33,7 +33,7 @@ public:
 	void reset();
 
 	//Maneja input de escenas concretas
-	virtual void handleKey(unsigned int key);
+	virtual bool handleKey(unsigned int key);
 
 protected:
 	void uploadLights(Camera const& cam) const;
@@ -93,7 +93,7 @@ public:
 	void init() override;
 	void setBackgroundColor() override;
 
-	void handleKey(unsigned int key) override;
+	bool handleKey(unsigned int key) override;
 
 private:
 	void rotateTie();

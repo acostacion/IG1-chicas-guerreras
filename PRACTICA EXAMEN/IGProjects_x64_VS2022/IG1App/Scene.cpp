@@ -23,7 +23,7 @@ void Scene::init()
 	dirLight->setDiff(vec3(0.6, 0.6, 0.6));
 	dirLight->setSpec(vec3(0.0, 0.2, 0.0));
 	//Cambiamos la direccion porque DirLight (-1, -1, -1) viene desde abajo
-	dirLight->setDirection(vec3(1.0, 1.0, 1.0));
+	dirLight->setDirection(vec3(-1.0, -1.0, -1.0));
 	dirLight->setEnabled(true);
 
 	//La anadimos al vector de luces
@@ -144,18 +144,23 @@ void Scene::reset()
 	init();
 }
 
-void Scene::handleKey(unsigned int key)
+bool Scene::handleKey(unsigned int key)
 {
+	bool r;
 	switch (key)
 	{
 		// luz direccional general (esta en l)
 	case 'r':
 		gLights[0]->toggleLight();
+		r = true;
 		break;
 
 	default:
+		r = false;
 		break;
 	}
+
+	return r;
 }
 
 void Scene::uploadLights(Camera const& cam) const
@@ -461,32 +466,38 @@ void Scene7::setBackgroundColor()
 	glClearColor(0.0, 0.0, 0.0, 0.0); // background color (alpha = 1 -> opaque)
 }
 
-void Scene7::handleKey(unsigned int key)
+bool Scene7::handleKey(unsigned int key)
 {
+	bool r;
 	switch (key)
 	{
 		// METODOS DEL ADVANCEDTIE
 	case 'f':
 		rotateTie();
+		r = true;
 		break;
 
 	case 'g':
 		orbitTie();
+		r = true;
 		break;
 	
 		// luz direccional
 	case 'r':
 		gLights[0]->toggleLight();
+		r = true;
 		break;
 
 		// luz posicional escena 7
 	case 't':
 		gLights[1]->toggleLight();
+		r = true;
 		break;
 
 		// luz foco escena 7
 	case 'y':
 		gLights[2]->toggleLight();
+		r = true;
 		break;
 
 		// luz foco tie escena 7
@@ -495,8 +506,11 @@ void Scene7::handleKey(unsigned int key)
 	//	break;
 
 	default:
+		r = false; // cuando no hay cambios en escena r false.
 		break;
 	}
+
+	return r;
 }
 
 void Scene7::rotateTie()

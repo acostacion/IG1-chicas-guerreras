@@ -1,8 +1,11 @@
 #include "Shader.h"
 #include "Camera.h"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/rotate_vector.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 
 using namespace glm;
 
@@ -57,10 +60,8 @@ void Camera::pitchReal(GLfloat cs) //Rotacion en x (u)
 {
 	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
 	//Dice si
-	//mLook += mUpward * cs;
-	//mUp = rotate(mViewMat, (double)(glm::radians(cs)), mRight);
-
-	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(1.0, 0, 0));
+	mLook = mEye + rotate(mLook - mEye, (glm::radians(cs)), mRight);
+	mUp = rotate(mUp, (glm::radians(cs)), mRight);
 
 	setVM();
 }
@@ -69,18 +70,14 @@ void Camera::yawReal(GLfloat cs) //Rotacion en y (v)
 {
 	//Hay que cambiar el look y el up. En yaw y pitch, ambos se rotan.
 	//Dice no
-	//mLook += mRight * cs;
-	//mUp = rotate(mViewMat, (double)(glm::radians(cs)), mUpward);
-
-	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 1.0, 0));
+	mLook = mEye + rotate(mLook - mEye, (glm::radians(cs)), mUpward);
+	mUp = rotate(mUp, (glm::radians(cs)), mUpward);
 	setVM();
 }
 void Camera::rollReal(GLfloat cs) //Rotacion en z (n)
 {
 	// En el roll solo se rota el up
-	//mUp = rotate(mViewMat, (double)(glm::radians(cs)), mFront);
-
-	mProjMat = rotate(mProjMat, (double)(glm::radians(cs)), glm::dvec3(0, 0, 1.0));
+	mUp = rotate(mUp, (glm::radians(cs)), mFront);
 	setVM();
 }
 
@@ -106,7 +103,7 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 void
 Camera::uploadVM() const
 {
-	Shader::setUniform4All("modelView", mViewMat);
+	//Shader::setUniform4All("modelView", mViewMat);
 
 	//Lo dejamos de momento para que funcionen las luces
 	////Vector direccion
