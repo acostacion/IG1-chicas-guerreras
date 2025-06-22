@@ -779,12 +779,34 @@ Torus::Torus(GLdouble R, GLdouble r, GLuint nPoints, GLuint nSamples) //nPoints 
 	std::vector<glm::vec2> profile;
 
 	// Se van guardando en sentido antihorario desde x = 0
-	GLdouble alpha = 90.0;
+	//GLdouble alpha = 90.0;
+	//GLdouble incremento = 360.0 / nPoints;
+	////Conseguimos los puntos del perfil
+	//for (GLuint i = 0; i < nPoints + 2; i++)
+	//{
+	//	GLdouble x = r * glm::cos(glm::radians(alpha)) + R;
+	//	GLdouble y = r * glm::sin(glm::radians(alpha)); // el radio en la y no porq si no se sube.
+	//	alpha += incremento;
+
+	//	profile.emplace_back(x, y);
+	//}
+
+	// Se van guardando en sentido antihorario desde x = 0
+	GLdouble alpha = 180.0;
 	GLdouble incremento = 360.0 / nPoints;
 	//Conseguimos los puntos del perfil
-	for (GLuint i = 0; i < nPoints + 2; i++)
+	for (GLuint i = 0; i < (nPoints + 2)/2; i++)
 	{
 		GLdouble x = r * glm::cos(glm::radians(alpha)) + R;
+		GLdouble y = r * glm::sin(glm::radians(alpha)); // el radio en la y no porq si no se sube.
+		alpha += incremento;
+
+		profile.emplace_back(x, y);
+	}
+
+	for (GLuint i = 0; i < (nPoints + 2) / 2; i++)
+	{
+		GLdouble x = r * glm::cos(glm::radians(alpha)) + R + 2 * r;
 		GLdouble y = r * glm::sin(glm::radians(alpha)); // el radio en la y no porq si no se sube.
 		alpha += incremento;
 
