@@ -75,6 +75,12 @@ public:
 class Scene4 : public Scene{
 public:
 	void init() override;
+	bool handleKey(unsigned int key) override;
+
+private:
+	void rotateFarmer();
+	void orbitAHFarmer();
+	void orbitHFarmer();
 };
 
 class Scene5 : public Scene{

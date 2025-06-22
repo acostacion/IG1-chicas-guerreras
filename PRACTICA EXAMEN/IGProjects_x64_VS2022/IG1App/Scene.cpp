@@ -361,6 +361,69 @@ void Scene4::init() {
 	Torus* torus = new Torus(200, 50, 40, 40);
 	torus->setModelMat (glm::rotate(glm::dmat4(1), radians(-180.0), dvec3(0.0, 1.0, 0.0)));
 	gObjects.push_back(torus);
+
+	// ----- FARMER -----
+	CompoundEntity* farmer = new Farmer();
+	gObjects.push_back(farmer);
+
+	farmer->setModelMat(
+		scale(glm::dmat4(1), glm::dvec3(0.1, 0.1, 0.1))
+		//* glm::rotate(glm::dmat4(1), radians(45.0), dvec3(0.0, 1.0, 1.0))
+		* glm::translate(glm::dmat4(1), glm::dvec3(2000, 300, 0))
+	);
+}
+
+bool Scene4::handleKey(unsigned int key)
+{
+
+	bool r;
+	switch (key)
+	{
+		// METODOS DEL ADVANCEDTIE
+	case 'f':
+		rotateFarmer();
+		r = true;
+		break;
+
+	case 'g':
+		orbitAHFarmer();
+		r = true;
+		break;
+	case 'h':
+		orbitHFarmer();
+		r = true;
+		break;
+
+	default:
+		r = false; // cuando no hay cambios en escena r false.
+		break;
+	}
+
+	return r;
+}
+
+void Scene4::rotateFarmer()
+{
+	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
+	//poder coger su clase derivada CompoundEntity->AdvancedTie
+	Farmer* farmer = static_cast<Farmer*>(gObjects[2]);
+	farmer->rotate();
+}
+
+void Scene4::orbitAHFarmer()
+{
+	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
+	//poder coger su clase derivada CompoundEntity->AdvancedTie
+	Farmer* farmer = static_cast<Farmer*>(gObjects[2]);
+	farmer->orbitAH();
+}
+
+void Scene4::orbitHFarmer()
+{
+	//Se usa Static Cast para, en vez de coger la clase padre Abs_Entity,
+//poder coger su clase derivada CompoundEntity->AdvancedTie
+	Farmer* farmer = static_cast<Farmer*>(gObjects[2]);
+	farmer->orbitH();
 }
 
 // ---- SCENE 5 ----

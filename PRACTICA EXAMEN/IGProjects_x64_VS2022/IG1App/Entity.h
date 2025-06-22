@@ -378,6 +378,17 @@ class Farmer : public CompoundEntity
 {
 public:
 	explicit Farmer();
+
+	// metodos de farmer
+	void rotate();
+	void orbitAH();
+	void orbitH();
+private:
+
+	//Para el movimiento cuando hay planeta
+	double _farmerAngle = 180.0;
+	float _farmerMovement = 1.0;
+	bool _isAntiHorario = false;
 };
 
 #endif //_H_Entities_H_

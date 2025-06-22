@@ -1267,4 +1267,38 @@ Farmer::Farmer()
 
 }
 
+void Farmer::rotate()
+{
+	// rota sobre si mismo
+	setModelMat(
+		glm::rotate(mModelMat, radians(_farmerAngle), dvec3(0.0, 1.0, 0.0))
+	);
+
+	_isAntiHorario = !_isAntiHorario;
+}
+
+void Farmer::orbitAH()
+{
+	if (_isAntiHorario)
+	{
+		// movemos hacia adelante con la rotacion alrededor del planeta.
+		setModelMat(
+			glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, 1.0, 0.0)) // rota alrededor del torus
+			* glm::translate(mModelMat, dvec3(_farmerMovement, 0.0, 0.0)) // avanza tantos pasos
+		);
+	}
+}
+void Farmer::orbitH()
+{
+	if (!_isAntiHorario)
+	{
+		// movemos hacia adelante con la rotacion alrededor del planeta.
+		setModelMat(
+			glm::rotate(glm::dmat4(1), radians(4.0), dvec3(0.0, -1.0, 0.0)) // rota alrededor del torus
+			* glm::translate(mModelMat, dvec3(_farmerMovement, 0.0, 0.0)) // avanza tantos pasos
+		);
+	}
+
+}
+
 #pragma endregion
